@@ -1,0 +1,39 @@
+Q7 - Cannot get to sleep within 30 minutes
+Q8 - Wake up in the middle of the night or early morning
+Q57 - Have to get up to use the bathroom
+Q58 - Cannot breathe comfortably
+Q59 - Cough or snore loudly
+Q60 - Feel too cold
+Q61 - Feel too hot
+Q62 - Had bad dreams
+Q63 - Have pain
+Q17 - During the past month, how would you rate your sleep quality overall?
+Q18 - During the past month, how often have you taken medicine to help you sleep (prescribed or "over the counter")?
+Q19 - During the past month, how often have you had trouble staying awake while driving, eating meals, or engaging in social activity?
+Q20 - During the past month, how much of a problem has it been for you to keep up enough enthusiasm to get things done?
+Q21 - Do you have a bed partner or room mate that would be knowledgeable about your sleep?
+Q23 - Loud snoring
+Q64.1- Long pauses between breaths while asleep
+Q65.1 - Legs twitching or jerking while you sleep
+Q66 - Episodes of disorientation or confusion during sleep
+Q90 - What temperature do you prefer for sleeping? This is an attention check. Choose 75 degrees or higher
+Q69_1 - It's very hard for me to concentrate on a difficult task when there are noises around.
+Q69_2 - When I need to concentrate and solve a problem, I have trouble focusing my attention.
+Q69_3 - When I am working hard on something,  I still get distracted by events around me.
+Q69_4 - My concentration is good even if there is music in the room around me.
+Q69_5 - When concentrating, I can focus my attention so that I become unaware of what's going on in the room around me.
+Q69_6 - When I am reading or studying, I am easily distracted if there are people talking in the same room.
+Q69_7 - When trying to focus my attention on something, I have difficulty blocking out distracting thoughts
+Q69_8 - I have a hard time concentrating when I'm excited about something
+Q69_9 - When concentrating I ignore feelings of hunger or thirst.
+Q69_10 - I can quickly switch from one task to another.
+Q69_11 - It takes me a while to get really involved in a new task.
+Q69_12 - It is difficult for me to coordinate my attention between the listening and writing required when taking notes during lectures.
+Q69_13 -  I can become interested in a new topic very quickly when I need to.
+Q69_14 -  It is easy for me to read or write while I'm also talking on the phone.
+Q69_15 -  I have trouble carrying on two conversations at once.
+Q69_16 - I have a hard time coming up with new ideas quickly
+Q69_17 - After being interrupted or distracted, I can easily shift my attention back to what I was doing before.
+Q69_18 - When a distracting thought comes to my mind, it is easy for me to shift my attention away from it.
+Q69_19 - It is easy for me to alternate between two different tasks.
+Q69_20 - It is hard to me to break from one way of thinking about something and look at it from another point of view.
