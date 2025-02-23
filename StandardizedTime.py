@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
-
-
 import pandas as pd
 import re
 from datetime import datetime
@@ -70,10 +67,3 @@ df["Q5"] = df["Q5"].apply(lambda x: f"{x:.1f} Hours" if pd.notna(x) else None)
 
 # Save the final standardized dataset
 df.to_csv("Standardized_SP_data.csv", index=False)
-
-
-# In[ ]:
-
-
-
-
