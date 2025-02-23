@@ -19,5 +19,5 @@ df1 = pd.concat([df1, df2[columns_to_add]], axis=1)
 # Display or save the updated dataset
 print(df1.head())
 
-# Optionally, save to a new file
+# Save to a new file
 df1.to_csv("./Data/The_survey_data.csv", index=False)
