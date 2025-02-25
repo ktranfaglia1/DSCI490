@@ -224,7 +224,21 @@ df_filtered["Q77"] = df_filtered["Q77"].where(
     df_filtered["Q77"].str.startswith("["), " "
 )
 
+# df_filtered["Q78_1_TEXT"] = df_filtered["Q78_1_TEXT"].apply(parse_concussions)
+
+
+def to_military_time(x):
+    if isinstance(x, str):  # Check if the value is a string
+        try:
+            return datetime.strptime(x, "%I:%M %p").strftime("%H:%M")
+        except ValueError:
+            return x  # If the string can't be parsed, return it unchanged
+    return x  # Return the value unchanged if it's not a string
+
+
+df_filtered["Q2"] = df_filtered["Q2"].apply(to_military_time)
+df_filtered["Q4"] = df_filtered["Q4"].apply(to_military_time)
 
 print(df_filtered.shape)
 # Save the cleaned dataset
-# df_filtered.to_csv("./Data/FilteredData.csv", index=False)
+df_filtered.to_csv("./Data/FilteredData.csv", index=False)
