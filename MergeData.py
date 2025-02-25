@@ -1,3 +1,7 @@
+#  Author: Kyle Tranfaglia
+#  Title: DSCI490 - MergeData
+#  Last updated:  02/24/25
+#  Description: This program is a utility program to merge columns of one dataset to another
 import pandas as pd
 
 # Read in data to merge

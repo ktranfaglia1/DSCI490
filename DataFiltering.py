@@ -1,7 +1,11 @@
+#  Author: Kyle Tranfaglia
+#  Title: DSCI490 - DataFiltering
+#  Last updated:  02/24/25
+#  Description: This program is a utility program to filter out unwanted data (columns and rows)
 import pandas as pd
 
-# Read in dataset
-df_sports_cognition = pd.read_csv("Data/Sport_Cognition.csv")
+# Read in dataset 
+df_sports_cognition = pd.read_csv("./Data/Sport_Cognition.csv")
 
 # Display original shape
 # print("Original shape:", df_sports_cognition.shape)
@@ -14,11 +18,11 @@ df_sports_cognition = pd.read_csv("Data/Sport_Cognition.csv")
 # Check for missing values
 # print(df_sports_cognition.isnull().sum())
 
-# Drop columns where more than the threshold of values are missing
-threshold = 0.9
-df_filtered = df_sports_cognition.dropna(
-    thresh=len(df_sports_cognition) * (1 - threshold), axis=1
-)
+# # Drop columns where more than the threshold of values are missing
+# threshold = 0.9
+# df_filtered = df_sports_cognition.dropna(thresh=len(df_sports_cognition) * (1 - threshold), axis=1)
+
+df_filtered = df_sports_cognition
 
 # Remove rows where 'Finished' is False
 df_filtered = df_filtered[df_filtered["Finished"] == "True"]
@@ -37,29 +41,10 @@ df_filtered = df_filtered[
 # Drop the "Q_RecaptchaScore" column
 df_filtered = df_filtered.drop(columns=["Q_RecaptchaScore"], errors="ignore")
 
-df_filtered = df_sports_cognition
-
-
-def is_this(comparisonString, x):
-    if type(x) is not str:
-        return x
-    return x.strip() == comparisonString
-
-
-print(df_filtered["Q89"])
-df_filtered["QID91"] = df_filtered["QID91"].apply(lambda x: is_this("Spaceship", x))
-
-df_filtered["Q89"] = df_filtered["Q89"].apply(lambda x: is_this("Kindergarten", x))
-
 # Standardize the column values by stripping whitespace and converting to lowercase
-df_filtered["QID91"] = (
-    df_filtered["QID91"].astype(str).str.strip().str.lower() == "true"
-)
-df_filtered["Q89"] = df_filtered["Q89"].astype(str).str.strip().str.lower() == "true"
-df_filtered["Q90"] = (
-    df_filtered["Q90"].astype(str).str.strip().str.lower() == "75 degrees or higher"
-)
-
+df_filtered["QID91"] = df_filtered["QID91"].astype(str).str.strip().str.lower() == "spaceship"
+df_filtered["Q89"] = df_filtered["Q89"].astype(str).str.strip().str.lower() == "kindergarten"
+df_filtered["Q90"] = df_filtered["Q90"].astype(str).str.strip().str.lower() == "75 degrees or higher"
 
 # Define the conditions for each attention check
 condition_QID91 = df_filtered["QID91"] == True
@@ -93,4 +78,4 @@ df_filtered["Q77"] = df_filtered["Q77"].where(
 
 print(df_filtered.shape)
 # Save the cleaned dataset
-df_filtered.to_csv("./Data/FilteredData.csv", index=False)
+df_filtered.to_csv("./Data/SP_test.csv", index=False)
