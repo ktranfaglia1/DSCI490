@@ -2,7 +2,8 @@ import pandas as pd
 import re
 from datetime import datetime
 
-from ParseSports import parse_sports  # to get sports JSONs dont use
+# from ParseSports import parse_sports  # to get sports JSONs dont use
+# from ParseConcussions import parse_concussions  # to get sports JSONs dont use
 
 # Read in dataset
 df_sports_cognition = pd.read_csv("Data/Sport_Cognition.csv")
@@ -207,11 +208,13 @@ df_filtered["Q5"] = df_filtered["Q5"].apply(
     lambda x: f"{x:.1f} Hours" if pd.notna(x) else None
 )
 
-
+"""
 df_filtered["Q77"] = df_filtered["Q77"].apply(
     parse_sports
 )  # gets sports JSONs Dont use
+"""
 
+# gets sports JSONs Dont use
 
 # Replace entries that don't match []
 df_filtered["Q77"] = df_filtered["Q77"].str.strip().replace("[]", "")
@@ -224,4 +227,4 @@ df_filtered["Q77"] = df_filtered["Q77"].where(
 
 print(df_filtered.shape)
 # Save the cleaned dataset
-df_filtered.to_csv("./Data/FilteredData.csv", index=False)
+# df_filtered.to_csv("./Data/FilteredData.csv", index=False)
