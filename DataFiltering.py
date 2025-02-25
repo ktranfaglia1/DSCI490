@@ -1,3 +1,7 @@
+#  Author: Kyle Tranfaglia
+#  Title: DSCI490 - DataFiltering
+#  Last updated:  02/24/25
+#  Description: This program is a utility program to filter out unwanted data (columns and rows)
 import pandas as pd
 
 # Read in dataset 
@@ -54,14 +58,14 @@ print(df_filtered[["QID91", "Q89", "Q90", "attention_pass_count"]].dtypes)
 # Keep only rows where at least 2 out of 3 checks pass
 df_filtered = df_filtered[df_filtered["attention_pass_count"] >= 2]
 
-# # Drop the attention check columns
-# df_filtered = df_filtered.drop(columns=["QID91", "Q89", "Q90"])
+# Drop the attention check columns
+df_filtered = df_filtered.drop(columns=["QID91", "Q89", "Q90"])
 
-# # Replace entries that don't match []
-# df_filtered["Q77"] = df_filtered["Q77"].str.strip().replace('[]', '')
+# Replace entries that don't match []
+df_filtered["Q77"] = df_filtered["Q77"].str.strip().replace('[]', '')
 
-# # Replace entries in 'Q77' that do not start with '[' with ' '
-# df_filtered['Q77'] = df_filtered['Q77'].where(df_filtered['Q77'].str.startswith('['), ' ')
+# Replace entries in 'Q77' that do not start with '[' with ' '
+df_filtered['Q77'] = df_filtered['Q77'].where(df_filtered['Q77'].str.startswith('['), ' ')
 
 # Display the new shape of the dataset
 print("New shape:", df_filtered.shape)

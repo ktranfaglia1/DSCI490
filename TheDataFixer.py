@@ -1,3 +1,7 @@
+#  Author: Kyle Tranfaglia
+#  Title: DSCI490 - TheDataFixer
+#  Last updated:  02/24/25
+#  Description: This program is a utility program to add necessary columns to a dataset
 import pandas as pd
 
 # Load dataset 1 and dataset 2

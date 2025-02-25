@@ -1,3 +1,7 @@
+#  Author: Kyle Tranfaglia
+#  Title: DSCI490 - theDataFixer
+#  Last updated:  02/24/25
+#  Description: This program is a visualization tool to generate plots relating various features
 import pandas as pd
 import matplotlib.pyplot as plt
 import re
@@ -76,6 +80,38 @@ def plot_sleep_distribution(df):
     plt.close()
 
 
+def plot_avg_sleep_by_concussion_status(df):
+    # Compute mean sleep hours per night for each concussion status
+    avg_sleep = df.groupby('Sports_Concussion_Status')['Sleep_Per_Night_Clean'].mean()
+
+    # Plot bar chart
+    plt.figure(figsize=(6, 4))
+    avg_sleep.plot(kind='bar', color=['skyblue', 'salmon'])
+    plt.title("Average Sleep Hours per Night by Concussion Status")
+    plt.xlabel("Sports Concussion Status")
+    plt.ylabel("Average Hours of Sleep")
+    plt.xticks(rotation=0)
+    plt.ylim(0, df['Sleep_Per_Night_Clean'].max() + 1)
+    plt.savefig("./Plots/avg_sleep_by_concussion_status.png")
+    plt.close()
+
+
+def plot_concentration_issues_percentage(df):
+    # Compute percentage distribution within each concussion status
+    concentration_percentage = pd.crosstab(df['Concentration_Issues'], df['Sports_Concussion_Status'], normalize='columns') * 100
+
+    # Plot grouped bar chart
+    concentration_percentage.plot(kind='bar', figsize=(8, 5), color=['skyblue', 'salmon'], width=0.7)
+    plt.title("Percentage of Concentration Issues by Concussion Status")
+    plt.xlabel("Concentration Issues Response")
+    plt.ylabel("Percentage (%)")
+    plt.xticks(rotation=0)  # Rotate labels for readability
+    plt.ylim(0, 100)  # Ensure y-axis represents 0-100%
+    plt.legend(title="Sports Concussion Status")
+    plt.savefig("./Plots/concentration_issues_percentage_by_concussion_status.png")
+    plt.close()
+
+
 def main():
     file_path = "./Data/Labeled_survey_data.csv"
     df = load_and_clean_data(file_path)
@@ -84,6 +120,8 @@ def main():
     plot_sports_concussion_distribution(df)
     plot_general_concussion_distribution(df)
     plot_sleep_distribution(df)
+    plot_avg_sleep_by_concussion_status(df)
+    plot_concentration_issues_percentage(df)
 
 
 if __name__ == "__main__":

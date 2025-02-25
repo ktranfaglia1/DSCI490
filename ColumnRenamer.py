@@ -1,3 +1,7 @@
+#  Author: Kyle Tranfaglia
+#  Title: DSCI490 - ColumnRenamer
+#  Last updated:  02/24/25
+#  Description: This program is a utility program to label all columns in a dataset with a semi-descriptive name
 import pandas as pd
 
 # load in dataset
