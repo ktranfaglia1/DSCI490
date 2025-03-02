@@ -1,0 +1,46 @@
+2-sample test for equality of proportions without continuity correction
+
+data:  counts_almost_never out of c(total_yes, total_no)
+X-squared = 9.7235, df = 1, p-value = 0.001819
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.27036399 -0.06355531
+sample estimates:
+   prop 1    prop 2 
+0.2732919 0.4402516 
+
+
+	2-sample test for equality of proportions without continuity correction
+
+data:  counts_always out of c(total_yes, total_no)
+X-squared = 4.6768, df = 1, p-value = 0.03057
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ 0.005114816 0.093795298
+sample estimates:
+    prop 1     prop 2 
+0.06832298 0.01886792 
+
+
+	2-sample test for equality of proportions without continuity correction
+
+data:  counts_often out of c(total_yes, total_no)
+X-squared = 9.2154, df = 1, p-value = 0.0024
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ 0.06156915 0.27688157
+sample estimates:
+   prop 1    prop 2 
+0.5465839 0.3773585 
+
+
+	2-sample test for equality of proportions without continuity correction
+
+data:  counts_sometimes out of c(total_yes, total_no)
+X-squared = 1.8044, df = 1, p-value = 0.1792
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.12704687  0.02360533
+sample estimates:
+   prop 1    prop 2 
+0.1118012 0.1635220 
