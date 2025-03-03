@@ -285,6 +285,306 @@ def plot_concentration_issues_for_non_athletes(df):
     plt.close()
 
 
+def plot_motivation_issues_general(df):
+    """Plots the distribution of Motivation_Issues responses per concussion status."""
+    count_data = pd.crosstab(df['Motivation_Issues'], df['Concussion_Status'])
+    count_data = count_data[['No', 'Yes']]  # Ensure order is No → Yes
+    
+    # Normalize to get percentages
+    motivation_percentage = count_data.div(count_data.sum(axis=0), axis=1) * 100
+    
+    ax = motivation_percentage.plot(kind='bar', figsize=(10, 5), color=['skyblue', 'salmon'], width=0.7)
+    
+    # Adding actual raw count labels
+    total_no = count_data['No'].sum()
+    total_yes = count_data['Yes'].sum()
+    
+    for i, p in enumerate(ax.patches):
+        col_idx = i % 2  # Alternates between No and Yes
+        row_idx = i // 2  # Each category (Motivation Issues)
+        total_population = total_no if col_idx == 0 else total_yes
+        count_value = round((p.get_height() / 100) * total_population)
+        ax.annotate(f"{count_value}", (p.get_x() + p.get_width() / 2, p.get_height() + 2),
+                    ha='center', va='bottom', fontsize=10)
+    
+    plt.title("Distribution of Motivation Issues by Concussion Status")
+    plt.xlabel("Motivation Issues Response")
+    plt.ylabel("Percentage (%)")
+    plt.xticks(rotation=0)
+    plt.ylim(0, 100)
+    plt.legend(title="Concussion Status")
+    plt.savefig("./Plots/motivation_issues_general.png")
+    plt.close()
+
+
+def plot_motivation_issues_for_athletes(df):
+    """Plots motivation issue percentages for athletes only, comparing those with and without a concussion."""
+    athletes_df = df[df['Sports_Status'].str.lower() == 'yes']
+
+    count_data = pd.crosstab(athletes_df['Motivation_Issues'], athletes_df['Concussion_Status'])
+    count_data = count_data[['No', 'Yes']]  # Ensure order is No → Yes
+    
+    # Normalize to get percentages
+    motivation_percentage = count_data.div(count_data.sum(axis=0), axis=1) * 100
+    
+    ax = motivation_percentage.plot(kind='bar', figsize=(10, 5), color=['skyblue', 'salmon'], width=0.7)
+    
+    # Adding actual raw count labels
+    total_no = count_data['No'].sum()
+    total_yes = count_data['Yes'].sum()
+    
+    for i, p in enumerate(ax.patches):
+        col_idx = i % 2  # Alternates between No and Yes
+        row_idx = i // 2  # Each category (Motivation Issues)
+        total_population = total_no if col_idx == 0 else total_yes
+        count_value = round((p.get_height() / 100) * total_population)
+        ax.annotate(f"{count_value}", (p.get_x() + p.get_width() / 2, p.get_height() + 2),
+                    ha='center', va='bottom', fontsize=10)
+    
+    plt.title("Distribution of Motivation Issues For Athletes by Concussion Status")
+    plt.xlabel("Motivation Issues Response")
+    plt.ylabel("Percentage (%)")
+    plt.xticks(rotation=0)
+    plt.ylim(0, 100)
+    plt.legend(title="Concussion Status")
+    plt.savefig("./Plots/motivation_issues_for_athletes.png")
+    plt.close()
+
+
+def plot_motivation_issues_for_non_athletes(df):
+    """Plots motivation issue percentages for non-athletes only, comparing those with and without a concussion."""
+    non_athletes_df = df[df['Sports_Status'].str.lower() == 'no']
+
+    count_data = pd.crosstab(non_athletes_df['Motivation_Issues'], non_athletes_df['Concussion_Status'])
+    count_data = count_data[['No', 'Yes']]  # Ensure order is No → Yes
+    
+    # Normalize to get percentages
+    motivation_percentage = count_data.div(count_data.sum(axis=0), axis=1) * 100
+    
+    ax = motivation_percentage.plot(kind='bar', figsize=(10, 5), color=['skyblue', 'salmon'], width=0.7)
+    
+    # Adding actual raw count labels
+    total_no = count_data['No'].sum()
+    total_yes = count_data['Yes'].sum()
+    
+    for i, p in enumerate(ax.patches):
+        col_idx = i % 2  # Alternates between No and Yes
+        row_idx = i // 2  # Each category (Motivation Issues)
+        total_population = total_no if col_idx == 0 else total_yes
+        count_value = round((p.get_height() / 100) * total_population)
+        ax.annotate(f"{count_value}", (p.get_x() + p.get_width() / 2, p.get_height() + 2),
+                    ha='center', va='bottom', fontsize=10)
+    
+    plt.title("Distribution of Motivation Issues for Non-Athletes by Concussion Status")
+    plt.xlabel("Motivation Issues Response")
+    plt.ylabel("Percentage (%)")
+    plt.xticks(rotation=0)
+    plt.ylim(0, 100)
+    plt.legend(title="Concussion Status")
+    plt.savefig("./Plots/motivation_issues_for_non_athletes.png")
+    plt.close()
+
+
+def plot_pain_issues_general(df):
+    """Plots the distribution of Pain responses per concussion status."""
+    count_data = pd.crosstab(df['Pain'], df['Concussion_Status'])
+    count_data = count_data[['No', 'Yes']]  # Ensure order is No → Yes
+    
+    # Normalize to get percentages
+    motivation_percentage = count_data.div(count_data.sum(axis=0), axis=1) * 100
+    
+    ax = motivation_percentage.plot(kind='bar', figsize=(10, 5), color=['skyblue', 'salmon'], width=0.7)
+    
+    # Adding actual raw count labels
+    total_no = count_data['No'].sum()
+    total_yes = count_data['Yes'].sum()
+    
+    for i, p in enumerate(ax.patches):
+        col_idx = i % 2  # Alternates between No and Yes
+        row_idx = i // 2  # Each category (Motivation Issues)
+        total_population = total_no if col_idx == 0 else total_yes
+        count_value = round((p.get_height() / 100) * total_population)
+        ax.annotate(f"{count_value}", (p.get_x() + p.get_width() / 2, p.get_height() + 2),
+                    ha='center', va='bottom', fontsize=10)
+    
+    plt.title("Distribution of Pain Issues by Concussion Status")
+    plt.xlabel("Pain Issues Response")
+    plt.ylabel("Percentage (%)")
+    plt.xticks(rotation=0)
+    plt.ylim(0, 100)
+    plt.legend(title="Concussion Status")
+    plt.savefig("./Plots/pain_issues_general.png")
+    plt.close()
+
+
+def plot_pain_issues_for_athletes(df):
+    """Plots pain issue percentages for athletes only, comparing those with and without a concussion."""
+    athletes_df = df[df['Sports_Status'].str.lower() == 'yes']
+
+    count_data = pd.crosstab(athletes_df['Pain'], athletes_df['Concussion_Status'])
+    count_data = count_data[['No', 'Yes']]  # Ensure order is No → Yes
+    
+    # Normalize to get percentages
+    motivation_percentage = count_data.div(count_data.sum(axis=0), axis=1) * 100
+    
+    ax = motivation_percentage.plot(kind='bar', figsize=(10, 5), color=['skyblue', 'salmon'], width=0.7)
+    
+    # Adding actual raw count labels
+    total_no = count_data['No'].sum()
+    total_yes = count_data['Yes'].sum()
+    
+    for i, p in enumerate(ax.patches):
+        col_idx = i % 2  # Alternates between No and Yes
+        row_idx = i // 2  # Each category (Motivation Issues)
+        total_population = total_no if col_idx == 0 else total_yes
+        count_value = round((p.get_height() / 100) * total_population)
+        ax.annotate(f"{count_value}", (p.get_x() + p.get_width() / 2, p.get_height() + 2),
+                    ha='center', va='bottom', fontsize=10)
+    
+    plt.title("Distribution of Pain Issues for Athletes by Concussion Status")
+    plt.xlabel("Pain Issues Response")
+    plt.ylabel("Percentage (%)")
+    plt.xticks(rotation=0)
+    plt.ylim(0, 100)
+    plt.legend(title="Concussion Status")
+    plt.savefig("./Plots/pain_issues_for_athletes.png")
+    plt.close()
+
+
+def plot_pain_issues_for_non_athletes(df):
+    """Plots pain issue percentages for non-athletes only, comparing those with and without a concussion."""
+    non_athletes_df = df[df['Sports_Status'].str.lower() == 'no']
+
+    count_data = pd.crosstab(non_athletes_df['Pain'], non_athletes_df['Concussion_Status'])
+    count_data = count_data[['No', 'Yes']]  # Ensure order is No → Yes
+    
+    # Normalize to get percentages
+    motivation_percentage = count_data.div(count_data.sum(axis=0), axis=1) * 100
+    
+    ax = motivation_percentage.plot(kind='bar', figsize=(10, 5), color=['skyblue', 'salmon'], width=0.7)
+    
+    # Adding actual raw count labels
+    total_no = count_data['No'].sum()
+    total_yes = count_data['Yes'].sum()
+    
+    for i, p in enumerate(ax.patches):
+        col_idx = i % 2  # Alternates between No and Yes
+        row_idx = i // 2  # Each category (Motivation Issues)
+        total_population = total_no if col_idx == 0 else total_yes
+        count_value = round((p.get_height() / 100) * total_population)
+        ax.annotate(f"{count_value}", (p.get_x() + p.get_width() / 2, p.get_height() + 2),
+                    ha='center', va='bottom', fontsize=10)
+    
+    plt.title("Distribution of Pain Issues for Non-Athletes by Concussion Status")
+    plt.xlabel("Pain Issues Response")
+    plt.ylabel("Percentage (%)")
+    plt.xticks(rotation=0)
+    plt.ylim(0, 100)
+    plt.legend(title="Concussion Status")
+    plt.savefig("./Plots/pain_issues_for_non_athletes.png")
+    plt.close()
+
+
+def plot_sleep_quality_general(df):
+    """Plots the distribution of sleep quality responses per concussion status."""
+    count_data = pd.crosstab(df['Sleep_Quality'], df['Concussion_Status'])
+    count_data = count_data[['No', 'Yes']]  # Ensure order is No → Yes
+    
+    # Normalize to get percentages
+    motivation_percentage = count_data.div(count_data.sum(axis=0), axis=1) * 100
+    
+    ax = motivation_percentage.plot(kind='bar', figsize=(8, 5), color=['skyblue', 'salmon'], width=0.7)
+    
+    # Adding actual raw count labels
+    total_no = count_data['No'].sum()
+    total_yes = count_data['Yes'].sum()
+    
+    for i, p in enumerate(ax.patches):
+        col_idx = i % 2  # Alternates between No and Yes
+        row_idx = i // 2  # Each category (Motivation Issues)
+        total_population = total_no if col_idx == 0 else total_yes
+        count_value = round((p.get_height() / 100) * total_population)
+        ax.annotate(f"{count_value}", (p.get_x() + p.get_width() / 2, p.get_height() + 2),
+                    ha='center', va='bottom', fontsize=10)
+    
+    plt.title("Distribution of Sleep Quality by Concussion Status")
+    plt.xlabel("Sleep Quality Response")
+    plt.ylabel("Percentage (%)")
+    plt.xticks(rotation=0)
+    plt.ylim(0, 100)
+    plt.legend(title="Concussion Status")
+    plt.savefig("./Plots/sleep_quality_general.png")
+    plt.close()
+
+
+def plot_sleep_quality_for_athletes(df):
+    """Plots sleep quality percentages for athletes only, comparing those with and without a concussion."""
+    athletes_df = df[df['Sports_Status'].str.lower() == 'yes']
+
+    count_data = pd.crosstab(athletes_df['Sleep_Quality'], athletes_df['Concussion_Status'])
+    count_data = count_data[['No', 'Yes']]  # Ensure order is No → Yes
+    
+    # Normalize to get percentages
+    motivation_percentage = count_data.div(count_data.sum(axis=0), axis=1) * 100
+    
+    ax = motivation_percentage.plot(kind='bar', figsize=(8, 5), color=['skyblue', 'salmon'], width=0.7)
+    
+    # Adding actual raw count labels
+    total_no = count_data['No'].sum()
+    total_yes = count_data['Yes'].sum()
+    
+    for i, p in enumerate(ax.patches):
+        col_idx = i % 2  # Alternates between No and Yes
+        row_idx = i // 2  # Each category (Motivation Issues)
+        total_population = total_no if col_idx == 0 else total_yes
+        count_value = round((p.get_height() / 100) * total_population)
+        ax.annotate(f"{count_value}", (p.get_x() + p.get_width() / 2, p.get_height() + 2),
+                    ha='center', va='bottom', fontsize=10)
+    
+    plt.title("Distribution of Sleep Quality for Athletes by Concussion Status")
+    plt.xlabel("Sleep Quality Response")
+    plt.ylabel("Percentage (%)")
+    plt.xticks(rotation=0)
+    plt.ylim(0, 100)
+    plt.legend(title="Concussion Status")
+    plt.savefig("./Plots/sleep_quality_for_athletes.png")
+    plt.close()
+
+
+def plot_sleep_quality_for_non_athletes(df):
+    """Plots sleep quality percentages for non-athletes only, comparing those with and without a concussion."""
+    non_athletes_df = df[df['Sports_Status'].str.lower() == 'no']
+
+    count_data = pd.crosstab(non_athletes_df['Sleep_Quality'], non_athletes_df['Concussion_Status'])
+    count_data = count_data[['No', 'Yes']]  # Ensure order is No → Yes
+    
+    # Normalize to get percentages
+    motivation_percentage = count_data.div(count_data.sum(axis=0), axis=1) * 100
+    
+    ax = motivation_percentage.plot(kind='bar', figsize=(8, 5), color=['skyblue', 'salmon'], width=0.7)
+    
+    # Adding actual raw count labels
+    total_no = count_data['No'].sum()
+    total_yes = count_data['Yes'].sum()
+    
+    for i, p in enumerate(ax.patches):
+        col_idx = i % 2  # Alternates between No and Yes
+        row_idx = i // 2  # Each category (Motivation Issues)
+        total_population = total_no if col_idx == 0 else total_yes
+        count_value = round((p.get_height() / 100) * total_population)
+        ax.annotate(f"{count_value}", (p.get_x() + p.get_width() / 2, p.get_height() + 2),
+                    ha='center', va='bottom', fontsize=10)
+    
+    plt.title("Distribution of Sleep Quality for Athletes by Concussion Status")
+    plt.xlabel("Sleep Quality Response")
+    plt.ylabel("Percentage (%)")
+    plt.xticks(rotation=0)
+    plt.ylim(0, 100)
+    plt.legend(title="Concussion Status")
+    plt.savefig("./Plots/sleep_quality_for_non_athletes.png")
+    plt.close()
+
+
 def main():
     file_path = "./Data/Labeled_survey_data.csv"
     df = load_and_clean_data(file_path)
@@ -299,6 +599,15 @@ def main():
     plot_concentration_issues_general(df)
     plot_concentration_issues_for_athletes(df)
     plot_concentration_issues_for_non_athletes(df)
+    plot_motivation_issues_general(df)
+    plot_motivation_issues_for_athletes(df)
+    plot_motivation_issues_for_non_athletes(df)
+    plot_pain_issues_general(df)
+    plot_pain_issues_for_athletes(df)
+    plot_pain_issues_for_non_athletes(df)
+    plot_sleep_quality_general(df)
+    plot_sleep_quality_for_athletes(df)
+    plot_sleep_quality_for_non_athletes(df)
 
 
 if __name__ == "__main__":
