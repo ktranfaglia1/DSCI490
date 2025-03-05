@@ -1,0 +1,59 @@
+---
+title: "SignificanceConcentration"
+output: html_document
+date: "2025-03-02"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+## Assumption check
+
+```{r}
+# Define observed counts
+counts_yes <- c(44, 11, 88, 18)  # Concussion (Yes)
+counts_no <- c(70, 3, 60, 26)    # No Concussion (No)
+total_yes <- 161  # Total in concussion group
+total_no <- 159   # Total in no concussion group
+total_n <- total_yes + total_no  # Total sample size
+
+# Compute expected counts
+expected_yes <- (counts_yes + counts_no) * (total_yes / total_n)
+expected_no <- (counts_yes + counts_no) * (total_no / total_n)
+
+# Print expected counts
+expected_yes
+expected_no
+
+# Check if all expected counts are >= 5
+all(expected_yes >= 5) & all(expected_no >= 5)
+
+
+```
+
+## 2-sample porportion hypothesis test
+
+```{r}
+# Define counts and sample sizes
+counts_almost_never <- c(44, 70)
+counts_always <- c(11, 3)
+counts_often <- c(88, 60)
+counts_sometimes <- c(18, 26)
+
+total_yes <- 161  # Total for concussion group
+total_no <- 159   # Total for no concussion group
+
+# Perform two-sample proportion test for each category
+prop.test(counts_almost_never, c(total_yes, total_no), correct=FALSE)
+prop.test(counts_always, c(total_yes, total_no), correct=FALSE)
+prop.test(counts_often, c(total_yes, total_no), correct=FALSE)
+prop.test(counts_sometimes, c(total_yes, total_no), correct=FALSE)
+
+```
