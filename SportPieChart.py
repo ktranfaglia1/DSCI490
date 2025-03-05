@@ -3,10 +3,16 @@ import pandas as pd
 import json
 import regex as re
 
-initial_data = pd.read_csv("../Data/CompleteData.csv")
+initial_data = pd.read_csv("./Data/Complete_data.csv")
 
 
-
+"""
+    Merge Ice Hockey & Hockey
+    Leave rest unmerged
+    Barchart instead of pie chart
+    Clustering based on attention and sleep speartely
+    summing together 
+"""
 
 def addSports(dataframe):
     sports = []
@@ -27,7 +33,7 @@ def set_regex(regex, set_value, element):
 
 
 sports = sports.apply(lambda x: set_regex(".*cross.*country.*", "cross country", x))
-sports = sports.apply(lambda x: set_regex(".*hockey.*", "hockey", x))
+#sports = sports.apply(lambda x: set_regex(".*hockey.*", "hockey", x))
 sports = sports.apply(lambda x: set_regex(".*track.*", "track", x))
 sports = sports.apply(lambda x: set_regex(".*cheer.*", "cheer", x))
 sports = sports.apply(lambda x: set_regex(".*footbal.*", "football", x))
@@ -35,7 +41,7 @@ sports = sports.apply(lambda x: set_regex(".*swim.*", "swim", x))
 
 sports = sports[sports != 'nan']
 
-
+print(sports.unique())
 # Get the value counts for the pie chart
 sport_counts = sports.value_counts()
 
