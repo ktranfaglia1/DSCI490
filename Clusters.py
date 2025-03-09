@@ -77,13 +77,17 @@ def frequency_to_number(frequency):
     frequency_map = {
         "not during the past month": 0,
         "not during the past moth": 0,
-        "Almost never": 0,
+        "almost never": 0,
+        "no problem at all": 0,
         "less than once a week": 1,
-        "Sometimes": 1,
+        "sometimes": 1,
+        "only a very slight problem": 1,
         "once or twice a week": 2,
-        "Often": 2,
+        "often": 2,
+        "somewhat of a problem": 2,
         "three or more times a week": 3,
-        "Always": 3,
+        "always": 3,
+        "a very big problem": 3,
     }
 
     # Return the corresponding numerical value
@@ -217,11 +221,10 @@ attentionData = df[columns]
 # print(sleepData)
 
 
-for column in columns[1:]:
+for column in columns:
     attentionData[column] = attentionData[column].apply(frequency_to_number)
 
-print(attentionData)
-"""
+
 imputer = SimpleImputer(strategy="mean")
 attentionData = imputer.fit_transform(attentionData)
 
@@ -232,9 +235,8 @@ attentionData = scaler.fit_transform(attentionData)
 
 model = KMeans(n_clusters=2, random_state=42).fit(attentionData)
 
-print(model.predict(attentionData))
 print(silhouette_score(attentionData, model.predict(attentionData)))
 
 original_df["Attention_Cluster"] = model.predict(attentionData)
-"""
-# original_df.to_csv("./Data/Labeled_survey_data.csv", index=False)
+
+original_df.to_csv("./Data/Labeled_survey_data.csv", index=False)
