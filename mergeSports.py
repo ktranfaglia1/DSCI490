@@ -22,7 +22,7 @@ def cleanSport(sport: str) -> str:
     sport = applyRegex(sport, ".*footbal.*", "football")
     sport = applyRegex(sport, ".*swim.*", "swim")
 
-    return sport
+    return sport.lower()
 
 
 players = originalDf["Sports_Info"]
@@ -34,4 +34,10 @@ for playerIndex, player in enumerate(players):
         continue
 
     for sportIndex, sport in enumerate(sportJson):
-        sport = cleanSport(sport)
+        sportJson[sportIndex]["Sport"] = cleanSport(sport["Sport"])
+    players.iloc[playerIndex] = json.dumps(sportJson)
+
+originalDf["Sports_Info"] = players
+print(originalDf["Sports_Info"])
+
+originalDf.to_csv("./Data/Labeled_survey_data.csv")
