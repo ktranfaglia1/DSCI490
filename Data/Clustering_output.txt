@@ -1,86 +1,109 @@
 Sport names distribution:
 Sport_Name
-Soccer                 47
-Basketball             23
-Football               21
-Tennis                 17
-Volleyball             17
-Baseball               10
-Track                   9
-Swimming                8
-Golf                    5
-Track and Field         3
-Cross country           3
-Marching Band           3
-Wrestling               3
-Cross Country           3
-Field hockey            2
-Lacrosse                2
-Track and field         2
-Bowling                 2
-Fencing                 2
-Swim                    2
-Field Hockey            2
-Gymnast                 2
-NaN                     2
-Cheerleading            2
-Swim Team               1
-Rowing                  1
-Competitive cheer       1
-Ice Hockey              1
-Competitive Dance       1
-Footbal                 1
-Hockey                  1
-Street Hockey           1
-Karate                  1
-Dancer                  1
-Sideline cheer          1
-Cheerleader             1
-Twirling                1
-Cross-country           1
-Gymnastics              1
-Girls Cross Country     1
-Horseback Riding        1
-Archery                 1
-Track & Field           1
-Crew                    1
-Netball                 1
-TaeKwonDo               1
+soccer               47
+basketball           23
+football             22
+tennis               17
+volleyball           17
+track                15
+swim                 11
+baseball             10
+cross country         8
+cheer                 5
+golf                  5
+field hockey          4
+marching band         3
+wrestling             3
+lacrosse              2
+nan                   2
+hockey                2
+gymnast               2
+fencing               2
+bowling               2
+competitive dance     1
+karate                1
+dancer                1
+street hockey         1
+twirling              1
+horseback riding      1
+gymnastics            1
+archery               1
+rowing                1
+crew                  1
+netball               1
+taekwondo             1
 Name: count, dtype: int64
 
 Columns after PCA reduction:
 ['PC1', 'PC2', 'PC3', 'PC4', 'PC5', 'PC6', 'PC7', 'PC8', 'PC9', 'PC10']
 
 Explained variance by each principal component:
-PC1: 0.2019 (0.2019 cumulative)
-PC2: 0.0771 (0.2790 cumulative)
-PC3: 0.0595 (0.3385 cumulative)
-PC4: 0.0493 (0.3877 cumulative)
-PC5: 0.0415 (0.4292 cumulative)
-PC6: 0.0378 (0.4671 cumulative)
-PC7: 0.0355 (0.5025 cumulative)
-PC8: 0.0311 (0.5336 cumulative)
-PC9: 0.0303 (0.5639 cumulative)
-PC10: 0.0288 (0.5927 cumulative)
+PC1: 0.2170 (0.2170 cumulative)
+PC2: 0.0758 (0.2928 cumulative)
+PC3: 0.0670 (0.3598 cumulative)
+PC4: 0.0523 (0.4121 cumulative)
+PC5: 0.0481 (0.4602 cumulative)
+PC6: 0.0425 (0.5027 cumulative)
+PC7: 0.0392 (0.5419 cumulative)
+PC8: 0.0344 (0.5763 cumulative)
+PC9: 0.0335 (0.6098 cumulative)
+PC10: 0.0321 (0.6418 cumulative)
 
 Cluster distribution:
 Cluster
-2    180
-0     78
-1     73
+1    168
+0    163
 Name: count, dtype: int64
 
 Sport distribution across clusters:
-Cluster  Sport_Name     
-0        Football           8
-         Volleyball         6
-         Soccer             4
-         Tennis             3
-         Baseball           2
-                           ..
-2        Rowing             1
-         Swim Team          1
-         Track & Field      1
-         Track and Field    1
-         Track and field    1
-Name: count, Length: 75, dtype: int64
+Cluster  Sport_Name       
+0        soccer               19
+         football             13
+         volleyball            9
+         swim                  7
+         cross country         5
+         tennis                5
+         track                 5
+         baseball              4
+         basketball            4
+         cheer                 4
+         bowling               2
+         field hockey          2
+         golf                  2
+         lacrosse              2
+         marching band         2
+         competitive dance     1
+         crew                  1
+         fencing               1
+         gymnast               1
+         gymnastics            1
+         hockey                1
+         karate                1
+         street hockey         1
+         twirling              1
+         wrestling             1
+1        soccer               28
+         basketball           19
+         tennis               12
+         track                10
+         football              9
+         volleyball            8
+         baseball              6
+         swim                  4
+         cross country         3
+         golf                  3
+         field hockey          2
+         nan                   2
+         wrestling             2
+         archery               1
+         cheer                 1
+         dancer                1
+         fencing               1
+         gymnast               1
+         hockey                1
+         horseback riding      1
+         marching band         1
+         netball               1
+         rowing                1
+         taekwondo             1
+Name: count, dtype: int64
