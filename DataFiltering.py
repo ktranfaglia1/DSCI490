@@ -30,13 +30,11 @@ df_filtered = df_filtered[df_filtered["Finished"] == "True"]
 # Keep only rows where 'Q65' is "I am between the ages of 18-25."
 df_filtered = df_filtered[df_filtered["Q65"] == "I am between the ages of 18-25."]
 
-
 # Keep columns that start with "Q" or are "Duration (in seconds)"
 df_filtered = df_filtered[
     [col for col in df_filtered.columns if col.startswith("Q")]
     + ["Duration (in seconds)"]
 ]
-
 
 # Drop the "Q_RecaptchaScore" column
 df_filtered = df_filtered.drop(columns=["Q_RecaptchaScore"], errors="ignore")
@@ -51,12 +49,10 @@ condition_QID91 = df_filtered["QID91"] == True
 condition_Q89 = df_filtered["Q89"] == True
 condition_Q90 = df_filtered["Q90"] == True
 
-
 # Count how many conditions each row meets
 df_filtered["attention_pass_count"] = (
     condition_QID91.astype(int) + condition_Q89.astype(int) + condition_Q90.astype(int)
 )
-
 
 # print(df_filtered[["QID91", "Q89", "Q90", "attention_pass_count"]].dtypes)
 
