@@ -52,35 +52,35 @@ Columns after PCA reduction:
 ['PC1', 'PC2', 'PC3', 'PC4', 'PC5', 'PC6', 'PC7', 'PC8', 'PC9', 'PC10']
 
 Explained variance by each principal component:
-PC1: 0.2019 (0.2019 cumulative)
-PC2: 0.0771 (0.2790 cumulative)
-PC3: 0.0595 (0.3385 cumulative)
-PC4: 0.0493 (0.3877 cumulative)
-PC5: 0.0415 (0.4292 cumulative)
-PC6: 0.0378 (0.4671 cumulative)
-PC7: 0.0355 (0.5025 cumulative)
-PC8: 0.0311 (0.5336 cumulative)
-PC9: 0.0303 (0.5639 cumulative)
-PC10: 0.0288 (0.5927 cumulative)
+PC1: 0.2170 (0.2170 cumulative)
+PC2: 0.0758 (0.2928 cumulative)
+PC3: 0.0670 (0.3598 cumulative)
+PC4: 0.0523 (0.4121 cumulative)
+PC5: 0.0481 (0.4602 cumulative)
+PC6: 0.0425 (0.5027 cumulative)
+PC7: 0.0392 (0.5419 cumulative)
+PC8: 0.0344 (0.5763 cumulative)
+PC9: 0.0335 (0.6098 cumulative)
+PC10: 0.0321 (0.6418 cumulative)
 
 Cluster distribution:
 Cluster
-2    180
-0     78
-1     73
+1    173
+0     87
+2     71
 Name: count, dtype: int64
 
 Sport distribution across clusters:
-Cluster  Sport_Name     
-0        Football           8
-         Volleyball         6
-         Soccer             4
-         Tennis             3
-         Baseball           2
-                           ..
-2        Rowing             1
-         Swim Team          1
-         Track & Field      1
-         Track and Field    1
-         Track and field    1
-Name: count, Length: 75, dtype: int64
+Cluster  Sport_Name
+0        Football      7
+         Soccer        7
+         Volleyball    4
+         Swimming      3
+         Tennis        3
+                      ..
+2        Hockey        1
+         NaN           1
+         TaeKwonDo     1
+         Volleyball    1
+         Wrestling     1
+Name: count, Length: 78, dtype: int64
