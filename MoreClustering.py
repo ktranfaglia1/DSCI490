@@ -356,7 +356,7 @@ print_and_log(f"Calinski-Harabasz Index suggests k={best_k_ch}")
 print_and_log(f"Davies-Bouldin Index suggests k={best_k_db}")
 
 # Save the clustered data to CSV
-df_clustered.to_csv("Data/Clustered_data_results.csv", index=False)
+df_clustered.to_csv("Data/More_Clustered_data_results.csv", index=False)
 print("\nSaved clustered data")
 
 # Close the output file
