@@ -12,7 +12,6 @@ from sklearn.metrics import silhouette_score, calinski_harabasz_score, davies_bo
 output_file = open("./Data/More_Clustering_output.txt", "w")
 
 def print_and_log(message):
-    """Print to console and write to output file"""
     print(message)
     output_file.write(str(message) + "\n")
 
@@ -169,6 +168,7 @@ print_and_log(df_clustered["Cluster"].value_counts())
 print_and_log("\nSport distribution across clusters:")
 sport_clusters = df_clustered.groupby("Cluster")["Sport_Name"].value_counts()
 print_and_log(sport_clusters)
+print_and_log("\n")
 
 # Visualization 1: PCA scatter plot (PC1 vs PC2)
 plt.figure(figsize=(10, 8))
@@ -342,7 +342,7 @@ plt.ylabel('DB Score (lower is better)', fontsize=10)
 plt.grid(True, linestyle='--', alpha=0.7)
 
 plt.tight_layout()
-plt.savefig("Plots/clustering_metrics.png")
+plt.savefig("Plots/more_clustering_metrics.png")
 print("\nSaved clustering metrics visualization")
 
 # Find optimal k based on metrics
@@ -360,5 +360,5 @@ df_clustered.to_csv("Data/Clustered_data_results.csv", index=False)
 print("\nSaved clustered data")
 
 # Close the output file
-print("\n All Plots Created")
+print("\nAll Plots Created")
 output_file.close()

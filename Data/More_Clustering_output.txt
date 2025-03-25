@@ -63,6 +63,11 @@ PC8: 0.0344 (0.5763 cumulative)
 PC9: 0.0335 (0.6098 cumulative)
 PC10: 0.0321 (0.6418 cumulative)
 
+Clustering Quality Metrics:
+Silhouette Score: 0.1473 (higher is better, range: -1 to 1)
+Calinski-Harabasz Index: 69.9006 (higher is better)
+Davies-Bouldin Index: 1.9895 (lower is better)
+
 Cluster distribution:
 Cluster
 1    173
@@ -84,3 +89,14 @@ Cluster  Sport_Name
          Volleyball    1
          Wrestling     1
 Name: count, Length: 78, dtype: int64
+
+
+k=2: Silhouette=0.1818, CH=87.9581, DB=1.8439
+k=3: Silhouette=0.1473, CH=69.9006, DB=1.9895
+k=4: Silhouette=0.1469, CH=58.6879, DB=1.9368
+k=5: Silhouette=0.1255, CH=50.0728, DB=2.0538
+
+Optimal number of clusters based on metrics:
+Silhouette Score suggests k=2
+Calinski-Harabasz Index suggests k=2
+Davies-Bouldin Index suggests k=2

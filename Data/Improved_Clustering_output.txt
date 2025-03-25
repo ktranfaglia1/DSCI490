@@ -1,0 +1,160 @@
+IMPROVED CLUSTERING ANALYSIS
+==============================
+Sport names distribution:
+Sport_Name
+Soccer             47
+Basketball         23
+Football           21
+Tennis             17
+Volleyball         17
+Baseball           10
+Track               9
+Swimming            8
+Golf                5
+Track and Field     3
+Name: count, dtype: int64
+Total unique sports: 46
+
+Creating composite features for better clustering...
+
+New derived features summary:
+Sleep_Problem_Index: Mean = 0.65, Median = 0.60
+Concentration_Problem_Index: Mean = 1.39, Median = 1.33
+Task_Switching_Index: Mean = 1.37, Median = 1.25
+
+Scaling data using RobustScaler to minimize outlier impact...
+
+Optimal number of PCs explaining ≥ 90% variance: 17
+
+Explained variance by each principal component:
+PC1: 0.2173 (0.2173 cumulative)
+PC2: 0.1535 (0.3708 cumulative)
+PC3: 0.0862 (0.4570 cumulative)
+PC4: 0.0779 (0.5349 cumulative)
+PC5: 0.0652 (0.6001 cumulative)
+PC6: 0.0599 (0.6600 cumulative)
+PC7: 0.0378 (0.6977 cumulative)
+PC8: 0.0322 (0.7299 cumulative)
+PC9: 0.0270 (0.7570 cumulative)
+PC10: 0.0243 (0.7812 cumulative)
+PC11: 0.0219 (0.8032 cumulative)
+PC12: 0.0209 (0.8241 cumulative)
+PC13: 0.0182 (0.8422 cumulative)
+PC14: 0.0167 (0.8589 cumulative)
+PC15: 0.0148 (0.8737 cumulative)
+PC16: 0.0140 (0.8877 cumulative)
+PC17: 0.0137 (0.9014 cumulative)
+
+Determining optimal number of clusters...
+
+Optimal number of clusters:
+Based on Silhouette Score: 3
+Based on Calinski-Harabasz Index: 2
+Based on Davies-Bouldin Index: 5
+
+Selected number of clusters based on majority vote: 3
+
+==================== ANALYSIS WITH 3 CLUSTERS ====================
+
+Cluster distribution for k=3:
+Cluster_3
+2    160
+0    157
+1     14
+Name: count, dtype: int64
+
+Sport distribution across 3 clusters:
+Cluster_3  Sport_Name       
+0          Soccer               17
+           Football             11
+           Volleyball            7
+           Basketball            5
+           Swimming              5
+           Tennis                5
+           Baseball              4
+           Track                 4
+           Bowling               2
+           Cheerleading          2
+           Cross Country         2
+           Cross country         2
+           Gymnast               2
+           Lacrosse              2
+           Marching Band         2
+           Swim                  2
+           Cheerleader           1
+           Competitive Dance     1
+           Fencing               1
+           Field Hockey          1
+Name: count, dtype: int64
+
+Cluster profiles for k=3:
+
+Top 10 most distinguishing features between clusters:
+Min_To_Sleep: 4482.7994
+Bed_Time: 7.4625
+Wake_Up: 0.5963
+Reading_Concentration_Issues: 0.3661
+Excitement_Concentration_Issues: 0.3643
+Concentration_Issues: 0.3451
+Concentration_Problem_Index: 0.3185
+Trouble_Blocking_Thoughts: 0.3153
+Surrounding_Concentration_Issues: 0.2917
+Noise_Concentration_Issues: 0.2658
+
+Cluster means for top distinguishing features:
+           Min_To_Sleep   Bed_Time    Wake_Up  Reading_Concentration_Issues  ...  Concentration_Problem_Index  Trouble_Blocking_Thoughts  Surrounding_Concentration_Issues  Noise_Concentration_Issues
+Cluster_3                                                                    ...                                                                                                                      
+0             25.707006  12.085987   8.842887                      2.165605  ...                     1.954352                   1.872611                          1.815287                    2.095541
+1            142.142857   6.928571  10.357143                      1.285714  ...                     1.226190                   1.285714                          1.214286                    1.500000
+2             26.650000  11.068750   9.336979                      1.006250  ...                     0.843333                   0.750000                          0.737500                    1.068750
+
+[3 rows x 10 columns]
+
+
+Comparing with Hierarchical Clustering for validation...
+
+Contingency table (K-means vs Hierarchical):
+Hierarchical_Cluster   0    1   2
+Cluster_3                        
+0                      3  154   0
+1                      0    0  14
+2                     71   89   0
+
+==================================================
+CLUSTERING ANALYSIS SUMMARY
+==================================================
+Optimal number of clusters based on majority vote: 3
+
+Key findings:
+
+For 3 clusters:
+Cluster 0 (157 members, 47.4%):
+  - Min_To_Sleep: lower than other clusters (25.71 vs 84.40)
+  - Bed_Time: higher than other clusters (12.09 vs 9.00)
+  - Excitement_Concentration_Issues: higher than other clusters (2.01 vs 0.98)
+  - Reading_Concentration_Issues: higher than other clusters (2.17 vs 1.15)
+  - Wake_Up: lower than other clusters (8.84 vs 9.85)
+  Most common sports:
+    - Soccer: 17 participants
+    - Football: 11 participants
+    - Volleyball: 7 participants
+Cluster 1 (14 members, 4.2%):
+  - Min_To_Sleep: higher than other clusters (142.14 vs 26.18)
+  - Bed_Time: lower than other clusters (6.93 vs 11.58)
+  - Wake_Up: higher than other clusters (10.36 vs 9.09)
+  - Excitement_Concentration_Issues: lower than other clusters (1.07 vs 1.45)
+  - Reading_Concentration_Issues: lower than other clusters (1.29 vs 1.59)
+  Most common sports:
+    - Soccer: 3 participants
+    - Football: 2 participants
+    - Golf: 2 participants
+Cluster 2 (160 members, 48.3%):
+  - Min_To_Sleep: lower than other clusters (26.65 vs 83.92)
+  - Bed_Time: higher than other clusters (11.07 vs 9.51)
+  - Trouble_Blocking_Thoughts: lower than other clusters (0.75 vs 1.58)
+  - Concentration_Issues: lower than other clusters (0.59 vs 1.38)
+  - Surrounding_Concentration_Issues: lower than other clusters (0.74 vs 1.51)
+  Most common sports:
+    - Soccer: 27 participants
+    - Basketball: 18 participants
+    - Tennis: 11 participants
