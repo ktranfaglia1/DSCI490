@@ -6,9 +6,10 @@ import seaborn as sns
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score, calinski_harabasz_score, davies_bouldin_score
 
 # Create an output file to save console output
-output_file = open("./Data/Clustering_output.txt", "w")
+output_file = open("./Data/More_Clustering_output.txt", "w")
 
 def print_and_log(message):
     """Print to console and write to output file"""
@@ -143,6 +144,17 @@ for i, var in enumerate(explained_variance):
 # Apply clustering
 kmeans = KMeans(n_clusters=3, random_state=42, n_init=10)
 df_pca["Cluster"] = kmeans.fit_predict(df_pca)
+
+# Calculate clustering quality metrics
+silhouette_avg = silhouette_score(df_pca.iloc[:, :10], df_pca["Cluster"])
+ch_score = calinski_harabasz_score(df_pca.iloc[:, :10], df_pca["Cluster"])
+db_score = davies_bouldin_score(df_pca.iloc[:, :10], df_pca["Cluster"])
+
+# Display the metrics
+print_and_log("\nClustering Quality Metrics:")
+print_and_log(f"Silhouette Score: {silhouette_avg:.4f} (higher is better, range: -1 to 1)")
+print_and_log(f"Calinski-Harabasz Index: {ch_score:.4f} (higher is better)")
+print_and_log(f"Davies-Bouldin Index: {db_score:.4f} (lower is better)")
 
 # Add back Sport_Name and create final dataframe
 df_clustered = df.loc[df_selected.index, ["Sport_Name"]].copy()
@@ -283,6 +295,65 @@ plt.grid(True, linestyle='--', alpha=0.7)
 plt.tight_layout()
 plt.savefig("Plots/elbow_method.png")
 print("\nSaved elbow method visualization")
+
+# Visualization 6: Clustering metrics for different k values
+print("\nCalculating clustering metrics for different k values...")
+k_range = range(2, 6)  # Test 2-5 clusters
+silhouette_scores = []
+ch_scores = []
+db_scores = []
+
+for k in k_range:
+    kmeans_test = KMeans(n_clusters=k, random_state=42, n_init=10)
+    labels = kmeans_test.fit_predict(df_pca.iloc[:, :10])
+    
+    # Calculate metrics
+    silhouette_scores.append(silhouette_score(df_pca.iloc[:, :10], labels))
+    ch_scores.append(calinski_harabasz_score(df_pca.iloc[:, :10], labels))
+    db_scores.append(davies_bouldin_score(df_pca.iloc[:, :10], labels))
+    
+    print_and_log(f"k={k}: Silhouette={silhouette_scores[-1]:.4f}, CH={ch_scores[-1]:.4f}, DB={db_scores[-1]:.4f}")
+
+# Create visualization of metrics
+plt.figure(figsize=(15, 5))
+
+# Plot Silhouette scores
+plt.subplot(1, 3, 1)
+plt.plot(k_range, silhouette_scores, marker='o', linestyle='-')
+plt.title('Silhouette Score by Cluster Count', fontsize=12)
+plt.xlabel('Number of Clusters', fontsize=10)
+plt.ylabel('Silhouette Score (higher is better)', fontsize=10)
+plt.grid(True, linestyle='--', alpha=0.7)
+
+# Plot Calinski-Harabasz scores
+plt.subplot(1, 3, 2)
+plt.plot(k_range, ch_scores, marker='o', linestyle='-')
+plt.title('Calinski-Harabasz Score by Cluster Count', fontsize=12)
+plt.xlabel('Number of Clusters', fontsize=10)
+plt.ylabel('CH Score (higher is better)', fontsize=10)
+plt.grid(True, linestyle='--', alpha=0.7)
+
+# Plot Davies-Bouldin scores
+plt.subplot(1, 3, 3)
+plt.plot(k_range, db_scores, marker='o', linestyle='-')
+plt.title('Davies-Bouldin Score by Cluster Count', fontsize=12)
+plt.xlabel('Number of Clusters', fontsize=10)
+plt.ylabel('DB Score (lower is better)', fontsize=10)
+plt.grid(True, linestyle='--', alpha=0.7)
+
+plt.tight_layout()
+plt.savefig("Plots/clustering_metrics.png")
+print("\nSaved clustering metrics visualization")
+
+# Find optimal k based on metrics
+best_k_silhouette = k_range[silhouette_scores.index(max(silhouette_scores))]
+best_k_ch = k_range[ch_scores.index(max(ch_scores))]
+best_k_db = k_range[db_scores.index(min(db_scores))]
+
+print_and_log("\nOptimal number of clusters based on metrics:")
+print_and_log(f"Silhouette Score suggests k={best_k_silhouette}")
+print_and_log(f"Calinski-Harabasz Index suggests k={best_k_ch}")
+print_and_log(f"Davies-Bouldin Index suggests k={best_k_db}")
 
 # Save the clustered data to CSV
 df_clustered.to_csv("Data/Clustered_data_results.csv", index=False)
