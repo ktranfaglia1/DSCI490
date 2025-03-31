@@ -2,12 +2,14 @@ from sklearn.cluster import KMeans, DBSCAN
 from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
 from sklearn.metrics import silhouette_score
+from sklearn.inspection import permutation_importance
+from sklearn.ensemble import RandomForestClassifier
 
 import pandas as pd
 import numpy as np
 from datetime import datetime
 import re
-
+from scipy import stats
 
 import typing
 
@@ -135,6 +137,7 @@ This Segment of code is dedicated to clustering Sleep issues
 """
 # print(df.columns)
 
+"""
 df["Bed_Time"] = df["Bed_Time"].apply(time_to_decimal)
 df["Wake_Up"] = df["Wake_Up"].apply(time_to_decimal)
 
@@ -153,21 +156,21 @@ df["Sleep_Quality"] = df["Sleep_Quality"].apply(quality_to_number)
 df["Sleep_Meds"] = df["Sleep_Meds"].apply(frequency_to_number)
 df["Staying_Awake_Issues"] = df["Staying_Awake_Issues"].apply(frequency_to_number)
 df["Loud_Snore"] = df["Loud_Snore"].apply(frequency_to_number)
-
+"""
 
 columns = [
     "Bed_Time",
     "Wake_Up",
     "Min_To_Sleep",
     "Sleep_Per_Night",
-    "Cant_Sleep",
-    "Wake_In_Night",
-    "Wake_To_Bathroom",
+    #    "Cant_Sleep",
+    #    "Wake_In_Night",
+    #   "Wake_To_Bathroom",
     "Bad_Dreams",
     "Sleep_Quality",
     "Sleep_Meds",
     "Staying_Awake_Issues",
-    "Loud_Snore",
+    #    "Loud_Snore",
 ]
 
 sleepData = df[columns]
@@ -178,17 +181,42 @@ sleepData = imputer.fit_transform(sleepData)
 
 scaler = StandardScaler()
 sleepData = scaler.fit_transform(sleepData)
-
 # print(sleepData)
 
+"""
+dbScan = DBSCAN(eps=18, min_samples=5)
+labels = dbScan.fit_predict(sleepData)
 
-model = KMeans(n_clusters=2, random_state=42).fit(sleepData)
+shrunkSleepData = sleepData[labels != -1]
+"""
 
-print(silhouette_score(sleepData, model.predict(sleepData)))
+model = KMeans(
+    n_clusters=2,
+    init="k-means++",
+    random_state=0,
+    n_init=50,
+).fit(sleepData)
+
+
+forest = RandomForestClassifier()
+
+forest.fit(sleepData, model.predict(sleepData))
+important_features = forest.feature_importances_.argsort()[::-1]
+
+for index in important_features:
+    print(
+        "Important Features Sleep: "
+        + str(columns[index])
+        + " Importance "
+        + str(forest.feature_importances_[index])
+    )
+
+
+print("Sleep Sihoulette: " + str(silhouette_score(sleepData, model.predict(sleepData))))
 
 original_df["Sleep_Cluster"] = model.predict(sleepData)
 
-print(original_df)
+# print(original_df)
 
 """
 This Segment of code is dedicated to clustering Concentration issues
@@ -230,12 +258,31 @@ attentionData = imputer.fit_transform(attentionData)
 
 scaler = StandardScaler()
 attentionData = scaler.fit_transform(attentionData)
-
+# attentionData = attentionData[(np.abs(stats.zscore(attentionData["feature"])) < 3)]
 # print(sleepData)
 
-model = KMeans(n_clusters=2, random_state=42).fit(attentionData)
+model = KMeans(n_clusters=2, init="k-means++", random_state=0, n_init=50).fit(
+    attentionData
+)
 
-print(silhouette_score(attentionData, model.predict(attentionData)))
+forest = RandomForestClassifier()
+
+forest.fit(attentionData, model.predict(attentionData))
+important_features = forest.feature_importances_.argsort()[::-1]
+
+for index in important_features:
+    print(
+        "Important Features Attention: "
+        + str(columns[index])
+        + " Importance "
+        + str(forest.feature_importances_[index])
+    )
+
+
+print(
+    "Attention Sihoulette: "
+    + str(silhouette_score(attentionData, model.predict(attentionData)))
+)
 
 original_df["Attention_Cluster"] = model.predict(attentionData)
 
