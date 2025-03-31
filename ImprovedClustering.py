@@ -510,6 +510,141 @@ for k in [final_k, 2]:
                     percentage = (count / total_sport_count) * 100 if total_sport_count > 0 else 0
                     print_and_log(f"    - {sport}: {count} participants ({percentage:.1f}% of all {sport} participants)")
 
+print_and_log("\n" + "="*40)
+print_and_log("Binary Cluster Labeling")
+print_and_log("="*40)
+
+# Define collision sports (typically involve intentional body-to-body collisions)
+collision_sports = [
+    'Football', 'Rugby', 'Hockey', 'Ice Hockey', 'Street Hockey',
+    'Wrestling', 'Lacrosse', 'Cheer'
+]
+
+# Define contact sports (including limited-contact sports)
+contact_sports = [
+    # Regular contact sports
+    'Basketball', 'Soccer', 'Baseball', 'Volleyball', 'Tennis', 'Field Hockey',
+    'Field hockey', 'Karate', 'TaeKwonDo', 'Gymnastics', 'Netball',
+    'Bowling', 'Dance', 'Twirling',
+    # Limited-contact sports
+    'Track', 'Swim', 'Golf', 'Cross Country', 'Rowing', 'Crew', 'Marching Band',
+    'Archery', 'Horseback Riding', 'Fencing'
+]
+
+# Calculate percentage of each sport type in each cluster
+collision_counts = {0: 0, 1: 0}
+contact_counts = {0: 0, 1: 0}
+total_identified = {0: 0, 1: 0}
+unidentified_counts = {0: 0, 1: 0}
+
+# Loop through each sport in each cluster
+for cluster in [0, 1]:
+    sports_in_cluster = df_clustered[df_clustered[f"Cluster_2"] == cluster]["Sport_Name"].value_counts()
+    cluster_total = df_clustered[df_clustered[f"Cluster_2"] == cluster].shape[0]
+    
+    for sport, count in sports_in_cluster.items():
+        if pd.notna(sport):
+            # Standardize sport name for comparison
+            std_sport = sport.lower().strip()
+            
+            # Check sport type through case-insensitive comparison
+            is_collision = any(collision.lower() == std_sport for collision in collision_sports)
+            is_contact = any(contact.lower() == std_sport for contact in contact_sports)
+            
+            # If exact match failed, try partial match
+            if not (is_collision or is_contact):
+                is_collision = any(collision.lower() in std_sport for collision in collision_sports)
+                is_contact = any(contact.lower() in std_sport for contact in contact_sports)
+            
+            if is_collision:
+                collision_counts[cluster] += count
+                total_identified[cluster] += count
+            elif is_contact:
+                contact_counts[cluster] += count
+                total_identified[cluster] += count
+            else:
+                unidentified_counts[cluster] += count
+    
+    # Check for unidentified sports and report them
+    if unidentified_counts[cluster] > 0:
+        print_and_log(f"\nWarning: {unidentified_counts[cluster]} participants in Cluster {cluster} have unidentified sports.")
+
+# Calculate percentages and assign labels
+cluster_labels = {}
+for cluster in [0, 1]:
+    if total_identified[cluster] > 0:
+        collision_pct = (collision_counts[cluster] / total_identified[cluster]) * 100
+        contact_pct = (contact_counts[cluster] / total_identified[cluster]) * 100
+        
+        print_and_log(f"\nCluster {cluster} sport type breakdown:")
+        print_and_log(f"  - Collision sports: {collision_counts[cluster]} participants ({collision_pct:.1f}%)")
+        print_and_log(f"  - Contact sports: {contact_counts[cluster]} participants ({contact_pct:.1f}%)")
+        print_and_log(f"  - Total identified: {total_identified[cluster]} participants")
+        
+        # Assign label based on higher percentage
+        if collision_pct > contact_pct:
+            cluster_labels[cluster] = "Collision"
+        else:
+            cluster_labels[cluster] = "Contact"
+    else:
+        cluster_labels[cluster] = "Undetermined"
+
+# Force binary classification if both clusters have same label
+if len(set(cluster_labels.values())) == 1 and "Undetermined" not in cluster_labels.values():
+    # If both clusters got same label, assign based on relative prevalence
+    cluster0_collision_ratio = collision_counts[0] / contact_counts[0] if contact_counts[0] > 0 else float('inf')
+    cluster1_collision_ratio = collision_counts[1] / contact_counts[1] if contact_counts[1] > 0 else float('inf')
+    
+    if cluster0_collision_ratio > cluster1_collision_ratio:
+        cluster_labels[0] = "Collision"
+        cluster_labels[1] = "Contact"
+    else:
+        cluster_labels[0] = "Contact"
+        cluster_labels[1] = "Collision"
+    
+    print_and_log("\nBoth clusters had the same label - forcing binary classification based on relative sport type ratios.")
+
+print_and_log("\nFinal binary cluster labels:")
+for cluster, label in cluster_labels.items():
+    print_and_log(f"Cluster {cluster}: {label}")
+
+# Add the labels to the dataframe
+df_clustered[f"Cluster_2_Label"] = df_clustered[f"Cluster_2"].map(cluster_labels)
+
+# Save the labeled data
+df_clustered.to_csv(f"Data/Labeled_Clustered_data_2_clusters.csv", index=False)
+print("\nSaved labeled cluster data with sport type labels")
+
+# Create a visual representation of the sport type distribution
+plt.figure(figsize=(12, 8))
+clusters = [0, 1]
+width = 0.35
+x = np.arange(len(clusters))
+
+collision_percentages = [collision_counts[cluster]/total_identified[cluster]*100 if total_identified[cluster] > 0 else 0 for cluster in clusters]
+contact_percentages = [contact_counts[cluster]/total_identified[cluster]*100 if total_identified[cluster] > 0 else 0 for cluster in clusters]
+
+plt.bar(x - width/2, collision_percentages, width, label='Collision Sports')
+plt.bar(x + width/2, contact_percentages, width, label='Contact Sports')
+
+plt.xlabel('Cluster')
+plt.ylabel('Percentage of Athletes')
+plt.title('Sport Type Distribution by Cluster')
+plt.xticks(x, [f"Cluster {i}\n({cluster_labels[i]})" for i in clusters])
+plt.ylim(0, 100)
+plt.legend()
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+
+# Add percentage labels on bars
+for i, v in enumerate(collision_percentages):
+    plt.text(i - width/2, v + 2, f"{v:.1f}%", ha='center')
+for i, v in enumerate(contact_percentages):
+    plt.text(i + width/2, v + 2, f"{v:.1f}%", ha='center')
+
+plt.tight_layout()
+plt.savefig("Plots/sport_type_distribution.png")
+print("\nSaved sport type distribution plot")
+
 # Close the output file
 print("\nAll analysis complete. Results saved to files.")
 output_file.close()
