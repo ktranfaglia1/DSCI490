@@ -2,18 +2,18 @@ IMPROVED CLUSTERING ANALYSIS
 ==============================
 Sport names distribution:
 Sport_Name
-Soccer             47
-Basketball         23
-Football           21
-Tennis             17
-Volleyball         17
-Baseball           10
-Track               9
-Swimming            8
-Golf                5
-Track and Field     3
+soccer           47
+football         24
+basketball       23
+tennis           17
+volleyball       17
+track            15
+swim             11
+baseball         10
+cross country     8
+golf              5
 Name: count, dtype: int64
-Total unique sports: 46
+Total unique sports: 29
 
 Creating composite features for better clustering...
 
@@ -63,27 +63,27 @@ Cluster_3
 Name: count, dtype: int64
 
 Sport distribution across 3 clusters:
-Cluster_3  Sport_Name       
-0          Soccer               27
-           Basketball           18
-           Tennis               11
-           Volleyball            9
-           Football              8
-           Baseball              6
-           Track                 5
-           Swimming              3
-           Track and Field       3
-           Golf                  2
-           Wrestling             2
-           Archery               1
-           Competitive cheer     1
-           Crew                  1
-           Cross Country         1
-           Cross country         1
-           Cross-country         1
-           Dancer                1
-           Fencing               1
-           Field Hockey          1
+Cluster_3  Sport_Name      
+0          soccer              27
+           basketball          18
+           tennis              11
+           football            10
+           track               10
+           volleyball           9
+           baseball             6
+           swim                 4
+           cross country        3
+           field hockey         2
+           golf                 2
+           wrestling            2
+           archery              1
+           cheer                1
+           crew                 1
+           dance                1
+           fencing              1
+           hockey               1
+           horseback riding     1
+           marching band        1
 Name: count, dtype: int64
 
 Cluster profiles for k=3:
@@ -123,27 +123,27 @@ Cluster_2
 Name: count, dtype: int64
 
 Sport distribution across 2 clusters:
-Cluster_2  Sport_Name       
-0          Soccer               30
-           Basketball           18
-           Tennis               12
-           Volleyball           10
-           Football              9
-           Baseball              6
-           Track                 5
-           Golf                  4
-           Swimming              3
-           Track and Field       3
-           Wrestling             2
-           Archery               1
-           Competitive cheer     1
-           Crew                  1
-           Cross Country         1
-           Cross country         1
-           Cross-country         1
-           Dancer                1
-           Fencing               1
-           Field Hockey          1
+Cluster_2  Sport_Name      
+0          soccer              30
+           basketball          18
+           tennis              12
+           football            11
+           track               10
+           volleyball          10
+           baseball             6
+           golf                 4
+           swim                 4
+           cross country        3
+           field hockey         2
+           wrestling            2
+           archery              1
+           cheer                1
+           crew                 1
+           dance                1
+           fencing              1
+           hockey               1
+           horseback riding     1
+           marching band        1
 Name: count, dtype: int64
 
 Cluster profiles for k=2:
@@ -195,38 +195,29 @@ Cluster 0 (160 members, 48.3%):
   - Concentration_Issues: lower than other clusters (0.59 vs 1.38)
   - Surrounding_Concentration_Issues: lower than other clusters (0.74 vs 1.51)
   Sports distribution:
-    - Soccer: 27 participants (57.4% of all Soccer participants)
-    - Basketball: 18 participants (78.3% of all Basketball participants)
-    - Tennis: 11 participants (64.7% of all Tennis participants)
-    - Volleyball: 9 participants (52.9% of all Volleyball participants)
-    - Football: 8 participants (38.1% of all Football participants)
-    - Baseball: 6 participants (60.0% of all Baseball participants)
-    - Track: 5 participants (55.6% of all Track participants)
-    - Swimming: 3 participants (37.5% of all Swimming participants)
-    - Track and Field: 3 participants (100.0% of all Track and Field participants)
-    - Wrestling: 2 participants (66.7% of all Wrestling participants)
-    - Golf: 2 participants (40.0% of all Golf participants)
-    - Rowing: 1 participants (100.0% of all Rowing participants)
-    - Field Hockey: 1 participants (50.0% of all Field Hockey participants)
-    - Competitive cheer: 1 participants (100.0% of all Competitive cheer participants)
-    - Footbal: 1 participants (100.0% of all Footbal participants)
-    - Swim Team: 1 participants (100.0% of all Swim Team participants)
-    - Dancer: 1 participants (100.0% of all Dancer participants)
-    - Cross country: 1 participants (33.3% of all Cross country participants)
-    - Hockey: 1 participants (100.0% of all Hockey participants)
-    - Marching Band: 1 participants (33.3% of all Marching Band participants)
-    - NaN: 1 participants (50.0% of all NaN participants)
-    - Cross-country: 1 participants (100.0% of all Cross-country participants)
-    - Horseback Riding: 1 participants (100.0% of all Horseback Riding participants)
-    - Cross Country: 1 participants (33.3% of all Cross Country participants)
-    - Track and field: 1 participants (50.0% of all Track and field participants)
-    - Archery: 1 participants (100.0% of all Archery participants)
-    - Track & Field: 1 participants (100.0% of all Track & Field participants)
-    - Fencing: 1 participants (50.0% of all Fencing participants)
-    - Field hockey: 1 participants (50.0% of all Field hockey participants)
-    - Crew: 1 participants (100.0% of all Crew participants)
-    - Netball: 1 participants (100.0% of all Netball participants)
-    - TaeKwonDo: 1 participants (100.0% of all TaeKwonDo participants)
+    - soccer: 27 participants (57.4% of all soccer participants)
+    - basketball: 18 participants (78.3% of all basketball participants)
+    - tennis: 11 participants (64.7% of all tennis participants)
+    - track: 10 participants (66.7% of all track participants)
+    - football: 10 participants (41.7% of all football participants)
+    - volleyball: 9 participants (52.9% of all volleyball participants)
+    - baseball: 6 participants (60.0% of all baseball participants)
+    - swim: 4 participants (36.4% of all swim participants)
+    - cross country: 3 participants (37.5% of all cross country participants)
+    - wrestling: 2 participants (66.7% of all wrestling participants)
+    - golf: 2 participants (40.0% of all golf participants)
+    - field hockey: 2 participants (50.0% of all field hockey participants)
+    - rowing: 1 participants (100.0% of all rowing participants)
+    - cheer: 1 participants (20.0% of all cheer participants)
+    - dance: 1 participants (50.0% of all dance participants)
+    - hockey: 1 participants (50.0% of all hockey participants)
+    - marching band: 1 participants (33.3% of all marching band participants)
+    - horseback riding: 1 participants (100.0% of all horseback riding participants)
+    - archery: 1 participants (100.0% of all archery participants)
+    - fencing: 1 participants (50.0% of all fencing participants)
+    - crew: 1 participants (100.0% of all crew participants)
+    - netball: 1 participants (100.0% of all netball participants)
+    - taekwondo: 1 participants (100.0% of all taekwondo participants)
 Cluster 1 (14 members, 4.2%):
   - Min_To_Sleep: higher than other clusters (142.14 vs 26.18)
   - Bed_Time: lower than other clusters (6.93 vs 11.58)
@@ -234,11 +225,11 @@ Cluster 1 (14 members, 4.2%):
   - Reading_Concentration_Issues: lower than other clusters (1.29 vs 1.59)
   - Concentration_Issues: lower than other clusters (1.00 vs 1.17)
   Sports distribution:
-    - Soccer: 3 participants (6.4% of all Soccer participants)
-    - Football: 2 participants (9.5% of all Football participants)
-    - Golf: 2 participants (40.0% of all Golf participants)
-    - Tennis: 1 participants (5.9% of all Tennis participants)
-    - Volleyball: 1 participants (5.9% of all Volleyball participants)
+    - soccer: 3 participants (6.4% of all soccer participants)
+    - football: 2 participants (8.3% of all football participants)
+    - golf: 2 participants (40.0% of all golf participants)
+    - tennis: 1 participants (5.9% of all tennis participants)
+    - volleyball: 1 participants (5.9% of all volleyball participants)
 Cluster 2 (157 members, 47.4%):
   - Min_To_Sleep: lower than other clusters (25.71 vs 84.40)
   - Bed_Time: higher than other clusters (12.08 vs 9.00)
@@ -246,38 +237,29 @@ Cluster 2 (157 members, 47.4%):
   - Excitement_Concentration_Issues: higher than other clusters (2.01 vs 0.98)
   - Concentration_Issues: higher than other clusters (1.75 vs 0.80)
   Sports distribution:
-    - Soccer: 17 participants (36.2% of all Soccer participants)
-    - Football: 11 participants (52.4% of all Football participants)
-    - Volleyball: 7 participants (41.2% of all Volleyball participants)
-    - Basketball: 5 participants (21.7% of all Basketball participants)
-    - Tennis: 5 participants (29.4% of all Tennis participants)
-    - Swimming: 5 participants (62.5% of all Swimming participants)
-    - Baseball: 4 participants (40.0% of all Baseball participants)
-    - Track: 4 participants (44.4% of all Track participants)
-    - Gymnast: 2 participants (100.0% of all Gymnast participants)
-    - Bowling: 2 participants (100.0% of all Bowling participants)
-    - Lacrosse: 2 participants (100.0% of all Lacrosse participants)
-    - Cheerleading: 2 participants (100.0% of all Cheerleading participants)
-    - Cross Country: 2 participants (66.7% of all Cross Country participants)
-    - Marching Band: 2 participants (66.7% of all Marching Band participants)
-    - Swim: 2 participants (100.0% of all Swim participants)
-    - Cross country: 2 participants (66.7% of all Cross country participants)
-    - Karate: 1 participants (100.0% of all Karate participants)
-    - Wrestling: 1 participants (33.3% of all Wrestling participants)
-    - Ice Hockey: 1 participants (100.0% of all Ice Hockey participants)
-    - Competitive Dance: 1 participants (100.0% of all Competitive Dance participants)
-    - Sideline cheer: 1 participants (100.0% of all Sideline cheer participants)
-    - Fencing: 1 participants (50.0% of all Fencing participants)
-    - Street Hockey: 1 participants (100.0% of all Street Hockey participants)
-    - NaN: 1 participants (50.0% of all NaN participants)
-    - Cheerleader: 1 participants (100.0% of all Cheerleader participants)
-    - Twirling: 1 participants (100.0% of all Twirling participants)
-    - Girls Cross Country: 1 participants (100.0% of all Girls Cross Country participants)
-    - Track and field: 1 participants (50.0% of all Track and field participants)
-    - Field Hockey: 1 participants (50.0% of all Field Hockey participants)
-    - Gymnastics: 1 participants (100.0% of all Gymnastics participants)
-    - Golf: 1 participants (20.0% of all Golf participants)
-    - Field hockey: 1 participants (50.0% of all Field hockey participants)
+    - soccer: 17 participants (36.2% of all soccer participants)
+    - football: 12 participants (50.0% of all football participants)
+    - swim: 7 participants (63.6% of all swim participants)
+    - volleyball: 7 participants (41.2% of all volleyball participants)
+    - track: 5 participants (33.3% of all track participants)
+    - tennis: 5 participants (29.4% of all tennis participants)
+    - basketball: 5 participants (21.7% of all basketball participants)
+    - cross country: 5 participants (62.5% of all cross country participants)
+    - baseball: 4 participants (40.0% of all baseball participants)
+    - cheer: 4 participants (80.0% of all cheer participants)
+    - gymnastics: 3 participants (100.0% of all gymnastics participants)
+    - bowling: 2 participants (100.0% of all bowling participants)
+    - field hockey: 2 participants (50.0% of all field hockey participants)
+    - marching band: 2 participants (66.7% of all marching band participants)
+    - lacrosse: 2 participants (100.0% of all lacrosse participants)
+    - wrestling: 1 participants (33.3% of all wrestling participants)
+    - hockey: 1 participants (50.0% of all hockey participants)
+    - dance: 1 participants (50.0% of all dance participants)
+    - fencing: 1 participants (50.0% of all fencing participants)
+    - street hockey: 1 participants (100.0% of all street hockey participants)
+    - karate: 1 participants (100.0% of all karate participants)
+    - twirling: 1 participants (100.0% of all twirling participants)
+    - golf: 1 participants (20.0% of all golf participants)
 
 For 2 clusters:
 Cluster 0 (171 members, 51.7%):
@@ -287,38 +269,29 @@ Cluster 0 (171 members, 51.7%):
   - Excitement_Concentration_Issues: lower than other clusters (0.88 vs 2.01)
   - Concentration_Problem_Index: lower than other clusters (0.85 vs 1.96)
   Sports distribution:
-    - Soccer: 30 participants (63.8% of all Soccer participants)
-    - Basketball: 18 participants (78.3% of all Basketball participants)
-    - Tennis: 12 participants (70.6% of all Tennis participants)
-    - Volleyball: 10 participants (58.8% of all Volleyball participants)
-    - Football: 9 participants (42.9% of all Football participants)
-    - Baseball: 6 participants (60.0% of all Baseball participants)
-    - Track: 5 participants (55.6% of all Track participants)
-    - Golf: 4 participants (80.0% of all Golf participants)
-    - Track and Field: 3 participants (100.0% of all Track and Field participants)
-    - Swimming: 3 participants (37.5% of all Swimming participants)
-    - Wrestling: 2 participants (66.7% of all Wrestling participants)
-    - Swim Team: 1 participants (100.0% of all Swim Team participants)
-    - Rowing: 1 participants (100.0% of all Rowing participants)
-    - Competitive cheer: 1 participants (100.0% of all Competitive cheer participants)
-    - Field Hockey: 1 participants (50.0% of all Field Hockey participants)
-    - Footbal: 1 participants (100.0% of all Footbal participants)
-    - Dancer: 1 participants (100.0% of all Dancer participants)
-    - Cross country: 1 participants (33.3% of all Cross country participants)
-    - Hockey: 1 participants (100.0% of all Hockey participants)
-    - Marching Band: 1 participants (33.3% of all Marching Band participants)
-    - NaN: 1 participants (50.0% of all NaN participants)
-    - Cross-country: 1 participants (100.0% of all Cross-country participants)
-    - Horseback Riding: 1 participants (100.0% of all Horseback Riding participants)
-    - Cross Country: 1 participants (33.3% of all Cross Country participants)
-    - Track and field: 1 participants (50.0% of all Track and field participants)
-    - Archery: 1 participants (100.0% of all Archery participants)
-    - Track & Field: 1 participants (100.0% of all Track & Field participants)
-    - Fencing: 1 participants (50.0% of all Fencing participants)
-    - Field hockey: 1 participants (50.0% of all Field hockey participants)
-    - Crew: 1 participants (100.0% of all Crew participants)
-    - Netball: 1 participants (100.0% of all Netball participants)
-    - TaeKwonDo: 1 participants (100.0% of all TaeKwonDo participants)
+    - soccer: 30 participants (63.8% of all soccer participants)
+    - basketball: 18 participants (78.3% of all basketball participants)
+    - tennis: 12 participants (70.6% of all tennis participants)
+    - football: 11 participants (45.8% of all football participants)
+    - track: 10 participants (66.7% of all track participants)
+    - volleyball: 10 participants (58.8% of all volleyball participants)
+    - baseball: 6 participants (60.0% of all baseball participants)
+    - golf: 4 participants (80.0% of all golf participants)
+    - swim: 4 participants (36.4% of all swim participants)
+    - cross country: 3 participants (37.5% of all cross country participants)
+    - wrestling: 2 participants (66.7% of all wrestling participants)
+    - field hockey: 2 participants (50.0% of all field hockey participants)
+    - rowing: 1 participants (100.0% of all rowing participants)
+    - cheer: 1 participants (20.0% of all cheer participants)
+    - dance: 1 participants (50.0% of all dance participants)
+    - hockey: 1 participants (50.0% of all hockey participants)
+    - marching band: 1 participants (33.3% of all marching band participants)
+    - horseback riding: 1 participants (100.0% of all horseback riding participants)
+    - archery: 1 participants (100.0% of all archery participants)
+    - fencing: 1 participants (50.0% of all fencing participants)
+    - crew: 1 participants (100.0% of all crew participants)
+    - netball: 1 participants (100.0% of all netball participants)
+    - taekwondo: 1 participants (100.0% of all taekwondo participants)
 Cluster 1 (160 members, 48.3%):
   - Min_To_Sleep: lower than other clusters (27.48 vs 34.47)
   - Reading_Concentration_Issues: higher than other clusters (2.17 vs 1.00)
@@ -326,35 +299,46 @@ Cluster 1 (160 members, 48.3%):
   - Excitement_Concentration_Issues: higher than other clusters (2.01 vs 0.88)
   - Concentration_Problem_Index: higher than other clusters (1.96 vs 0.85)
   Sports distribution:
-    - Soccer: 17 participants (36.2% of all Soccer participants)
-    - Football: 12 participants (57.1% of all Football participants)
-    - Volleyball: 7 participants (41.2% of all Volleyball participants)
-    - Basketball: 5 participants (21.7% of all Basketball participants)
-    - Tennis: 5 participants (29.4% of all Tennis participants)
-    - Swimming: 5 participants (62.5% of all Swimming participants)
-    - Baseball: 4 participants (40.0% of all Baseball participants)
-    - Track: 4 participants (44.4% of all Track participants)
-    - Gymnast: 2 participants (100.0% of all Gymnast participants)
-    - Bowling: 2 participants (100.0% of all Bowling participants)
-    - Lacrosse: 2 participants (100.0% of all Lacrosse participants)
-    - Cheerleading: 2 participants (100.0% of all Cheerleading participants)
-    - Cross Country: 2 participants (66.7% of all Cross Country participants)
-    - Marching Band: 2 participants (66.7% of all Marching Band participants)
-    - Swim: 2 participants (100.0% of all Swim participants)
-    - Cross country: 2 participants (66.7% of all Cross country participants)
-    - Karate: 1 participants (100.0% of all Karate participants)
-    - Wrestling: 1 participants (33.3% of all Wrestling participants)
-    - Ice Hockey: 1 participants (100.0% of all Ice Hockey participants)
-    - Competitive Dance: 1 participants (100.0% of all Competitive Dance participants)
-    - Sideline cheer: 1 participants (100.0% of all Sideline cheer participants)
-    - Fencing: 1 participants (50.0% of all Fencing participants)
-    - Street Hockey: 1 participants (100.0% of all Street Hockey participants)
-    - NaN: 1 participants (50.0% of all NaN participants)
-    - Cheerleader: 1 participants (100.0% of all Cheerleader participants)
-    - Twirling: 1 participants (100.0% of all Twirling participants)
-    - Girls Cross Country: 1 participants (100.0% of all Girls Cross Country participants)
-    - Track and field: 1 participants (50.0% of all Track and field participants)
-    - Field Hockey: 1 participants (50.0% of all Field Hockey participants)
-    - Gymnastics: 1 participants (100.0% of all Gymnastics participants)
-    - Golf: 1 participants (20.0% of all Golf participants)
-    - Field hockey: 1 participants (50.0% of all Field hockey participants)
+    - soccer: 17 participants (36.2% of all soccer participants)
+    - football: 13 participants (54.2% of all football participants)
+    - swim: 7 participants (63.6% of all swim participants)
+    - volleyball: 7 participants (41.2% of all volleyball participants)
+    - track: 5 participants (33.3% of all track participants)
+    - tennis: 5 participants (29.4% of all tennis participants)
+    - basketball: 5 participants (21.7% of all basketball participants)
+    - cross country: 5 participants (62.5% of all cross country participants)
+    - baseball: 4 participants (40.0% of all baseball participants)
+    - cheer: 4 participants (80.0% of all cheer participants)
+    - gymnastics: 3 participants (100.0% of all gymnastics participants)
+    - bowling: 2 participants (100.0% of all bowling participants)
+    - field hockey: 2 participants (50.0% of all field hockey participants)
+    - marching band: 2 participants (66.7% of all marching band participants)
+    - lacrosse: 2 participants (100.0% of all lacrosse participants)
+    - wrestling: 1 participants (33.3% of all wrestling participants)
+    - hockey: 1 participants (50.0% of all hockey participants)
+    - dance: 1 participants (50.0% of all dance participants)
+    - fencing: 1 participants (50.0% of all fencing participants)
+    - street hockey: 1 participants (100.0% of all street hockey participants)
+    - karate: 1 participants (100.0% of all karate participants)
+    - twirling: 1 participants (100.0% of all twirling participants)
+    - golf: 1 participants (20.0% of all golf participants)
+
+========================================
+Binary Cluster Labeling
+========================================
+
+Cluster 0 sport type breakdown:
+  - Collision sports: 15 participants (12.2%)
+  - Contact sports: 108 participants (87.8%)
+  - Total identified: 123 participants
+
+Cluster 1 sport type breakdown:
+  - Collision sports: 22 participants (24.2%)
+  - Contact sports: 69 participants (75.8%)
+  - Total identified: 91 participants
+
+Both clusters had the same label - forcing binary classification based on relative sport type ratios.
+
+Final binary cluster labels:
+Cluster 0: Contact
+Cluster 1: Collision
