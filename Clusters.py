@@ -1,16 +1,19 @@
+import sys
+
 from sklearn.cluster import KMeans, DBSCAN
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.impute import SimpleImputer
 from sklearn.metrics import silhouette_score
 from sklearn.inspection import permutation_importance
 from sklearn.ensemble import RandomForestClassifier
+
 
 import pandas as pd
 import numpy as np
 from datetime import datetime
 import re
 from scipy import stats
-
+import json
 import typing
 
 
@@ -176,42 +179,82 @@ columns = [
 sleepData = df[columns]
 # print(sleepData)
 
-imputer = SimpleImputer(strategy="mean")
-sleepData = imputer.fit_transform(sleepData)
 
+#print(sleepData)
+
+numerical_sleep = sleepData.filter(["Bed_Time", "Wake_Up", "Min_To_Sleep", "Sleep_Per_Night"])
+categorical_sleep = sleepData.filter(["Bad_Dreams", "Sleep_Quality", "Sleep_Meds", "Staying_Awake_Issues"])
+
+
+num_imputer = SimpleImputer(strategy="mean")
+numerical_sleep = num_imputer.fit_transform(numerical_sleep)
+
+cat_encoder = OneHotEncoder(sparse_output=False)
+categorical_sleep = cat_encoder.fit_transform(categorical_sleep)
+
+
+categorical_sleep = pd.DataFrame(categorical_sleep.transpose(), cat_encoder.get_feature_names_out())
+categorical_sleep = categorical_sleep.T
+#print(encoder.get_feature_names_out())
+#print(categorical_sleep)
+#print(type(categorical_sleep))
+keep_categories = ["Bad_Dreams_3.0", "Sleep_Meds_0.0", "Staying_Awake_Issues_0.0", "Staying_Awake_Issues_2.0"]
+categorical_sleep = categorical_sleep.filter(keep_categories)
+#print(categorical_sleep)
+
+
+imputer = SimpleImputer(strategy="most_frequent")
+categorical_sleep = imputer.fit_transform(categorical_sleep)
+
+'''
+print("Sleep Data")
+print(sleepData)
+print(encoder.get_feature_names_out())
+'''
+
+
+categorical_sleep = pd.DataFrame(categorical_sleep.transpose(), keep_categories)
+categorical_sleep = categorical_sleep.T
+
+numerical_sleep = pd.DataFrame(numerical_sleep.transpose(), num_imputer.get_feature_names_out())
+numerical_sleep = numerical_sleep.T
+
+'''
+print(type(categorical_sleep))
+print(type(numerical_sleep))
+'''
+
+sleepData = pd.merge(numerical_sleep, categorical_sleep, left_index=True, right_index=True)
+
+
+#print(sleepData)
 scaler = StandardScaler()
 sleepData = scaler.fit_transform(sleepData)
+
 # print(sleepData)
-
-"""
-dbScan = DBSCAN(eps=18, min_samples=5)
-labels = dbScan.fit_predict(sleepData)
-
-shrunkSleepData = sleepData[labels != -1]
-"""
 
 model = KMeans(
     n_clusters=2,
     init="k-means++",
     random_state=0,
-    n_init=50,
+    n_init=10,
 ).fit(sleepData)
-
 
 forest = RandomForestClassifier()
 
 forest.fit(sleepData, model.predict(sleepData))
 important_features = forest.feature_importances_.argsort()[::-1]
 
+
+print("Important Features Sleep: ")
 for index in important_features:
     print(
-        "Important Features Sleep: "
-        + str(columns[index])
+        str(columns[index])
         + " Importance "
         + str(forest.feature_importances_[index])
     )
 
-
+print()
 print("Sleep Sihoulette: " + str(silhouette_score(sleepData, model.predict(sleepData))))
 
 original_df["Sleep_Cluster"] = model.predict(sleepData)
@@ -249,36 +292,47 @@ attentionData = df[columns]
 # print(sleepData)
 
 
-for column in columns:
-    attentionData[column] = attentionData[column].apply(frequency_to_number)
 
+for column in columns:
+    attentionData.loc[:, column] = attentionData[column].apply(frequency_to_number)
+
+#print(attentionData)
+'''
+encoder = OneHotEncoder(sparse_output=False)
+attentionData = encoder.fit_transform(attentionData)
+print(encoder.get_feature_names_out())
+'''
+
+print("\n\n\n\n")
 
 imputer = SimpleImputer(strategy="mean")
 attentionData = imputer.fit_transform(attentionData)
 
 scaler = StandardScaler()
 attentionData = scaler.fit_transform(attentionData)
+
 # attentionData = attentionData[(np.abs(stats.zscore(attentionData["feature"])) < 3)]
 # print(sleepData)
 
-model = KMeans(n_clusters=2, init="k-means++", random_state=0, n_init=50).fit(
-    attentionData
-)
+
+model = KMeans(n_clusters=2, init="k-means++", random_state=0).fit(attentionData)
 
 forest = RandomForestClassifier()
 
 forest.fit(attentionData, model.predict(attentionData))
 important_features = forest.feature_importances_.argsort()[::-1]
 
+
+print("Important Features Attention: ")
 for index in important_features:
     print(
-        "Important Features Attention: "
-        + str(columns[index])
+        str(columns[index])
         + " Importance "
         + str(forest.feature_importances_[index])
     )
 
 
+print()
 print(
     "Attention Sihoulette: "
     + str(silhouette_score(attentionData, model.predict(attentionData)))
@@ -286,4 +340,61 @@ print(
 
 original_df["Attention_Cluster"] = model.predict(attentionData)
 
+#print(original_df["Sports_Concussion_Info"])
+new_column = []
+for concussion_json in original_df["Sports_Concussion_Info"]:
+    
+    if type(concussion_json) is not float:
+        concussion_json = json.loads(concussion_json)
+        num_concussion = 0
+        #print(concussion_json)
+        for sport in concussion_json:
+            num_concussion += int(sport["Concussions"])
+        
+        new_column.append(num_concussion)
+    else:
+        new_column.append(0)
+
+original_df["Num_Concussions"] = new_column
+    
+print()
+print(original_df.groupby("Attention_Cluster")["Num_Concussions"].describe())
+print()
+print(original_df.groupby("Sleep_Cluster")["Num_Concussions"].describe())
+
+
+player_sport = []
+player_cluster = []
+
+for index, player in enumerate(original_df["Sports_Info"]):
+    if player != ' ':
+        sport_json = json.loads(player)
+        for sport in sport_json:
+            player_sport.append(sport["Sport"])
+            player_cluster.append(original_df["Sleep_Cluster"][index])
+
+
+indexes = [i for i in range(len(player_cluster))]
+
+sport_array = pd.Series(player_sport[i] for i in range(len(player_sport)))
+cluster_array = pd.Series(player_cluster[i] for i in range(len(player_cluster)))
+
+sport_cluster_df = pd.DataFrame({
+    "sport": sport_array,
+    "cluster": cluster_array
+})
+
+sport_cluster_df['sport'] = sport_cluster_df['sport'].replace(
+    {'competitive dance': 'dance', 'dancer': 'dance', 'dancing' : 'dance', 'gymnast' : 'gymnastics'}
+)
+
+
+print("\n\n\n")
+sport_cluster_df = sport_cluster_df.groupby("sport")["cluster"].apply(list)
+
+for cluster, sport_name in zip(sport_cluster_df, sport_cluster_df.index):
+    print(f"Sport: {sport_name} Number Cluster 0: {cluster.count(0)} Number Cluster 1: {cluster.count(1)} Cluster 0 {round(cluster.count(0) / len(cluster) * 100, 2)}% Cluster 1 {round(cluster.count(1) / len(cluster) * 100, 2)}%")
+
 original_df.to_csv("./Data/Labeled_survey_data.csv", index=False)
+
+print()
