@@ -1,0 +1,268 @@
+---
+title: "CluteringFeaturesSignificance"
+output: html_document
+date: "2025-03-19"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+## Clustering Feature significance
+
+```{r}
+data <- read.csv("Labeled_survey_data.csv", header = TRUE)
+
+library(lubridate)
+
+# Convert to 24-hour time format
+data$Bed_Time_Num <- hour(parse_date_time(data$Bed_Time, "I:M p")) + minute(parse_date_time(data$Bed_Time, "I:M p")) / 60
+data$Wake_Up_Num <- hour(parse_date_time(data$Wake_Up, "I:M p")) + minute(parse_date_time(data$Wake_Up, "I:M p")) / 60
+
+
+```
+
+```{r}
+# Create a new column 'Concussion_Status_Overall'
+data$Concussion_Status_Overall <- ifelse(grepl("^Yes", data$Sports_Concussion_Status) |  grepl("^Yes", data$Non_Sports_Concussion_Status),            "Concussion", 
+                                        "Non-Concussion")
+
+# Check results
+table(data$Concussion_Status_Overall)
+```
+
+```{r}
+# Example for Cant_Sleep
+table(data$Wake_To_Bathroom, data$Concussion_Status_Overall)
+```
+
+```{r Three or more times a week}
+# Create table
+table_data <- table(data$Wake_In_Night, data$Concussion_Status_Overall)
+
+# Perform test for one category level
+x <- c(table_data["3", "Concussion"],
+       table_data["3", "Non-Concussion"])
+
+n <- c(sum(table_data[, "Concussion"]),
+       sum(table_data[, "Non-Concussion"]))
+
+# Two-sample proportion test
+print("Three or more times a week")
+prop.test(x = x, n = n, alternative = "two.sided")
+
+```
+
+```{r Less than once a week}
+table_data <- table(data$Wake_To_Bathroom, data$Concussion_Status_Overall)
+
+# Perform test for one category level
+x <- c(table_data["1", "Concussion"],
+       table_data["1", "Non-Concussion"])
+
+n <- c(sum(table_data[, "Concussion"]),
+       sum(table_data[, "Non-Concussion"]))
+
+# Two-sample proportion test
+print("Less than once a week")
+prop.test(x = x, n = n, alternative = "two.sided")
+
+```
+
+```{r Once or twice a week}
+# Create table
+table_data <- table(data$Wake_In_Night, data$Concussion_Status_Overall)
+
+# Perform test for one category level
+x <- c(table_data["2", "Concussion"],
+       table_data["2", "Non-Concussion"])
+
+n <- c(sum(table_data[, "Concussion"]),
+       sum(table_data[, "Non-Concussion"]))
+
+# Two-sample proportion test
+print("Once or twice a week")
+prop.test(x = x, n = n, alternative = "two.sided")
+```
+
+```{r Not during past Month}
+# Create table
+table_data <- table(data$Wake_In_Night, data$Concussion_Status_Overall)
+
+# Perform test for one category level
+x <- c(table_data["0", "Concussion"],
+       table_data["0", "Non-Concussion"])
+
+n <- c(sum(table_data[, "Concussion"]),
+       sum(table_data[, "Non-Concussion"]))
+
+# Two-sample proportion test
+print("Not during the past month")
+prop.test(x = x, n = n, alternative = "two.sided")
+```
+
+```{r}
+# Fix the typo in Sleep_Meds
+data$Sleep_Meds <- ifelse(data$Sleep_Meds == "Not during the past moth", 
+                           "Not during the past month", 
+                           data$Sleep_Meds)
+
+```
+
+```{r}
+categorical_features <- c("Cant_Sleep", "Wake_In_Night", "Wake_To_Bathroom", 
+                           "Bad_Dreams", "Sleep_Meds", "Staying_Awake_Issues", 
+                           "Loud_Snore", "Sleep_Quality")
+
+for (feature in categorical_features) {
+  
+  print(paste("Feature:", feature))
+  
+  table_data <- table(data[[feature]], data$Concussion_Status_Overall)
+  
+  # Loop through each of the four levels
+  for (level in c("0", "1", 
+                   "2", "3")) {
+    
+    if (level %in% rownames(table_data)) {
+      # Extract counts for Concussion and Non-Concussion
+      x <- c(table_data[level, "Concussion"], table_data[level, "Non-Concussion"])
+      n <- c(sum(table_data[, "Concussion"]), sum(table_data[, "Non-Concussion"]))
+      
+      # Perform two-sample proportion test
+      cat("\n", level, "\n")
+      print(prop.test(x = x, n = n, alternative = "two.sided"))
+    } else {
+      cat("\n", level, "- No data available\n")
+    }
+  }
+}
+
+```
+
+```{r}
+p_values_df <- data.frame(
+  Feature = c(rep("Cant_Sleep", 4), rep("Wake_In_Night", 4), rep("Wake_To_Bathroom", 4), 
+              rep("Bad_Dreams", 4), rep("Sleep_Meds", 4), rep("Staying_Awake_Issues", 4), 
+              rep("Loud_Snore", 4), rep("Sleep_Quailty", 4)),
+  Response = rep(c("0", "1", "2", "3"), 8),
+  P_Value = c(
+    0.7838, 0.3683, 0.3966, 0.01766,  
+    0.2154, 0.07086, 0.04545, 0.4261,  
+    0.02626, 1, 1, 0.01878,  
+    0.08311, 0.2325, 0.2899, 0.0001732,  
+    0.001461, 0.1265, 0.06446, 0.3097,  
+    0.002433, 0.2899, 0.009309, 0.8815,  
+    0.03961, 0.07232, 1, 0.8875, 0.1071,
+    0.02881, 0.09367,0.3159
+  )
+)
+
+
+```
+
+```{r}
+
+library(ggplot2)
+
+# Plot for alpha = 0.05
+plot_05 <- ggplot(p_values_df, aes(x = Response, y = P_Value, color = Feature)) +
+  geom_point(size = 3) +
+  geom_hline(yintercept = 0.05, linetype = "dashed", color = "red") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(title = "P-Values with Alpha = 0.05", x = "Response", y = "P-Value") +
+  scale_y_continuous(breaks = seq(0, 1, by = 0.05))
+
+print(plot_05)
+
+# Plot for alpha = 0.01
+plot_01 <- ggplot(p_values_df, aes(x = Response, y = P_Value, color = Feature)) +
+  geom_point(size = 3) +
+  geom_hline(yintercept = 0.01, linetype = "dashed", color = "blue") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(title = "P-Values with Alpha = 0.01", x = "Response", y = "P-Value") +
+  scale_y_continuous(breaks = seq(0, 1, by = 0.05))
+
+print(plot_01)
+
+```
+
+```{r}
+
+# Load necessary libraries
+library(ggplot2)
+
+# Plot for alpha = 0.05 for each feature
+plots_05 <- lapply(unique(p_values_df$Feature), function(feature) {
+  ggplot(subset(p_values_df, Feature == feature), aes(x = Response, y = P_Value, color = Feature)) +
+    geom_point(size = 3) +
+    geom_hline(yintercept = 0.05, linetype = "dashed", color = "red") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    labs(title = paste("P-Values with Alpha = 0.05 -", feature), x = "Response", y = "P-Value")
+})
+lapply(plots_05, print)
+
+# Plot for alpha = 0.01 for each feature
+plots_01 <- lapply(unique(p_values_df$Feature), function(feature) {
+  ggplot(subset(p_values_df, Feature == feature), aes(x = Response, y = P_Value, color = Feature)) +
+    geom_point(size = 3) +
+    geom_hline(yintercept = 0.01, linetype = "dashed", color = "blue") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    labs(title = paste("P-Values with Alpha = 0.01 -", feature), x = "Response", y = "P-Value")
+})
+lapply(plots_01, print)
+
+
+```
+
+```{r}
+library(ggplot2)
+
+# Plot for alpha = 0.05 for each feature and save
+plots_05 <- lapply(unique(p_values_df$Feature), function(feature) {
+  p <- ggplot(subset(p_values_df, Feature == feature), aes(x = Response, y = P_Value, color = Feature)) +
+    geom_point(size = 3) +
+    geom_hline(yintercept = 0.05, linetype = "dashed", color = "red") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    labs(title = paste("P-Values with Alpha = 0.05 -", feature), x = "Response", y = "P-Value")
+  
+  # Save the plot
+  ggsave(paste0("plots/alpha_0.05_", feature, ".png"), plot = p, width = 8, height = 6)
+})
+
+```
+
+```{r}
+# Plot for alpha = 0.01 for each feature and save
+plots_01 <- lapply(unique(p_values_df$Feature), function(feature) {
+  p <- ggplot(subset(p_values_df, Feature == feature), aes(x = Response, y = P_Value, color = Feature)) +
+    geom_point(size = 3) +
+    geom_hline(yintercept = 0.01, linetype = "dashed", color = "blue") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    labs(title = paste("P-Values with Alpha = 0.01 -", feature), x = "Response", y = "P-Value")
+  
+  # Save the plot
+  ggsave(paste0("plots/alpha_0.01_", feature, ".png"), plot = p, width = 8, height = 6)
+})
+
+```
+
+```{r}
+# Plot for alpha = 0.01 for each feature and save
+plots_01 <- lapply(unique(p_values_df$Feature), function(feature) {
+  p <- ggplot(subset(p_values_df, Feature == feature), aes(x = Response, y = P_Value, color = Feature)) +
+    geom_point(size = 3) +
+    geom_hline(yintercept = 0.01, linetype = "dashed", color = "blue") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    labs(title = paste("P-Values with Alpha = 0.01 -", feature), x = "Response", y = "P-Value")
+  
+  # Save the plot
+  ggsave(paste0("plots/alpha_0.01_", feature, ".png"), plot = p, width = 8, height = 6)
+})
+```
