@@ -1,0 +1,1139 @@
+[1] "Feature: Motivation_Issues"
+
+ No problem at all 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 3.2383, df = 1, p-value = 0.07194
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.267741023 -0.003551931
+sample estimates:
+   prop 1    prop 2 
+0.2037037 0.3393502 
+
+
+ Only a very slight problem 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 5.8018e-31, df = 1, p-value = 1
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.1330492  0.1408042
+sample estimates:
+   prop 1    prop 2 
+0.2962963 0.2924188 
+
+
+ Somewhat of a problem 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.0029503, df = 1, p-value = 0.9567
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.1291650  0.1585807
+sample estimates:
+   prop 1    prop 2 
+0.2962963 0.2815884 
+
+
+ A very big problem 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 5.8904, df = 1, p-value = 0.01522
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.002620987  0.243963413
+sample estimates:
+    prop 1     prop 2 
+0.20370370 0.08303249 
+
+[1] "Feature: Noise_Concentration_Issues"
+
+ Almost never 
+Warning: Chi-squared approximation may be incorrect
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.056291, df = 1, p-value = 0.8125
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.0737761  0.1145570
+sample estimates:
+    prop 1     prop 2 
+0.09259259 0.07220217 
+
+
+ Sometimes 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.35742, df = 1, p-value = 0.5499
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.20880164  0.09849277
+sample estimates:
+   prop 1    prop 2 
+0.3888889 0.4440433 
+
+
+ Often 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.38708, df = 1, p-value = 0.5338
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.19712736  0.08842299
+sample estimates:
+   prop 1    prop 2 
+0.2777778 0.3321300 
+
+
+ Always 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 2.2073, df = 1, p-value = 0.1374
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.03979503  0.22524763
+sample estimates:
+   prop 1    prop 2 
+0.2407407 0.1480144 
+
+[1] "Feature: Concentration_Issues"
+
+ Almost never 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 1.3981, df = 1, p-value = 0.237
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.20890520  0.03682337
+sample estimates:
+   prop 1    prop 2 
+0.1666667 0.2527076 
+
+
+ Sometimes 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.89514, df = 1, p-value = 0.3441
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.23346090  0.07167457
+sample estimates:
+   prop 1    prop 2 
+0.3703704 0.4512635 
+
+
+ Often 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.94601, df = 1, p-value = 0.3307
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.06990322  0.21484238
+sample estimates:
+   prop 1    prop 2 
+0.2962963 0.2238267 
+
+
+ Always 
+Warning: Chi-squared approximation may be incorrect
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 4.9535, df = 1, p-value = 0.02604
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.01293108  0.21630052
+sample estimates:
+    prop 1     prop 2 
+0.16666667 0.06498195 
+
+[1] "Feature: Good_Music_Concentration"
+
+ Almost never 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.054946, df = 1, p-value = 0.8147
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.1453968  0.0960586
+sample estimates:
+   prop 1    prop 2 
+0.1666667 0.1913357 
+
+
+ Sometimes 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 3.6193, df = 1, p-value = 0.05711
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.290174041 -0.007191917
+sample estimates:
+   prop 1    prop 2 
+0.2592593 0.4079422 
+
+
+ Often 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 2.2298, df = 1, p-value = 0.1354
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.03830687  0.26922009
+sample estimates:
+   prop 1    prop 2 
+0.4259259 0.3104693 
+
+
+ Always 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 1.3166, df = 1, p-value = 0.2512
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.04993362  0.17294471
+sample estimates:
+   prop 1    prop 2 
+0.1481481 0.0866426 
+
+[1] "Feature: Concentration_Aware"
+
+ Almost never 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.20727, df = 1, p-value = 0.6489
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.09593926  0.17308861
+sample estimates:
+   prop 1    prop 2 
+0.2407407 0.2021661 
+
+
+ Sometimes 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.046569, df = 1, p-value = 0.8291
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.1789064  0.1254233
+sample estimates:
+   prop 1    prop 2 
+0.3703704 0.3971119 
+
+
+ Often 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 2.2856e-31, df = 1, p-value = 1
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.1353979  0.1368687
+sample estimates:
+   prop 1    prop 2 
+0.3148148 0.3140794 
+
+
+ Always 
+Warning: Chi-squared approximation may be incorrect
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 7.0767e-31, df = 1, p-value = 1
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.09495609  0.07703926
+sample estimates:
+    prop 1     prop 2 
+0.07407407 0.08303249 
+
+[1] "Feature: Reading_Concentration_Issues"
+
+ Almost never 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.49727, df = 1, p-value = 0.4807
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.07430909  0.17031123
+sample estimates:
+   prop 1    prop 2 
+0.1851852 0.1371841 
+
+
+ Sometimes 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.00094484, df = 1, p-value = 0.9755
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.1619569  0.1354827
+sample estimates:
+   prop 1    prop 2 
+0.3333333 0.3465704 
+
+
+ Often 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.6572, df = 1, p-value = 0.4175
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.20348658  0.07124965
+sample estimates:
+   prop 1    prop 2 
+0.2407407 0.3068592 
+
+
+ Always 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.20727, df = 1, p-value = 0.6489
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.09593926  0.17308861
+sample estimates:
+   prop 1    prop 2 
+0.2407407 0.2021661 
+
+[1] "Feature: Trouble_Blocking_Thoughts"
+
+ Almost never 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.17098, df = 1, p-value = 0.6792
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.15664162  0.08564283
+sample estimates:
+   prop 1    prop 2 
+0.1666667 0.2021661 
+
+
+ Sometimes 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.26027, df = 1, p-value = 0.6099
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.2007629  0.1039585
+sample estimates:
+   prop 1    prop 2 
+0.3703704 0.4187726 
+
+
+ Often 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 3.0773e-30, df = 1, p-value = 1
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.1304215  0.1444608
+sample estimates:
+   prop 1    prop 2 
+0.2777778 0.2707581 
+
+
+ Always 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 2.3722, df = 1, p-value = 0.1235
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.03648054  0.20468484
+sample estimates:
+   prop 1    prop 2 
+0.1851852 0.1010830 
+
+[1] "Feature: Excitement_Concentration_Issues"
+
+ Almost never 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.53458, df = 1, p-value = 0.4647
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.17098078  0.06294495
+sample estimates:
+   prop 1    prop 2 
+0.1481481 0.2021661 
+
+
+ Sometimes 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.25695, df = 1, p-value = 0.6122
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.19173448  0.09840649
+sample estimates:
+   prop 1    prop 2 
+0.2962963 0.3429603 
+
+
+ Often 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.027843, df = 1, p-value = 0.8675
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.1236290  0.1684211
+sample estimates:
+   prop 1    prop 2 
+0.3148148 0.2924188 
+
+
+ Always 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 1.1731, df = 1, p-value = 0.2788
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.05912326  0.20031861
+sample estimates:
+   prop 1    prop 2 
+0.2222222 0.1516245 
+
+[1] "Feature: Ignore_Hunger_Concentrating"
+
+ Almost never 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.12565, df = 1, p-value = 0.723
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.15289515  0.08911657
+sample estimates:
+   prop 1    prop 2 
+0.1666667 0.1985560 
+
+
+ Sometimes 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.080264, df = 1, p-value = 0.7769
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.1802697  0.1176945
+sample estimates:
+   prop 1    prop 2 
+0.3333333 0.3646209 
+
+
+ Often 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.083171, df = 1, p-value = 0.773
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.1665456  0.1065108
+sample estimates:
+   prop 1    prop 2 
+0.2407407 0.2707581 
+
+
+ Always 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.87984, df = 1, p-value = 0.3482
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.06663406  0.19338897
+sample estimates:
+   prop 1    prop 2 
+0.2222222 0.1588448 
+
+[1] "Feature: Good_Task_Switching"
+
+ Almost never 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 1.3529, df = 1, p-value = 0.2448
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.05102888  0.18219615
+sample estimates:
+   prop 1    prop 2 
+0.1666667 0.1010830 
+
+
+ Sometimes 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.19688, df = 1, p-value = 0.6572
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.1115816  0.1980905
+sample estimates:
+   prop 1    prop 2 
+0.4259259 0.3826715 
+
+
+ Often 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 7.3865, df = 1, p-value = 0.006571
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.33423193 -0.07518109
+sample estimates:
+   prop 1    prop 2 
+0.1851852 0.3898917 
+
+
+ Always 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 1.6114, df = 1, p-value = 0.2043
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.0478492  0.1943929
+sample estimates:
+   prop 1    prop 2 
+0.1851852 0.1119134 
+
+[1] "Feature: Long_Time_Focus"
+
+ Almost never 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 1.2273, df = 1, p-value = 0.2679
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.18866384  0.03637076
+sample estimates:
+   prop 1    prop 2 
+0.1296296 0.2057762 
+
+
+ Sometimes 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.0044895, df = 1, p-value = 0.9466
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.1679607  0.1361383
+sample estimates:
+   prop 1    prop 2 
+0.3703704 0.3862816 
+
+
+ Often 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.11021, df = 1, p-value = 0.7399
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.1155717  0.1838963
+sample estimates:
+   prop 1    prop 2 
+0.3518519 0.3176895 
+
+
+ Always 
+Warning: Chi-squared approximation may be incorrect
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.86617, df = 1, p-value = 0.352
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.05593689  0.15635138
+sample estimates:
+    prop 1     prop 2 
+0.12962963 0.07942238 
+
+[1] "Feature: Poor_Listening_Writing"
+
+ Almost never 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 2.0379, df = 1, p-value = 0.1534
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.25364961  0.02848582
+sample estimates:
+   prop 1    prop 2 
+0.2592593 0.3718412 
+
+
+ Sometimes 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.88398, df = 1, p-value = 0.3471
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.21698424  0.06402261
+sample estimates:
+   prop 1    prop 2 
+0.2592593 0.3357401 
+
+
+ Often 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.25977, df = 1, p-value = 0.6103
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.09496151  0.18026703
+sample estimates:
+   prop 1    prop 2 
+0.2592593 0.2166065 
+
+
+ Always 
+Warning: Chi-squared approximation may be incorrect
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 6.2956, df = 1, p-value = 0.0121
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.002267943  0.235454198
+sample estimates:
+    prop 1     prop 2 
+0.18518519 0.06859206 
+
+[1] "Feature: Quick_Interest"
+
+ Almost never 
+Warning: Chi-squared approximation may be incorrect
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 2.1223, df = 1, p-value = 0.1452
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.03847469  0.18314644
+sample estimates:
+    prop 1     prop 2 
+0.14814815 0.07581227 
+
+
+ Sometimes 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.033434, df = 1, p-value = 0.8549
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.1729486  0.1248138
+sample estimates:
+   prop 1    prop 2 
+0.3333333 0.3574007 
+
+
+ Often 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 2.8944e-30, df = 1, p-value = 1
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.1390979  0.1568810
+sample estimates:
+   prop 1    prop 2 
+0.3518519 0.3429603 
+
+
+ Always 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.48916, df = 1, p-value = 0.4843
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.17534699  0.06824711
+sample estimates:
+   prop 1    prop 2 
+0.1666667 0.2202166 
+
+[1] "Feature: Easy_Read_Write_On_Phone"
+
+ Almost never 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 3.6949, df = 1, p-value = 0.05458
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.009350655  0.298961566
+sample estimates:
+   prop 1    prop 2 
+0.4444444 0.2996390 
+
+
+ Sometimes 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.81597, df = 1, p-value = 0.3664
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.22104087  0.06995116
+sample estimates:
+   prop 1    prop 2 
+0.2962963 0.3718412 
+
+
+ Often 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.15406, df = 1, p-value = 0.6947
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.16061906  0.09055622
+sample estimates:
+   prop 1    prop 2 
+0.1851852 0.2202166 
+
+
+ Always 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.080996, df = 1, p-value = 0.776
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.11256029  0.06576259
+sample estimates:
+    prop 1     prop 2 
+0.07407407 0.09747292 
+
+[1] "Feature: Trouble_Multiple_Conversations"
+
+ Almost never 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.56528, df = 1, p-value = 0.4521
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.07441099  0.17856930
+sample estimates:
+   prop 1    prop 2 
+0.2037037 0.1516245 
+
+
+ Sometimes 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 1.0742, df = 1, p-value = 0.3
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.21548346  0.05342971
+sample estimates:
+   prop 1    prop 2 
+0.2222222 0.3032491 
+
+
+ Often 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.0029503, df = 1, p-value = 0.9567
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.1291650  0.1585807
+sample estimates:
+   prop 1    prop 2 
+0.2962963 0.2815884 
+
+
+ Always 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.025395, df = 1, p-value = 0.8734
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.1196621  0.1625823
+sample estimates:
+   prop 1    prop 2 
+0.2777778 0.2563177 
+
+[1] "Feature: Trouble_Quick_Creativity"
+
+ Almost never 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.0097587, df = 1, p-value = 0.9213
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.1209799  0.1557439
+sample estimates:
+   prop 1    prop 2 
+0.2592593 0.2418773 
+
+
+ Sometimes 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.35918, df = 1, p-value = 0.549
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.1010830  0.2111245
+sample estimates:
+   prop 1    prop 2 
+0.4629630 0.4079422 
+
+
+ Often 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.65597, df = 1, p-value = 0.418
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.18281666  0.06127635
+sample estimates:
+   prop 1    prop 2 
+0.1666667 0.2274368 
+
+
+ Always 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.031781, df = 1, p-value = 0.8585
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.1161481  0.0775066
+sample estimates:
+    prop 1     prop 2 
+0.09259259 0.11191336 
+
+[1] "Feature: Good_Interruption_Recovery"
+
+ Almost never 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 6.9424, df = 1, p-value = 0.008418
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ 0.01465202 0.28819596
+sample estimates:
+   prop 1    prop 2 
+0.2777778 0.1263538 
+
+
+ Sometimes 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.24224, df = 1, p-value = 0.6226
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.2021043  0.1071718
+sample estimates:
+   prop 1    prop 2 
+0.4074074 0.4548736 
+
+
+ Often 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.028574, df = 1, p-value = 0.8658
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.1617177  0.1170593
+sample estimates:
+   prop 1    prop 2 
+0.2592593 0.2815884 
+
+
+ Always 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 1.2856, df = 1, p-value = 0.2569
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.14666929  0.01951326
+sample estimates:
+    prop 1     prop 2 
+0.05555556 0.11913357 
+
+[1] "Feature: Good_Thought_Recovery"
+
+ Almost never 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.021569, df = 1, p-value = 0.8832
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.1081913  0.1473677
+sample estimates:
+   prop 1    prop 2 
+0.2037037 0.1841155 
+
+
+ Sometimes 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.81913, df = 1, p-value = 0.3654
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.07850546  0.23467608
+sample estimates:
+   prop 1    prop 2 
+0.5185185 0.4404332 
+
+
+ Often 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.64965, df = 1, p-value = 0.4202
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.19390000  0.06701138
+sample estimates:
+   prop 1    prop 2 
+0.2037037 0.2671480 
+
+
+ Always 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.080996, df = 1, p-value = 0.776
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.11256029  0.06576259
+sample estimates:
+    prop 1     prop 2 
+0.07407407 0.09747292 
+
+[1] "Feature: Good_Task_Alteration"
+
+ Almost never 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 4.2414, df = 1, p-value = 0.03945
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.01346758  0.24946170
+sample estimates:
+   prop 1    prop 2 
+0.2407407 0.1227437 
+
+
+ Sometimes 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.62626, df = 1, p-value = 0.4287
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.22331050  0.08412077
+sample estimates:
+   prop 1    prop 2 
+0.3888889 0.4584838 
+
+
+ Often 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.011769, df = 1, p-value = 0.9136
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.1254718  0.1621078
+sample estimates:
+   prop 1    prop 2 
+0.2962963 0.2779783 
+
+
+ Always 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 1.7445, df = 1, p-value = 0.1866
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.15827833  0.00946164
+sample estimates:
+    prop 1     prop 2 
+0.05555556 0.12996390 
+
+[1] "Feature: Poor_Perspective_Thinking"
+
+ Almost never 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.78594, df = 1, p-value = 0.3753
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.19414226  0.05909747
+sample estimates:
+   prop 1    prop 2 
+0.1851852 0.2527076 
+
+
+ Sometimes 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.00075172, df = 1, p-value = 0.9781
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.1698617  0.1436550
+sample estimates:
+   prop 1    prop 2 
+0.4814815 0.4945848 
+
+
+ Often 
+
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 0.11042, df = 1, p-value = 0.7397
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.1033979  0.1661068
+sample estimates:
+   prop 1    prop 2 
+0.2407407 0.2093863 
+
+
+ Always 
+Warning: Chi-squared approximation may be incorrect
+	2-sample test for equality of proportions with continuity correction
+
+data:  x out of n
+X-squared = 2.6827, df = 1, p-value = 0.1014
+alternative hypothesis: two.sided
+95 percent confidence interval:
+ -0.03104338  0.15124662
+sample estimates:
+    prop 1     prop 2 
+0.09259259 0.03249097 
