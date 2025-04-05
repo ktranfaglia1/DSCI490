@@ -524,7 +524,7 @@ collision_sports = [
 contact_sports = [
     # Regular contact sports
     'Basketball', 'Soccer', 'Baseball', 'Volleyball', 'Tennis', 'Field Hockey',
-    'Field hockey', 'Karate', 'TaeKwonDo', 'Gymnastics', 'Netball',
+    'Karate', 'TaeKwonDo', 'Gymnastics', 'Netball',
     'Bowling', 'Dance', 'Twirling',
     # Limited-contact sports
     'Track', 'Swim', 'Golf', 'Cross Country', 'Rowing', 'Crew', 'Marching Band',

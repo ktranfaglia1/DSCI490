@@ -1,0 +1,172 @@
+CLUSTERING WITH STATISTICALLY SIGNIFICANT FEATURES
+==================================================
+Sport names distribution:
+Sport_Name
+soccer           47
+football         24
+basketball       23
+tennis           17
+volleyball       17
+track            15
+swim             11
+baseball         10
+cross country     8
+golf              5
+Name: count, dtype: int64
+Total unique sports: 29
+
+Creating binary features for significant response categories...
+
+Binary features for significant response categories created:
+Bad_Dreams_Response3: Count = 24, Percentage = 7.25%
+Cant_Sleep_Response3: Count = 83, Percentage = 25.08%
+Loud_Snore_Response0: Count = 75, Percentage = 22.66%
+Sleep_Meds_Response0: Count = 238, Percentage = 71.90%
+Sleep_Quality_Response1: Count = 70, Percentage = 21.15%
+Staying_Awake_Response0: Count = 209, Percentage = 63.14%
+Staying_Awake_Response2: Count = 41, Percentage = 12.39%
+Wake_In_Night_Response2: Count = 94, Percentage = 28.40%
+Wake_To_Bathroom_Response0: Count = 100, Percentage = 30.21%
+Wake_To_Bathroom_Response3: Count = 73, Percentage = 22.05%
+Concentration_Always: Count = 27, Percentage = 8.16%
+Interruption_Almost_Never: Count = 50, Percentage = 15.11%
+Task_Alteration_Almost_Never: Count = 47, Percentage = 14.20%
+Task_Switching_Often: Count = 118, Percentage = 35.65%
+Listening_Writing_Always: Count = 29, Percentage = 8.76%
+
+Using 15 features for clustering:
+  - Bad_Dreams_Response3
+  - Cant_Sleep_Response3
+  - Loud_Snore_Response0
+  - Sleep_Meds_Response0
+  - Sleep_Quality_Response1
+  - Staying_Awake_Response0
+  - Staying_Awake_Response2
+  - Wake_In_Night_Response2
+  - Wake_To_Bathroom_Response0
+  - Wake_To_Bathroom_Response3
+  - Concentration_Always
+  - Interruption_Almost_Never
+  - Task_Alteration_Almost_Never
+  - Task_Switching_Often
+  - Listening_Writing_Always
+
+Scaling data using RobustScaler to minimize outlier impact...
+
+Optimal number of PCs explaining ≥ 80% variance: 8
+
+Explained variance by each principal component:
+PC1: 0.2919 (0.2919 cumulative)
+PC2: 0.1151 (0.4070 cumulative)
+PC3: 0.0885 (0.4955 cumulative)
+PC4: 0.0777 (0.5732 cumulative)
+PC5: 0.0683 (0.6415 cumulative)
+PC6: 0.0613 (0.7028 cumulative)
+PC7: 0.0545 (0.7573 cumulative)
+PC8: 0.0514 (0.8087 cumulative)
+
+Determining optimal number of clusters...
+
+Optimal number of clusters:
+Based on Silhouette Score: 2
+Based on Calinski-Harabasz Index: 2
+Based on Davies-Bouldin Index: 2
+
+Selected number of clusters based on majority vote: 2
+
+==================== ANALYSIS WITH 2 CLUSTERS ====================
+
+Cluster evaluation metrics for k=2:
+Silhouette Score: 0.3813 (higher is better)
+Calinski-Harabasz Index: 176.1023 (higher is better)
+Davies-Bouldin Index: 1.1830 (lower is better)
+
+Cluster distribution for k=2:
+Cluster_2
+1    248
+0     83
+Name: count, dtype: int64
+
+Sport distribution across 2 clusters:
+Cluster_2  Sport_Name   
+0          soccer            9
+           football          7
+           basketball        4
+           volleyball        4
+           gymnastics        3
+           tennis            3
+           baseball          2
+           cross country     2
+           golf              2
+           bowling           1
+           cheer             1
+           dance             1
+           karate            1
+           lacrosse          1
+           marching band     1
+           street hockey     1
+           swim              1
+           track             1
+1          soccer           38
+           basketball       19
+Name: count, dtype: int64
+
+Cluster profiles for k=2:
+           Bad_Dreams_Response3  Cant_Sleep_Response3  Loud_Snore_Response0  Sleep_Meds_Response0  ...  Interruption_Almost_Never  Task_Alteration_Almost_Never  Task_Switching_Often  Listening_Writing_Always
+Cluster_2                                                                                          ...                                                                                                         
+0                      0.168675                   1.0              0.168675              0.602410  ...                   0.204819                      0.216867              0.277108                  0.156627
+1                      0.040323                   0.0              0.245968              0.758065  ...                   0.133065                      0.116935              0.383065                  0.064516
+
+[2 rows x 15 columns]
+
+Top 10 most distinguishing features between clusters:
+Cant_Sleep_Response3: 0.5000
+Sleep_Quality_Response1: 0.1046
+Wake_To_Bathroom_Response3: 0.0148
+Staying_Awake_Response2: 0.0122
+Sleep_Meds_Response0: 0.0121
+Staying_Awake_Response0: 0.0114
+Concentration_Always: 0.0088
+Bad_Dreams_Response3: 0.0082
+Task_Switching_Often: 0.0056
+Task_Alteration_Almost_Never: 0.0050
+
+Cluster means for top distinguishing features:
+           Cant_Sleep_Response3  Sleep_Quality_Response1  Wake_To_Bathroom_Response3  Staying_Awake_Response2  ...  Concentration_Always  Bad_Dreams_Response3  Task_Switching_Often  Task_Alteration_Almost_Never
+Cluster_2                                                                                                      ...                                                                                                
+0                           1.0                 0.554217                    0.349398                 0.240964  ...              0.180723              0.168675              0.277108                      0.216867
+1                           0.0                 0.096774                    0.177419                 0.084677  ...              0.048387              0.040323              0.383065                      0.116935
+
+[2 rows x 10 columns]
+
+==================================================
+BINARY CLUSTER LABELING (SIGNIFICANT FEATURES)
+==================================================
+
+Cluster 0 sport type breakdown:
+  - Collision sports: 10 participants (22.2%)
+  - Contact sports: 35 participants (77.8%)
+  - Total identified: 45 participants
+
+Cluster 1 sport type breakdown:
+  - Collision sports: 27 participants (16.0%)
+  - Contact sports: 142 participants (84.0%)
+  - Total identified: 169 participants
+
+Both clusters had the same label - forcing binary classification based on relative sport type ratios.
+
+Final binary cluster labels (Significant Features):
+Cluster 0: Collision
+Cluster 1: Contact
+
+========================================
+COMPARISON WITH ORIGINAL CLUSTERING
+========================================
+
+Agreement between original and significant feature clustering: 40.18%
+
+Contingency table (Original vs. Significant Features):
+Significant Features   0    1
+Original                     
+0                     28  143
+1                     55  105
