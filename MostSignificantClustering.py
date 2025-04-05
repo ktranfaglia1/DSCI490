@@ -14,7 +14,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 # Create an output file to save console output
-output_file = open("./Data/Significant_Clustering_output.txt", "w")
+output_file = open("./Data/Most_Significant_Clustering_output.txt", "w")
 
 def print_and_log(message):
     print(message)
@@ -48,35 +48,16 @@ print_and_log(f"Total unique sports: {df['Sport_Name'].nunique()}")
 significant_columns = [
     # Sleep Features
     "Bad_Dreams",  # Response 3
-    "Cant_Sleep",  # Response 3
-    "Loud_Snore",  # Response 0
     "Sleep_Meds",  # Response 0
-    "Sleep_Quality",  # Response 1
     "Staying_Awake_Issues",  # Response 0, 2
-    "Wake_In_Night",  # Response 2
-    "Wake_To_Bathroom",  # Response 0, 3
     
     # Attention Features
-    "Concentration_Issues",  # Always
     "Good_Interruption_Recovery",  # Almost Never
-    "Good_Task_Alteration",  # Almost Never
     "Good_Task_Switching",  # Often
-    "Poor_Listening_Writing",  # Always
-    
-    # # Include important demographic/status variables
-    # "Head_Injury_Status", 
-    # "Concussion_Status", 
-    # "Sports_Concussion_Status",
-    # "Lose_Consciousness"
 ]
 
 # Keep only significant columns
 df_selected = df[significant_columns].copy()
-
-# # Convert binary categorical data (Yes/No) to 0/1
-# binary_mappings = {"Yes": 1, "No": 0}
-# for col in ["Head_Injury_Status", "Concussion_Status", "Sports_Concussion_Status", "Lose_Consciousness"]:
-#     df_selected[col] = df_selected[col].map(binary_mappings)
 
 # Mapping ordinal categorical responses
 ordinal_mappings = {
@@ -84,8 +65,7 @@ ordinal_mappings = {
     "Almost never": 0, "Sometimes": 1, "Often": 2, "Always": 3
 }
 
-for col in ["Concentration_Issues", "Good_Interruption_Recovery", 
-            "Good_Task_Alteration", "Good_Task_Switching", "Poor_Listening_Writing"]:
+for col in ["Good_Interruption_Recovery", "Good_Task_Switching"]:
     df_selected[col] = df_selected[col].map(ordinal_mappings)
 
 # Create binary features for the specific response categories that were significant
@@ -93,22 +73,13 @@ print_and_log("\nCreating binary features for significant response categories...
 
 # For sleep features with significant specific responses
 df_selected['Bad_Dreams_Response3'] = (df_selected['Bad_Dreams'] == 3).astype(int)
-df_selected['Cant_Sleep_Response3'] = (df_selected['Cant_Sleep'] == 3).astype(int)
-df_selected['Loud_Snore_Response0'] = (df_selected['Loud_Snore'] == 0).astype(int)
 df_selected['Sleep_Meds_Response0'] = (df_selected['Sleep_Meds'] == 0).astype(int)
-df_selected['Sleep_Quality_Response1'] = (df_selected['Sleep_Quality'] == 1).astype(int)
 df_selected['Staying_Awake_Response0'] = (df_selected['Staying_Awake_Issues'] == 0).astype(int)
 df_selected['Staying_Awake_Response2'] = (df_selected['Staying_Awake_Issues'] == 2).astype(int)
-df_selected['Wake_In_Night_Response2'] = (df_selected['Wake_In_Night'] == 2).astype(int)
-df_selected['Wake_To_Bathroom_Response0'] = (df_selected['Wake_To_Bathroom'] == 0).astype(int)
-df_selected['Wake_To_Bathroom_Response3'] = (df_selected['Wake_To_Bathroom'] == 3).astype(int)
 
 # For attention features with significant specific responses
-df_selected['Concentration_Always'] = (df_selected['Concentration_Issues'] == 3).astype(int)
 df_selected['Interruption_Almost_Never'] = (df_selected['Good_Interruption_Recovery'] == 0).astype(int)
-df_selected['Task_Alteration_Almost_Never'] = (df_selected['Good_Task_Alteration'] == 0).astype(int)
 df_selected['Task_Switching_Often'] = (df_selected['Good_Task_Switching'] == 2).astype(int)
-df_selected['Listening_Writing_Always'] = (df_selected['Poor_Listening_Writing'] == 3).astype(int)
 
 # Display summary of the new binary features
 print_and_log("\nBinary features for significant response categories created:")
@@ -129,7 +100,6 @@ for col in df_selected.columns:
             df_selected[col] = df_selected[col].fillna(0)  # Default to 0 if no mode exists
 
 # Only use the binary features for clustering and drop the original features
-# df_for_clustering = df_selected[binary_features + ["Head_Injury_Status", "Concussion_Status", "Sports_Concussion_Status"]].copy()
 df_for_clustering = df_selected[binary_features].copy()
 
 print_and_log(f"\nUsing {len(df_for_clustering.columns)} features for clustering:")
@@ -183,7 +153,7 @@ loadings_heatmap = sns.heatmap(
 )
 plt.title('Feature Contributions to Principal Components (Significant Features Only)', fontsize=16)
 plt.tight_layout()
-plt.savefig("Plots/pca_significant_feature_loadings.png")
+plt.savefig("Plots/pca_most_significant_feature_loadings.png")
 print("\nSaved PCA feature loadings heatmap")
 
 # Determine optimal number of clusters using multiple metrics
@@ -222,7 +192,7 @@ ax[2].set_title('Davies-Bouldin Score (lower is better)')
 ax[2].grid(True)
 
 plt.tight_layout()
-plt.savefig("Plots/significant_cluster_metrics.png")
+plt.savefig("Plots/most_significant_cluster_metrics.png")
 print("\nSaved cluster evaluation metrics")
 
 # Find optimal k based on metrics
@@ -236,153 +206,154 @@ print_and_log(f"Based on Calinski-Harabasz Index: {best_k_ch}")
 print_and_log(f"Based on Davies-Bouldin Index: {best_k_db}")
 
 # Determine final k based on the majority vote or your suggestion
-k = Counter([best_k_silhouette, best_k_ch, best_k_db]).most_common(1)[0][0]
-print_and_log(f"\nSelected number of clusters based on majority vote: {k}")
+final_k = Counter([best_k_silhouette, best_k_ch, best_k_db]).most_common(1)[0][0]
+print_and_log(f"\nSelected number of clusters based on majority vote: {final_k}")
 
 # Perform clustering with optimal k and 2 clusters
-print_and_log(f"\n{'='*20} ANALYSIS WITH {k} CLUSTERS {'='*20}")
+for k in [final_k, 2]:
+    print_and_log(f"\n{'='*20} ANALYSIS WITH {k} CLUSTERS {'='*20}")
 
-# Apply K-Means with the optimal number of clusters
-kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)
-df_pca[f"Cluster_{k}"] = kmeans.fit_predict(df_pca)
+    # Apply K-Means with the optimal number of clusters
+    kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)
+    df_pca[f"Cluster_{k}"] = kmeans.fit_predict(df_pca)
 
-# Add back Sport_Name and create final dataframe
-df_clustered = df.loc[df_for_clustering.index, ["Sport_Name"]].copy()
-df_clustered[f"Cluster_{k}"] = df_pca[f"Cluster_{k}"]
+    # Add back Sport_Name and create final dataframe
+    df_clustered = df.loc[df_for_clustering.index, ["Sport_Name"]].copy()
+    df_clustered[f"Cluster_{k}"] = df_pca[f"Cluster_{k}"]
 
-# Merge PCA components into df_clustered
-df_clustered = pd.concat([df_clustered, df_pca.drop(columns=[f"Cluster_{k}"])], axis=1)
+    # Merge PCA components into df_clustered
+    df_clustered = pd.concat([df_clustered, df_pca.drop(columns=[f"Cluster_{k}"])], axis=1)
 
-# Calculate cluster evaluation metrics
-print_and_log(f"\nCluster evaluation metrics for k={k}:")
-silhouette = silhouette_score(df_pca.drop(columns=[f"Cluster_{k}"]), df_pca[f"Cluster_{k}"])
-ch_index = calinski_harabasz_score(df_pca.drop(columns=[f"Cluster_{k}"]), df_pca[f"Cluster_{k}"])
-db_index = davies_bouldin_score(df_pca.drop(columns=[f"Cluster_{k}"]), df_pca[f"Cluster_{k}"])
+    # Calculate cluster evaluation metrics
+    print_and_log(f"\nCluster evaluation metrics for k={k}:")
+    silhouette = silhouette_score(df_pca.drop(columns=[f"Cluster_{k}"]), df_pca[f"Cluster_{k}"])
+    ch_index = calinski_harabasz_score(df_pca.drop(columns=[f"Cluster_{k}"]), df_pca[f"Cluster_{k}"])
+    db_index = davies_bouldin_score(df_pca.drop(columns=[f"Cluster_{k}"]), df_pca[f"Cluster_{k}"])
 
-print_and_log(f"Silhouette Score: {silhouette:.4f} (higher is better)")
-print_and_log(f"Calinski-Harabasz Index: {ch_index:.4f} (higher is better)")
-print_and_log(f"Davies-Bouldin Index: {db_index:.4f} (lower is better)")
+    print_and_log(f"Silhouette Score: {silhouette:.4f} (higher is better)")
+    print_and_log(f"Calinski-Harabasz Index: {ch_index:.4f} (higher is better)")
+    print_and_log(f"Davies-Bouldin Index: {db_index:.4f} (lower is better)")
 
-# Show results
-print_and_log(f"\nCluster distribution for k={k}:")
-print_and_log(df_clustered[f"Cluster_{k}"].value_counts())
-print_and_log(f"\nSport distribution across {k} clusters:")
-sport_clusters = df_clustered.groupby([f"Cluster_{k}"])["Sport_Name"].value_counts().head(20)
-print_and_log(sport_clusters)
+    # Show results
+    print_and_log(f"\nCluster distribution for k={k}:")
+    print_and_log(df_clustered[f"Cluster_{k}"].value_counts())
+    print_and_log(f"\nSport distribution across {k} clusters:")
+    sport_clusters = df_clustered.groupby([f"Cluster_{k}"])["Sport_Name"].value_counts().head(20)
+    print_and_log(sport_clusters)
 
-# Add original features to the clusters for interpretation
-cluster_features = pd.concat([df_for_clustering, df_clustered[f"Cluster_{k}"]], axis=1)
+    # Add original features to the clusters for interpretation
+    cluster_features = pd.concat([df_for_clustering, df_clustered[f"Cluster_{k}"]], axis=1)
 
-# Calculate and display cluster profiles
-print_and_log(f"\nCluster profiles for k={k}:")
-cluster_profiles = cluster_features.groupby(f"Cluster_{k}").mean()
-print_and_log(cluster_profiles)
+    # Calculate and display cluster profiles
+    print_and_log(f"\nCluster profiles for k={k}:")
+    cluster_profiles = cluster_features.groupby(f"Cluster_{k}").mean()
+    print_and_log(cluster_profiles)
 
-# Focus on the most distinctive features between clusters
-feature_importance = {}
-for feature in cluster_profiles.columns:
-    feature_variance = cluster_profiles[feature].var()
-    if not np.isnan(feature_variance):
-        feature_importance[feature] = feature_variance
+    # Focus on the most distinctive features between clusters
+    feature_importance = {}
+    for feature in cluster_profiles.columns:
+        feature_variance = cluster_profiles[feature].var()
+        if not np.isnan(feature_variance):
+            feature_importance[feature] = feature_variance
 
-# Get top 10 most distinguishing features
-top_features = sorted(feature_importance.items(), key=lambda x: x[1], reverse=True)[:10]
-top_feature_names = [feature[0] for feature in top_features]
+    # Get top 10 most distinguishing features
+    top_features = sorted(feature_importance.items(), key=lambda x: x[1], reverse=True)[:10]
+    top_feature_names = [feature[0] for feature in top_features]
 
-print_and_log("\nTop 10 most distinguishing features between clusters:")
-for feature, importance in top_features:
-    print_and_log(f"{feature}: {importance:.4f}")
+    print_and_log("\nTop 10 most distinguishing features between clusters:")
+    for feature, importance in top_features:
+        print_and_log(f"{feature}: {importance:.4f}")
 
-# Display cluster means for top features
-print_and_log("\nCluster means for top distinguishing features:")
-print_and_log(cluster_profiles[top_feature_names])
+    # Display cluster means for top features
+    print_and_log("\nCluster means for top distinguishing features:")
+    print_and_log(cluster_profiles[top_feature_names])
 
-# Visualization with t-SNE for better cluster separation
-tsne = TSNE(n_components=2, random_state=42, perplexity=30)
-df_tsne = pd.DataFrame(
-    tsne.fit_transform(df_pca.drop(columns=[f"Cluster_{k}"])),
-    columns=['t-SNE-1', 't-SNE-2']
-)
-df_tsne[f"Cluster_{k}"] = df_pca[f"Cluster_{k}"]
+    # Visualization with t-SNE for better cluster separation
+    tsne = TSNE(n_components=2, random_state=42, perplexity=30)
+    df_tsne = pd.DataFrame(
+        tsne.fit_transform(df_pca.drop(columns=[f"Cluster_{k}"])),
+        columns=['t-SNE-1', 't-SNE-2']
+    )
+    df_tsne[f"Cluster_{k}"] = df_pca[f"Cluster_{k}"]
 
-# Visualization 1: t-SNE scatter plot
-plt.figure(figsize=(12, 10))
-sns.scatterplot(
-    x="t-SNE-1", 
-    y="t-SNE-2", 
-    hue=f"Cluster_{k}",
-    palette="viridis",
-    s=100,
-    data=df_tsne,
-    alpha=0.7
-)
-plt.title(f't-SNE Visualization of {k} Clusters (Significant Features)', fontsize=15)
-plt.xlabel('t-SNE Dimension 1', fontsize=12)
-plt.ylabel('t-SNE Dimension 2', fontsize=12)
-plt.legend(title='Cluster', fontsize=10)
-plt.grid(True, linestyle='--', alpha=0.7)
-plt.tight_layout()
-plt.savefig(f"Plots/tsne_significant_cluster_{k}_scatter.png")
-print(f"\nSaved t-SNE scatter plot for {k} clusters")
+    # Visualization 1: t-SNE scatter plot
+    plt.figure(figsize=(12, 10))
+    sns.scatterplot(
+        x="t-SNE-1", 
+        y="t-SNE-2", 
+        hue=f"Cluster_{k}",
+        palette="viridis",
+        s=100,
+        data=df_tsne,
+        alpha=0.7
+    )
+    plt.title(f't-SNE Visualization of {k} Clusters (Significant Features)', fontsize=15)
+    plt.xlabel('t-SNE Dimension 1', fontsize=12)
+    plt.ylabel('t-SNE Dimension 2', fontsize=12)
+    plt.legend(title='Cluster', fontsize=10)
+    plt.grid(True, linestyle='--', alpha=0.7)
+    plt.tight_layout()
+    plt.savefig(f"Plots/tsne_most_significant_cluster_{k}_scatter.png")
+    print(f"\nSaved t-SNE scatter plot for {k} clusters")
 
-# Visualization 2: PCA scatter plot (PC1 vs PC2)
-plt.figure(figsize=(12, 10))
-sns.scatterplot(
-    x="PC1", 
-    y="PC2", 
-    hue=f"Cluster_{k}",
-    palette="viridis",
-    s=100,
-    data=df_clustered,
-    alpha=0.7
-)
-plt.title(f'PCA Visualization of {k} Clusters (Significant Features)', fontsize=15)
-plt.xlabel('Principal Component 1', fontsize=12)
-plt.ylabel('Principal Component 2', fontsize=12)
-plt.legend(title='Cluster', fontsize=10)
-plt.grid(True, linestyle='--', alpha=0.7)
-plt.tight_layout()
-plt.savefig(f"Plots/pca_significant_cluster_{k}_scatter.png")
-print(f"\nSaved PCA scatter plot for {k} clusters")
+    # Visualization 2: PCA scatter plot (PC1 vs PC2)
+    plt.figure(figsize=(12, 10))
+    sns.scatterplot(
+        x="PC1", 
+        y="PC2", 
+        hue=f"Cluster_{k}",
+        palette="viridis",
+        s=100,
+        data=df_clustered,
+        alpha=0.7
+    )
+    plt.title(f'PCA Visualization of {k} Clusters (Significant Features)', fontsize=15)
+    plt.xlabel('Principal Component 1', fontsize=12)
+    plt.ylabel('Principal Component 2', fontsize=12)
+    plt.legend(title='Cluster', fontsize=10)
+    plt.grid(True, linestyle='--', alpha=0.7)
+    plt.tight_layout()
+    plt.savefig(f"Plots/pca_most_significant_cluster_{k}_scatter.png")
+    print(f"\nSaved PCA scatter plot for {k} clusters")
 
-# Visualization 3: Spider plot of cluster profiles for the top features
-plt.figure(figsize=(14, 10))
+    # Visualization 3: Spider plot of cluster profiles for the top features
+    plt.figure(figsize=(14, 10))
 
-# Normalize the feature values for the spider plot
-profile_norm = (cluster_profiles[top_feature_names] - cluster_profiles[top_feature_names].min()) / \
-                (cluster_profiles[top_feature_names].max() - cluster_profiles[top_feature_names].min())
+    # Normalize the feature values for the spider plot
+    profile_norm = (cluster_profiles[top_feature_names] - cluster_profiles[top_feature_names].min()) / \
+                    (cluster_profiles[top_feature_names].max() - cluster_profiles[top_feature_names].min())
 
-# Number of variables
-categories = top_feature_names
-N = len(categories)
+    # Number of variables
+    categories = top_feature_names
+    N = len(categories)
 
-# Create angle for each feature
-angles = [n / float(N) * 2 * np.pi for n in range(N)]
-angles += angles[:1]  # Close the loop
+    # Create angle for each feature
+    angles = [n / float(N) * 2 * np.pi for n in range(N)]
+    angles += angles[:1]  # Close the loop
 
-# Initialize the spider plot
-ax = plt.subplot(111, polar=True)
+    # Initialize the spider plot
+    ax = plt.subplot(111, polar=True)
 
-# Draw one axis per variable and add labels
-plt.xticks(angles[:-1], categories, size=12)
+    # Draw one axis per variable and add labels
+    plt.xticks(angles[:-1], categories, size=12)
 
-# Draw the cluster profile lines
-for i in range(k):
-    values = profile_norm.iloc[i].values.tolist()
-    values += values[:1]  # Close the loop
-    ax.plot(angles, values, linewidth=2, linestyle='solid', label=f"Cluster {i}")
-    ax.fill(angles, values, alpha=0.1)
+    # Draw the cluster profile lines
+    for i in range(k):
+        values = profile_norm.iloc[i].values.tolist()
+        values += values[:1]  # Close the loop
+        ax.plot(angles, values, linewidth=2, linestyle='solid', label=f"Cluster {i}")
+        ax.fill(angles, values, alpha=0.1)
 
-# Add legend
-plt.legend(loc='upper right', bbox_to_anchor=(0.1, 0.1))
-plt.title(f'Cluster Profiles Comparison for {k} Clusters (Significant Features)', size=15)
-plt.tight_layout()
-plt.savefig(f"Plots/cluster_{k}_significant_profiles_spider.png")
-print(f"\nSaved cluster profiles spider plot for {k} clusters")
+    # Add legend
+    plt.legend(loc='upper right', bbox_to_anchor=(0.1, 0.1))
+    plt.title(f'Cluster Profiles Comparison for {k} Clusters (Significant Features)', size=15)
+    plt.tight_layout()
+    plt.savefig(f"Plots/cluster_{k}_most_significant_profiles_spider.png")
+    print(f"\nSaved cluster profiles spider plot for {k} clusters")
 
-# Save the clustered data to CSV
-df_clustered.to_csv(f"Data/Significant_Clustered_data_{k}_clusters.csv", index=False)
-print(f"\nSaved clustered data for {k} clusters")
+    # Save the clustered data to CSV
+    df_clustered.to_csv(f"Data/Most_Significant_Clustered_data_{k}_clusters.csv", index=False)
+    print(f"\nSaved clustered data for {k} clusters")
 
 # Define collision sports (typically involve intentional body-to-body collisions)
 collision_sports = [
@@ -481,7 +452,7 @@ for cluster, label in cluster_labels.items():
 df_clustered["Cluster_2_Label"] = df_clustered["Cluster_2"].map(cluster_labels)
 
 # Save the labeled data
-df_clustered.to_csv("Data/Significant_Labeled_Clustered_data_2_clusters.csv", index=False)
+df_clustered.to_csv("Data/Most_Significant_Labeled_Clustered_data_2_clusters.csv", index=False)
 print("\nSaved labeled cluster data with sport type labels")
 
 # Create a visual representation of the sport type distribution
@@ -511,7 +482,7 @@ for i, v in enumerate(contact_percentages):
     plt.text(i + width/2, v + 2, f"{v:.1f}%", ha='center')
 
 plt.tight_layout()
-plt.savefig("Plots/significant_sport_type_distribution.png")
+plt.savefig("Plots/most_significant_sport_type_distribution.png")
 print("\nSaved sport type distribution plot")
 
 # MODIFICATION: Compare results with original clustering
@@ -550,7 +521,7 @@ try:
     sns.heatmap(contingency, annot=True, cmap="YlGnBu", fmt="d")
     plt.title('Agreement Between Original and Significant Features Clustering')
     plt.tight_layout()
-    plt.savefig("Plots/original_vs_significant_comparison.png")
+    plt.savefig("Plots/original_vs_most_significant_comparison.png")
     print("\nSaved original vs. significant features comparison plot")
     
 except FileNotFoundError:
