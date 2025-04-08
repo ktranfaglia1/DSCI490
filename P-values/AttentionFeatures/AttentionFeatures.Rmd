@@ -1,0 +1,184 @@
+---
+title: "AttentionFeatures"
+output: html_document
+date: "2025-04-03"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+data <- read.csv("Labeled_survey_data.csv", header = TRUE)
+
+```
+
+```{r}
+# Create a new column 'Concussion_Status_Overall'
+data$Concussion_Status_Overall <- ifelse(grepl("^Yes", data$Sports_Concussion_Status) |  grepl("^Yes", data$Non_Sports_Concussion_Status),            "Concussion", 
+                                        "Non-Concussion")
+
+# Check results
+table(data$Concussion_Status_Overall)
+```
+
+```{r}
+# Create table
+table_data <- table(data$Good_Music_Concentration, data$Concussion_Status_Overall)
+
+# Perform test for one category level
+x <- c(table_data["Sometimes", "Concussion"],
+       table_data["Sometimes", "Non-Concussion"])
+
+n <- c(sum(table_data[, "Concussion"]),
+       sum(table_data[, "Non-Concussion"]))
+
+# Two-sample proportion test
+print("Three or more times a week")
+prop.test(x = x, n = n, alternative = "two.sided")
+```
+
+```{r}
+# Define your feature groups
+motivation_features <- c("Motivation_Issues")
+concentration_features <- c(
+  "Noise_Concentration_Issues", "Concentration_Issues", "Good_Music_Concentration",
+  "Concentration_Aware", "Reading_Concentration_Issues", "Trouble_Blocking_Thoughts",
+  "Excitement_Concentration_Issues", "Ignore_Hunger_Concentrating", "Good_Task_Switching",
+  "Long_Time_Focus", "Poor_Listening_Writing", "Quick_Interest", "Easy_Read_Write_On_Phone",
+  "Trouble_Multiple_Conversations", "Trouble_Quick_Creativity", "Good_Interruption_Recovery",
+  "Good_Thought_Recovery", "Good_Task_Alteration", "Poor_Perspective_Thinking"
+)
+
+# Define the levels for each group
+motivation_levels <- c("No problem at all", "Only a very slight problem",
+                       "Somewhat of a problem", "A very big problem")
+
+concentration_levels <- c("Almost never", "Sometimes", "Often", "Always")
+
+# Function to run p-value tests
+run_p_value_tests <- function(features, levels, data) {
+  for (feature in features) {
+    print(paste("Feature:", feature))
+    
+    table_data <- table(data[[feature]], data$Concussion_Status_Overall)
+    
+    for (level in levels) {
+      if (level %in% rownames(table_data)) {
+        x <- c(table_data[level, "Concussion"], table_data[level, "Non-Concussion"])
+        n <- c(sum(table_data[, "Concussion"]), sum(table_data[, "Non-Concussion"]))
+        
+        cat("\n", level, "\n")
+        print(prop.test(x = x, n = n, alternative = "two.sided"))
+      } else {
+        cat("\n", level, "- No data available\n")
+      }
+    }
+  }
+}
+
+# Run the tests
+run_p_value_tests(motivation_features, motivation_levels, data)
+run_p_value_tests(concentration_features, concentration_levels, data)
+
+
+```
+
+```{r}
+p_values_df <- data.frame(
+  Feature = c(rep("Noise_Concentration_Issues",4), rep("Concentration_Issues",4), rep("Good_Music_Concentration",4),
+              rep("Concentration_Aware",4), rep("Reading_Concentration_Issues",4), rep("Trouble_Blocking_Thoughts",4), 
+              rep("Excitement_Concentration_Issues",4), rep("Ignore_Hunger_Concentrating",4), rep("Good_Task_Switching",4),
+              rep("Long_Time_Focus",4),  rep("Poor_Listening_Writing",4), rep("Quick_Interest",4), 
+              rep("Easy_Read_Write_On_Phone",4), rep("Trouble_Multiple_Conversations",4), rep("Trouble_Quick_Creativity",4), 
+              rep("Good_Interruption_Recovery",4), rep("Good_Thought_Recovery",4), rep("Good_Task_Alteration",4), 
+              rep("Poor_Perspective_Thinking",4)),
+  Response = rep(c("Almost never", "Sometimes", "Often", "Always"), 19),
+  P_Value = c(0.8125, 0.5499, 0.5338, 0.1374,   # Noise_Concentration_Issues
+              0.237, 0.3441, 0.3307, 0.02604,   # Concentration_Issues
+              0.8147, 0.05711, 0.1354, 0.2512,  # Good_Music_Concentration
+              0.6489, 0.8291, 1, 1,             # Concentration_Aware
+              0.4807, 0.9755, 0.4175, 0.6489,   # Reading_Concentration_Issues
+              0.6792, 0.6099, 1, 0.1235,        # Trouble_Blocking_Thoughts
+              0.4647, 0.6122, 0.8675, 0.2788,   # Excitement_Concentration_Issues
+              0.723, 0.7769, 0.773, 0.3482,     # Ignore_Hunger_Concentrating
+              0.2448, 0.6572, 0.006571, 0.2043, # Good_Task_Switching
+              0.2679, 0.9466, 0.7399, 0.352,    # Long_Time_Focus
+              0.1534, 0.3471, 0.6103, 0.0121,   # Poor_Listening_Writing
+              0.1452, 0.8549, 1, 0.4843,        # Quick_Interest
+              0.05458, 0.3664, 0.6947, 0.776,   # Easy_Read_Write_On_Phone
+              0.4521, 0.3, 0.9567, 0.8734,      # Trouble_Multiple_Conversations
+              0.9213, 0.549, 0.418, 0.8585,     # Trouble_Quick_Creativity
+              0.008418, 0.6226, 0.8658, 0.2569, # Good_Interruption_Recovery
+              0.8832, 0.3654, 0.4202, 0.776,    # Good_Thought_Recovery
+              0.03945, 0.4287, 0.9136, 0.1866,  # Good_Task_Alteration
+              0.3753, 0.9781, 0.7397, 0.1014)   # Poor_Perspective_Thinking
+)
+
+```
+
+```{r}
+library(ggplot2)
+library(dplyr)
+plots_05 <- lapply(unique(p_values_df$Feature), function(feature) {
+  ggplot(subset(p_values_df, Feature == feature), aes(x = Response, y = P_Value)) +
+    geom_point(size = 3, color = "#0072B2") +
+    geom_hline(yintercept = 0.05, linetype = "dashed", color = "red", size = 1) +
+    labs(
+      title = paste("P-Values Across Responses 0.05-", feature),
+      x = "Response Level",
+      y = "P-Value"
+    ) +
+    theme_minimal(base_size = 13) +
+    theme(
+      plot.title = element_text(face = "bold"),
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+})
+
+lapply(plots_05, print)
+
+
+
+
+```
+
+```{r}
+plots_01 <- lapply(unique(p_values_df$Feature), function(feature) {
+  ggplot(subset(p_values_df, Feature == feature), aes(x = Response, y = P_Value)) +
+    geom_point(size = 3, color = "#0072B2") +
+    geom_hline(yintercept = 0.01, linetype = "dashed", color = "blue", size = 1) +
+    labs(
+      title = paste("P-Values Across Responses 0.01-", feature),
+      x = "Response Level",
+      y = "P-Value"
+    ) +
+    theme_minimal(base_size = 13) +
+    theme(
+      plot.title = element_text(face = "bold"),
+      axis.text.x = element_text(angle = 45, hjust = 1)
+    )
+})
+
+lapply(plots_01, print)
+```
+
+```{r}
+# Plot for alpha = 0.05 for each feature and save
+plots_05 <- lapply(unique(p_values_df$Feature), function(feature) {
+  p <- ggplot(subset(p_values_df, Feature == feature), aes(x = Response, y = P_Value, color = Feature)) +
+    geom_point(size = 3) +
+    geom_hline(yintercept = 0.05, linetype = "dashed", color = "red") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    labs(title = paste("P-Values with Alpha = 0.05 -", feature), x = "Response", y = "P-Value")
+  
+  # Save the plot
+  ggsave(paste0("plots/alpha_0.05_", feature, ".png"), plot = p, width = 8, height = 6)
+})
+```

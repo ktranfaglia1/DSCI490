@@ -1,0 +1,93 @@
+---
+title: "SleepNumerical"
+output: html_document
+date: "2025-04-04"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this
+
+```{r}
+data <- read.csv("Labeled_survey_data.csv", header = TRUE)
+```
+
+```{r}
+# Create a new column 'Concussion_Status_Overall'
+data$Concussion_Status_Overall <- ifelse(grepl("^Yes", data$Sports_Concussion_Status) |  grepl("^Yes", data$Non_Sports_Concussion_Status),            "Concussion", 
+                                        "Non-Concussion")
+
+# Check results
+table(data$Concussion_Status_Overall)
+```
+
+```{r}
+# Vector of features to test
+features <- c("Bed_Time", "Min_To_Sleep", "Wake_Up", "Sleep_Per_Night")
+
+# Run t-tests
+results <- lapply(features, function(feature) {
+  t_test <- t.test(data[[feature]] ~ data$Concussion_Status_Overall)
+  data.frame(
+    Feature = feature,
+    p_value = t_test$p.value,
+    mean_concussion = mean(data[data$Concussion_Status_Overall == "Concussion", feature], na.rm = TRUE),
+    mean_non_concussion = mean(data[data$Concussion_Status_Overall == "Non-Concussion", feature], na.rm = TRUE)
+  )
+})
+
+# Combine into a single table
+pval_table <- do.call(rbind, results)
+print(pval_table)
+
+```
+
+```{r}
+# Run t-tests and store results
+features <- c("Bed_Time", "Min_To_Sleep", "Wake_Up", "Sleep_Per_Night")
+
+p_values <- sapply(features, function(feature) {
+  t.test(data[[feature]] ~ data$Concussion_Status_Overall, var.equal = TRUE)$p.value
+})
+
+# Create dataframe for plotting
+p_values_df <- data.frame(
+  Feature = features,
+  P_Value = p_values
+)
+
+
+```
+
+```{r}
+library(ggplot2)
+
+ggplot(p_values_df, aes(x = Feature, y = P_Value)) +
+  geom_point(size = 4, color = "#0072B2") +
+  geom_hline(yintercept = 0.05, linetype = "dotted", color = "red") +
+  theme_minimal() +
+  labs(title = "P-Values for Sleep Features (Alpha = 0.05)",
+       x = "Sleep Feature",
+       y = "P-Value") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+```
+
+```{r}
+ggplot(p_values_df, aes(x = Feature, y = P_Value)) +
+  geom_point(size = 4, color = "#009E73") +
+  geom_hline(yintercept = 0.01, linetype = "dotted", color = "red") +
+  theme_minimal() +
+  labs(title = "P-Values for Sleep Features (Alpha = 0.01)",
+       x = "Sleep Feature",
+       y = "P-Value") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
