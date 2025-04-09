@@ -11,6 +11,11 @@ from sklearn.manifold import TSNE
 from collections import Counter
 import warnings
 
+import os
+os.environ["QT_QPA_PLATFORM"] = "offscreen"
+import matplotlib
+matplotlib.use('Agg')
+
 warnings.filterwarnings('ignore')
 
 # Create an output file to save console output
@@ -434,12 +439,31 @@ for cluster in [0, 1]:
             else:
                 unidentified_counts[cluster] += count
 
+# After calculating collision_counts, contact_counts, and total_identified for each cluster
+# Add these calculations for overall percentages:
+
+# Calculate total numbers across all clusters
+total_collision = sum(collision_counts.values())
+total_contact = sum(contact_counts.values())
+total_all_identified = sum(total_identified.values())
+
+# Calculate overall percentages
+overall_collision_pct = (total_collision / total_all_identified) * 100 if total_all_identified > 0 else 0
+overall_contact_pct = (total_contact / total_all_identified) * 100 if total_all_identified > 0 else 0
+
 print_and_log("\n" + "="*50)
 print_and_log("BINARY CLUSTER LABELING (SIGNIFICANT FEATURES)")
 print_and_log("="*50)
 
-# Calculate percentages and assign labels
+# Display overall percentages first
+print_and_log("\nOverall sport type distribution:")
+print_and_log(f"  - Collision sports: {total_collision} participants ({overall_collision_pct:.1f}% of all identified athletes)")
+print_and_log(f"  - Contact sports: {total_contact} participants ({overall_contact_pct:.1f}% of all identified athletes)")
+print_and_log(f"  - Total identified: {total_all_identified} participants")
+
 cluster_labels = {}
+
+# Then proceed with the per-cluster breakdowns as before
 for cluster in [0, 1]:
     if total_identified[cluster] > 0:
         collision_pct = (collision_counts[cluster] / total_identified[cluster]) * 100
@@ -449,6 +473,12 @@ for cluster in [0, 1]:
         print_and_log(f"  - Collision sports: {collision_counts[cluster]} participants ({collision_pct:.1f}%)")
         print_and_log(f"  - Contact sports: {contact_counts[cluster]} participants ({contact_pct:.1f}%)")
         print_and_log(f"  - Total identified: {total_identified[cluster]} participants")
+        
+        # Add percentage of total for each sport type in this cluster
+        collision_of_total_pct = (collision_counts[cluster] / total_collision) * 100 if total_collision > 0 else 0
+        contact_of_total_pct = (contact_counts[cluster] / total_contact) * 100 if total_contact > 0 else 0
+        print_and_log(f"  - Contains {collision_of_total_pct:.1f}% of all collision sport athletes")
+        print_and_log(f"  - Contains {contact_of_total_pct:.1f}% of all contact sport athletes")
         
         # Assign label based on higher percentage
         if collision_pct > contact_pct:

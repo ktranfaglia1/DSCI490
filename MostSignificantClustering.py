@@ -11,6 +11,11 @@ from sklearn.manifold import TSNE
 from collections import Counter
 import warnings
 
+import os
+os.environ["QT_QPA_PLATFORM"] = "offscreen"
+import matplotlib
+matplotlib.use('Agg')
+
 warnings.filterwarnings('ignore')
 
 # Create an output file to save console output
@@ -164,12 +169,18 @@ ch_scores = []
 db_scores = []
 
 for k in k_range:
+    # Apply K-Means with the selected number of clusters
     kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)
-    labels = kmeans.fit_predict(df_pca)
+    cluster_labels = kmeans.fit_predict(df_pca)
     
-    silhouette_scores.append(silhouette_score(df_pca, labels))
-    ch_scores.append(calinski_harabasz_score(df_pca, labels))
-    db_scores.append(davies_bouldin_score(df_pca, labels))
+    # Create a temporary dataframe with these cluster labels
+    temp_df_pca = df_pca.copy()
+    temp_df_pca[f"Cluster_{k}"] = cluster_labels
+    
+    # Calculate metrics EXACTLY as we do later
+    silhouette_scores.append(silhouette_score(temp_df_pca.drop(columns=[f"Cluster_{k}"]), temp_df_pca[f"Cluster_{k}"]))
+    ch_scores.append(calinski_harabasz_score(temp_df_pca.drop(columns=[f"Cluster_{k}"]), temp_df_pca[f"Cluster_{k}"]))
+    db_scores.append(davies_bouldin_score(temp_df_pca.drop(columns=[f"Cluster_{k}"]), temp_df_pca[f"Cluster_{k}"]))
 
 # Plot metrics for different cluster numbers
 fig, ax = plt.subplots(1, 3, figsize=(20, 6))
@@ -260,7 +271,7 @@ for k in [final_k, 2]:
     top_features = sorted(feature_importance.items(), key=lambda x: x[1], reverse=True)[:10]
     top_feature_names = [feature[0] for feature in top_features]
 
-    print_and_log("\nTop 10 most distinguishing features between clusters:")
+    print_and_log("\nTop distinguishing features between clusters:")
     for feature, importance in top_features:
         print_and_log(f"{feature}: {importance:.4f}")
 
@@ -405,12 +416,28 @@ for cluster in [0, 1]:
             else:
                 unidentified_counts[cluster] += count
 
+# Calculate total numbers across all clusters
+total_collision = sum(collision_counts.values())
+total_contact = sum(contact_counts.values())
+total_all_identified = sum(total_identified.values())
+
+# Calculate overall percentages
+overall_collision_pct = (total_collision / total_all_identified) * 100 if total_all_identified > 0 else 0
+overall_contact_pct = (total_contact / total_all_identified) * 100 if total_all_identified > 0 else 0
+
 print_and_log("\n" + "="*50)
 print_and_log("BINARY CLUSTER LABELING (SIGNIFICANT FEATURES)")
 print_and_log("="*50)
 
-# Calculate percentages and assign labels
+# Display overall percentages first
+print_and_log("\nOverall sport type distribution:")
+print_and_log(f"  - Collision sports: {total_collision} participants ({overall_collision_pct:.1f}% of all identified athletes)")
+print_and_log(f"  - Contact sports: {total_contact} participants ({overall_contact_pct:.1f}% of all identified athletes)")
+print_and_log(f"  - Total identified: {total_all_identified} participants")
+
 cluster_labels = {}
+
+# Then proceed with the per-cluster breakdowns as before
 for cluster in [0, 1]:
     if total_identified[cluster] > 0:
         collision_pct = (collision_counts[cluster] / total_identified[cluster]) * 100
@@ -420,6 +447,12 @@ for cluster in [0, 1]:
         print_and_log(f"  - Collision sports: {collision_counts[cluster]} participants ({collision_pct:.1f}%)")
         print_and_log(f"  - Contact sports: {contact_counts[cluster]} participants ({contact_pct:.1f}%)")
         print_and_log(f"  - Total identified: {total_identified[cluster]} participants")
+        
+        # Add percentage of total for each sport type in this cluster
+        collision_of_total_pct = (collision_counts[cluster] / total_collision) * 100 if total_collision > 0 else 0
+        contact_of_total_pct = (contact_counts[cluster] / total_contact) * 100 if total_contact > 0 else 0
+        print_and_log(f"  - Contains {collision_of_total_pct:.1f}% of all collision sport athletes")
+        print_and_log(f"  - Contains {contact_of_total_pct:.1f}% of all contact sport athletes")
         
         # Assign label based on higher percentage
         if collision_pct > contact_pct:

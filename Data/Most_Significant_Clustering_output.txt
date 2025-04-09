@@ -101,7 +101,7 @@ Cluster_5
 3                      0.040404              1.000000                  1.00000                 0.000000                   0.141414              0.000000
 4                      0.058824              1.000000                  0.00000                 0.431373                   0.156863              0.078431
 
-Top 10 most distinguishing features between clusters:
+Top distinguishing features between clusters:
 Sleep_Meds_Response0: 0.2763
 Staying_Awake_Response0: 0.2651
 Task_Switching_Often: 0.1789
@@ -161,7 +161,7 @@ Cluster_2
 0                      0.046667              1.000000                 0.660000                 0.146667                   0.146667              0.026667
 1                      0.093923              0.486188                 0.607735                 0.104972                   0.154696              0.629834
 
-Top 10 most distinguishing features between clusters:
+Top distinguishing features between clusters:
 Task_Switching_Often: 0.1819
 Sleep_Meds_Response0: 0.1320
 Staying_Awake_Response0: 0.0014
@@ -179,15 +179,24 @@ Cluster_2
 BINARY CLUSTER LABELING (SIGNIFICANT FEATURES)
 ==================================================
 
+Overall sport type distribution:
+  - Collision sports: 37 participants (17.3% of all identified athletes)
+  - Contact sports: 177 participants (82.7% of all identified athletes)
+  - Total identified: 214 participants
+
 Cluster 0 sport type breakdown:
   - Collision sports: 13 participants (14.1%)
   - Contact sports: 79 participants (85.9%)
   - Total identified: 92 participants
+  - Contains 35.1% of all collision sport athletes
+  - Contains 44.6% of all contact sport athletes
 
 Cluster 1 sport type breakdown:
   - Collision sports: 24 participants (19.7%)
   - Contact sports: 98 participants (80.3%)
   - Total identified: 122 participants
+  - Contains 64.9% of all collision sport athletes
+  - Contains 55.4% of all contact sport athletes
 
 Both clusters had the same label - forcing binary classification based on relative sport type ratios.
 

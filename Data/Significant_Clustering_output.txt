@@ -112,10 +112,10 @@ Cluster_2  Sport_Name
 Name: count, dtype: int64
 
 Cluster profiles for k=2:
-           Bad_Dreams_Response3  Cant_Sleep_Response3  Loud_Snore_Response0  Sleep_Meds_Response0  ...  Interruption_Almost_Never  Task_Alteration_Almost_Never  Task_Switching_Often  Listening_Writing_Always
-Cluster_2                                                                                          ...                                                                                                         
-0                      0.168675                   1.0              0.168675              0.602410  ...                   0.204819                      0.216867              0.277108                  0.156627
-1                      0.040323                   0.0              0.245968              0.758065  ...                   0.133065                      0.116935              0.383065                  0.064516
+           Bad_Dreams_Response3  Cant_Sleep_Response3  Loud_Snore_Response0  ...  Task_Alteration_Almost_Never  Task_Switching_Often  Listening_Writing_Always
+Cluster_2                                                                    ...                                                                              
+0                      0.168675                   1.0              0.168675  ...                      0.216867              0.277108                  0.156627
+1                      0.040323                   0.0              0.245968  ...                      0.116935              0.383065                  0.064516
 
 [2 rows x 15 columns]
 
@@ -132,10 +132,10 @@ Task_Switching_Often: 0.0056
 Task_Alteration_Almost_Never: 0.0050
 
 Cluster means for top distinguishing features:
-           Cant_Sleep_Response3  Sleep_Quality_Response1  Wake_To_Bathroom_Response3  Staying_Awake_Response2  ...  Concentration_Always  Bad_Dreams_Response3  Task_Switching_Often  Task_Alteration_Almost_Never
-Cluster_2                                                                                                      ...                                                                                                
-0                           1.0                 0.554217                    0.349398                 0.240964  ...              0.180723              0.168675              0.277108                      0.216867
-1                           0.0                 0.096774                    0.177419                 0.084677  ...              0.048387              0.040323              0.383065                      0.116935
+           Cant_Sleep_Response3  Sleep_Quality_Response1  Wake_To_Bathroom_Response3  ...  Bad_Dreams_Response3  Task_Switching_Often  Task_Alteration_Almost_Never
+Cluster_2                                                                             ...                                                                          
+0                           1.0                 0.554217                    0.349398  ...              0.168675              0.277108                      0.216867
+1                           0.0                 0.096774                    0.177419  ...              0.040323              0.383065                      0.116935
 
 [2 rows x 10 columns]
 
@@ -143,15 +143,24 @@ Cluster_2                                                                       
 BINARY CLUSTER LABELING (SIGNIFICANT FEATURES)
 ==================================================
 
+Overall sport type distribution:
+  - Collision sports: 37 participants (17.3% of all identified athletes)
+  - Contact sports: 177 participants (82.7% of all identified athletes)
+  - Total identified: 214 participants
+
 Cluster 0 sport type breakdown:
   - Collision sports: 10 participants (22.2%)
   - Contact sports: 35 participants (77.8%)
   - Total identified: 45 participants
+  - Contains 27.0% of all collision sport athletes
+  - Contains 19.8% of all contact sport athletes
 
 Cluster 1 sport type breakdown:
   - Collision sports: 27 participants (16.0%)
   - Contact sports: 142 participants (84.0%)
   - Total identified: 169 participants
+  - Contains 73.0% of all collision sport athletes
+  - Contains 80.2% of all contact sport athletes
 
 Both clusters had the same label - forcing binary classification based on relative sport type ratios.
 
