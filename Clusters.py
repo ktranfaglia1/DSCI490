@@ -1,3 +1,11 @@
+"""
+    remove based on p value of .01 and .05
+    fix feature displat columns
+    Use Dylans new P Values
+
+"""
+
+
 import sys
 
 from sklearn.cluster import KMeans, DBSCAN
@@ -20,6 +28,8 @@ import typing
 original_df = pd.read_csv("./Data/Labeled_survey_data.csv")
 df = original_df
 
+df = df[df["Sports_Info"] != ' '].reset_index(drop=False)
+#print('|' + (df["Sports_Info"][327]) + '|')
 
 def time_to_decimal(time_str):
     # Handle NaN or empty values
@@ -225,8 +235,7 @@ print(type(numerical_sleep))
 '''
 
 sleepData = pd.merge(numerical_sleep, categorical_sleep, left_index=True, right_index=True)
-
-
+columns = list(sleepData.columns)
 #print(sleepData)
 scaler = StandardScaler()
 sleepData = scaler.fit_transform(sleepData)
@@ -257,9 +266,9 @@ for index in important_features:
 print()
 print("Sleep Sihoulette: " + str(silhouette_score(sleepData, model.predict(sleepData))))
 
-original_df["Sleep_Cluster"] = model.predict(sleepData)
+df["Sleep_Cluster"] = model.predict(sleepData)
 
-# print(original_df)
+# print(df)
 
 """
 This Segment of code is dedicated to clustering Concentration issues
@@ -267,26 +276,28 @@ This Segment of code is dedicated to clustering Concentration issues
 
 columns = [
     "Motivation_Issues",
-    "Noise_Concentration_Issues",
+    #"Noise_Concentration_Issues",
     "Concentration_Issues",
-    "Good_Music_Concentration",
-    "Concentration_Aware",
-    "Reading_Concentration_Issues",
-    "Trouble_Blocking_Thoughts",
-    "Excitement_Concentration_Issues",
-    "Ignore_Hunger_Concentrating",
+    #"Good_Music_Concentration",
+    #"Concentration_Aware", #.05/.01
+    #"Reading_Concentration_Issues",
+    #"Trouble_Blocking_Thoughts",
+    #"Excitement_Concentration_Issues",
+    #"Ignore_Hunger_Concentrating",
     "Good_Task_Switching",
-    "Long_Time_Focus",
+    #"Long_Time_Focus",
     "Poor_Listening_Writing",
-    "Quick_Interest",
-    "Easy_Read_Write_On_Phone",
-    "Trouble_Multiple_Conversations",
-    "Trouble_Quick_Creativity",
+    #"Quick_Interest",
+    #"Easy_Read_Write_On_Phone",#.05/.01
+    #"Trouble_Multiple_Conversations",
+    #"Trouble_Quick_Creativity",
     "Good_Interruption_Recovery",
-    "Good_Thought_Recovery",
+    #"Good_Thought_Recovery",
     "Good_Task_Alteration",
-    "Poor_Perspective_Thinking",
+    #"Poor_Perspective_Thinking",
 ]
+
+
 
 attentionData = df[columns]
 # print(sleepData)
@@ -305,9 +316,32 @@ print(encoder.get_feature_names_out())
 
 print("\n\n\n\n")
 
-imputer = SimpleImputer(strategy="mean")
+column_stuff = attentionData.columns
+imputer = SimpleImputer(strategy="most_frequent")
 attentionData = imputer.fit_transform(attentionData)
 
+att_encoder = OneHotEncoder(sparse_output=False)
+categorical_attention = att_encoder.fit_transform(attentionData)
+
+
+categorical_attention = pd.DataFrame(categorical_attention.transpose(), att_encoder.get_feature_names_out())
+categorical_attention = categorical_attention.T
+
+rename_dict = {}
+for col in categorical_attention.columns:
+    backend = col[2:]
+    index = int(col[1])
+    rename_dict[col] =  column_stuff[index] + backend
+
+categorical_attention = categorical_attention.rename(columns=rename_dict)
+#print(encoder.get_feature_names_out())
+#print(categorical_sleep)
+#print(type(categorical_sleep))
+
+#keep_categories = ["Good_Interruption_Recovery_0.0", "Good_Task_Switching_3.0"] #.01
+keep_categories = ["Good_Interruption_Recovery_0.0", "Good_Task_Switching_2.0", "Concentration_Issues_3.0", "Good_Task_Alteration_3.0", "Poor_Listening_Writing_3.0"] #.05
+attentionData = categorical_attention.filter(keep_categories)
+feature_columns = attentionData.columns
 scaler = StandardScaler()
 attentionData = scaler.fit_transform(attentionData)
 
@@ -319,14 +353,18 @@ model = KMeans(n_clusters=2, init="k-means++", random_state=0).fit(attentionData
 
 forest = RandomForestClassifier()
 
+
+
+
 forest.fit(attentionData, model.predict(attentionData))
 important_features = forest.feature_importances_.argsort()[::-1]
+
 
 
 print("Important Features Attention: ")
 for index in important_features:
     print(
-        str(columns[index])
+        str(feature_columns[index])
         + " Importance "
         + str(forest.feature_importances_[index])
     )
@@ -338,11 +376,11 @@ print(
     + str(silhouette_score(attentionData, model.predict(attentionData)))
 )
 
-original_df["Attention_Cluster"] = model.predict(attentionData)
+df["Attention_Cluster"] = model.predict(attentionData)
 
-#print(original_df["Sports_Concussion_Info"])
+#print(df["Sports_Concussion_Info"])
 new_column = []
-for concussion_json in original_df["Sports_Concussion_Info"]:
+for concussion_json in df["Sports_Concussion_Info"]:
     
     if type(concussion_json) is not float:
         concussion_json = json.loads(concussion_json)
@@ -355,23 +393,27 @@ for concussion_json in original_df["Sports_Concussion_Info"]:
     else:
         new_column.append(0)
 
-original_df["Num_Concussions"] = new_column
-    
+df["Num_Concussions"] = new_column
+
+print(len(df))
 print()
-print(original_df.groupby("Attention_Cluster")["Num_Concussions"].describe())
+print(df.groupby("Sleep_Cluster")["Num_Concussions"].describe())
 print()
-print(original_df.groupby("Sleep_Cluster")["Num_Concussions"].describe())
+print(df.groupby("Attention_Cluster")["Num_Concussions"].describe())
+
 
 
 player_sport = []
 player_cluster = []
 
-for index, player in enumerate(original_df["Sports_Info"]):
+
+for index, player in enumerate(df["Sports_Info"]):
     if player != ' ':
         sport_json = json.loads(player)
         for sport in sport_json:
             player_sport.append(sport["Sport"])
-            player_cluster.append(original_df["Sleep_Cluster"][index])
+            player_cluster.append(df["Sleep_Cluster"][index])
+    
 
 
 indexes = [i for i in range(len(player_cluster))]
@@ -392,9 +434,64 @@ sport_cluster_df['sport'] = sport_cluster_df['sport'].replace(
 print("\n\n\n")
 sport_cluster_df = sport_cluster_df.groupby("sport")["cluster"].apply(list)
 
-for cluster, sport_name in zip(sport_cluster_df, sport_cluster_df.index):
-    print(f"Sport: {sport_name} Number Cluster 0: {cluster.count(0)} Number Cluster 1: {cluster.count(1)} Cluster 0 {round(cluster.count(0) / len(cluster) * 100, 2)}% Cluster 1 {round(cluster.count(1) / len(cluster) * 100, 2)}%")
 
-original_df.to_csv("./Data/Labeled_survey_data.csv", index=False)
+print("Sleep Clusters")
+print("Cluster 0")
+for cluster, sport_name in zip(sport_cluster_df, sport_cluster_df.index):
+    if cluster.count(0) > cluster.count(1):
+        print(f"{sport_name}: {round(cluster.count(0) / len(cluster) * 100, 2)}%, {cluster.count(0)}:{cluster.count(1)}")
+
+print("\n")
+print("Cluster 1")
+for cluster, sport_name in zip(sport_cluster_df, sport_cluster_df.index):
+    if cluster.count(1) >= cluster.count(0):
+        print(f"{sport_name}: {round(cluster.count(1) / len(cluster) * 100, 2)}%, {cluster.count(0)}:{cluster.count(1)}")
+
+
+
+player_sport = []
+player_cluster = []
+
+for index, player in enumerate(df["Sports_Info"]):
+    if player != ' ':
+        sport_json = json.loads(player)
+        for sport in sport_json:
+            player_sport.append(sport["Sport"])
+            player_cluster.append(df["Attention_Cluster"][index])
+
+
+indexes = [i for i in range(len(player_cluster))]
+
+sport_array = pd.Series(player_sport[i] for i in range(len(player_sport)))
+cluster_array = pd.Series(player_cluster[i] for i in range(len(player_cluster)))
+
+sport_cluster_df = pd.DataFrame({
+    "sport": sport_array,
+    "cluster": cluster_array
+})
+
+sport_cluster_df['sport'] = sport_cluster_df['sport'].replace(
+    {'competitive dance': 'dance', 'dancer': 'dance', 'dancing' : 'dance', 'gymnast' : 'gymnastics'}
+)
+
+
+print("\n\n\n")
+sport_cluster_df = sport_cluster_df.groupby("sport")["cluster"].apply(list)
+
+
+print("Attention Clusters")
+print("Cluster 0")
+for cluster, sport_name in zip(sport_cluster_df, sport_cluster_df.index):
+    if cluster.count(0) > cluster.count(1):
+        print(f"{sport_name}: {round(cluster.count(0) / len(cluster) * 100, 2)}%, {cluster.count(0)}:{cluster.count(1)}")
+
+print("\n")
+print("Cluster 1")
+for cluster, sport_name in zip(sport_cluster_df, sport_cluster_df.index):
+    if cluster.count(1) >= cluster.count(0):
+        print(f"{sport_name}: {round(cluster.count(1) / len(cluster) * 100, 2)}%, {cluster.count(0)}:{cluster.count(1)}")
+
+
+#original_df.to_csv("./Data/Labeled_survey_data.csv", index=False)
 
 print()
