@@ -168,19 +168,44 @@ silhouette_scores = []
 ch_scores = []
 db_scores = []
 
+# Store the full clustering results for each k
+kmeans_models = {}
+cluster_labels_dict = {}
+metrics_dict = {}
+
+# Create a clean, unchanging copy of PCA data for all evaluations
+pca_data_clean = df_pca.copy()
+
+# Evaluate each k value
 for k in k_range:
     # Apply K-Means with the selected number of clusters
-    kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)
-    cluster_labels = kmeans.fit_predict(df_pca)
+    kmeans = KMeans(n_clusters=k, random_state=42, n_init=50)
+    # Important: fit_predict on the clean data
+    cluster_labels = kmeans.fit_predict(pca_data_clean)
     
-    # Create a temporary dataframe with these cluster labels
-    temp_df_pca = df_pca.copy()
-    temp_df_pca[f"Cluster_{k}"] = cluster_labels
+    # Store model and labels for later use
+    kmeans_models[k] = kmeans
+    cluster_labels_dict[k] = cluster_labels
     
-    # Calculate metrics EXACTLY as we do later
-    silhouette_scores.append(silhouette_score(temp_df_pca.drop(columns=[f"Cluster_{k}"]), temp_df_pca[f"Cluster_{k}"]))
-    ch_scores.append(calinski_harabasz_score(temp_df_pca.drop(columns=[f"Cluster_{k}"]), temp_df_pca[f"Cluster_{k}"]))
-    db_scores.append(davies_bouldin_score(temp_df_pca.drop(columns=[f"Cluster_{k}"]), temp_df_pca[f"Cluster_{k}"]))
+    # Calculate metrics consistently
+    sil_score = silhouette_score(pca_data_clean, cluster_labels)
+    ch_score = calinski_harabasz_score(pca_data_clean, cluster_labels)
+    db_score = davies_bouldin_score(pca_data_clean, cluster_labels)
+    
+    # Store all metrics for later reference
+    metrics_dict[k] = {
+        'silhouette': sil_score,
+        'calinski_harabasz': ch_score,
+        'davies_bouldin': db_score
+    }
+    
+    # Append to lists for plotting
+    silhouette_scores.append(sil_score)
+    ch_scores.append(ch_score)
+    db_scores.append(db_score)
+    
+    # Debug output to verify consistency
+    print(f"k={k}, Silhouette={sil_score:.4f}, CH={ch_score:.4f}, DB={db_score:.4f}")
 
 # Plot metrics for different cluster numbers
 fig, ax = plt.subplots(1, 3, figsize=(20, 6))
@@ -212,9 +237,9 @@ best_k_ch = k_range[np.argmax(ch_scores)]
 best_k_db = k_range[np.argmin(db_scores)]
 
 print_and_log(f"\nOptimal number of clusters:")
-print_and_log(f"Based on Silhouette Score: {best_k_silhouette}")
-print_and_log(f"Based on Calinski-Harabasz Index: {best_k_ch}")
-print_and_log(f"Based on Davies-Bouldin Index: {best_k_db}")
+print_and_log(f"Based on Silhouette Score: {best_k_silhouette} (value: {metrics_dict[best_k_silhouette]['silhouette']:.4f})")
+print_and_log(f"Based on Calinski-Harabasz Index: {best_k_ch} (value: {metrics_dict[best_k_ch]['calinski_harabasz']:.4f})")
+print_and_log(f"Based on Davies-Bouldin Index: {best_k_db} (value: {metrics_dict[best_k_db]['davies_bouldin']:.4f})")
 
 # Determine final k based on the majority vote or your suggestion
 final_k = Counter([best_k_silhouette, best_k_ch, best_k_db]).most_common(1)[0][0]
@@ -224,23 +249,25 @@ print_and_log(f"\nSelected number of clusters based on majority vote: {final_k}"
 for k in [final_k, 2]:
     print_and_log(f"\n{'='*20} ANALYSIS WITH {k} CLUSTERS {'='*20}")
 
-    # Apply K-Means with the optimal number of clusters
-    kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)
-    df_pca[f"Cluster_{k}"] = kmeans.fit_predict(df_pca)
-
-    # Add back Sport_Name and create final dataframe
+    # Use the already computed metrics and labels
+    silhouette = metrics_dict[k]['silhouette']
+    ch_index = metrics_dict[k]['calinski_harabasz']
+    db_index = metrics_dict[k]['davies_bouldin']
+    cluster_labels = cluster_labels_dict[k]
+    
+    # Create dataframe for analysis
     df_clustered = df.loc[df_for_clustering.index, ["Sport_Name"]].copy()
-    df_clustered[f"Cluster_{k}"] = df_pca[f"Cluster_{k}"]
-
+    df_clustered[f"Cluster_{k}"] = cluster_labels
+    
+    # Also add the cluster labels to a copy of the PCA data for visualizations
+    df_pca_with_clusters = pca_data_clean.copy()
+    df_pca_with_clusters[f"Cluster_{k}"] = cluster_labels
+    
     # Merge PCA components into df_clustered
-    df_clustered = pd.concat([df_clustered, df_pca.drop(columns=[f"Cluster_{k}"])], axis=1)
+    df_clustered = pd.concat([df_clustered, pca_data_clean], axis=1)
 
-    # Calculate cluster evaluation metrics
+    # Print metrics
     print_and_log(f"\nCluster evaluation metrics for k={k}:")
-    silhouette = silhouette_score(df_pca.drop(columns=[f"Cluster_{k}"]), df_pca[f"Cluster_{k}"])
-    ch_index = calinski_harabasz_score(df_pca.drop(columns=[f"Cluster_{k}"]), df_pca[f"Cluster_{k}"])
-    db_index = davies_bouldin_score(df_pca.drop(columns=[f"Cluster_{k}"]), df_pca[f"Cluster_{k}"])
-
     print_and_log(f"Silhouette Score: {silhouette:.4f} (higher is better)")
     print_and_log(f"Calinski-Harabasz Index: {ch_index:.4f} (higher is better)")
     print_and_log(f"Davies-Bouldin Index: {db_index:.4f} (lower is better)")
@@ -282,10 +309,11 @@ for k in [final_k, 2]:
     # Visualization with t-SNE for better cluster separation
     tsne = TSNE(n_components=2, random_state=42, perplexity=30)
     df_tsne = pd.DataFrame(
-        tsne.fit_transform(df_pca.drop(columns=[f"Cluster_{k}"])),
+        tsne.fit_transform(pca_data_clean),  # Use the clean PCA data without cluster labels
         columns=['t-SNE-1', 't-SNE-2']
     )
-    df_tsne[f"Cluster_{k}"] = df_pca[f"Cluster_{k}"]
+    # Add the cluster labels from our stored dictionary
+    df_tsne[f"Cluster_{k}"] = cluster_labels
 
     # Visualization 1: t-SNE scatter plot
     plt.figure(figsize=(12, 10))
@@ -309,13 +337,17 @@ for k in [final_k, 2]:
 
     # Visualization 2: PCA scatter plot (PC1 vs PC2)
     plt.figure(figsize=(12, 10))
+    # Create PCA visualization dataframe
+    pca_viz_df = pca_data_clean.copy()
+    pca_viz_df[f"Cluster_{k}"] = cluster_labels
+
     sns.scatterplot(
         x="PC1", 
         y="PC2", 
         hue=f"Cluster_{k}",
         palette="viridis",
         s=100,
-        data=df_clustered,
+        data=pca_viz_df,
         alpha=0.7
     )
     plt.title(f'PCA Visualization of {k} Clusters (Significant Features)', fontsize=15)

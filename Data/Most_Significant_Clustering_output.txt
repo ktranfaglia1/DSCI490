@@ -46,134 +46,134 @@ PC4: 0.1268 (0.8597 cumulative)
 Determining optimal number of clusters...
 
 Optimal number of clusters:
-Based on Silhouette Score: 5
-Based on Calinski-Harabasz Index: 5
-Based on Davies-Bouldin Index: 5
+Based on Silhouette Score: 5 (value: 0.5773)
+Based on Calinski-Harabasz Index: 5 (value: 190.9702)
+Based on Davies-Bouldin Index: 5 (value: 0.9478)
 
 Selected number of clusters based on majority vote: 5
 
 ==================== ANALYSIS WITH 5 CLUSTERS ====================
 
 Cluster evaluation metrics for k=5:
-Silhouette Score: 0.5594 (higher is better)
-Calinski-Harabasz Index: 181.6822 (higher is better)
-Davies-Bouldin Index: 0.8688 (lower is better)
+Silhouette Score: 0.5773 (higher is better)
+Calinski-Harabasz Index: 190.9702 (higher is better)
+Davies-Bouldin Index: 0.9478 (lower is better)
 
 Cluster distribution for k=5:
 Cluster_5
-1    102
-3     99
-4     51
-2     48
-0     31
+1    99
+0    88
+2    51
+4    48
+3    45
 Name: count, dtype: int64
 
 Sport distribution across 5 clusters:
-Cluster_5  Sport_Name
-0          soccer         4
-           swim           2
-           tennis         2
-           track          2
-           volleyball     2
-           baseball       1
-           football       1
-           golf           1
-           gymnastics     1
-           hockey         1
-           lacrosse       1
-1          soccer        16
-           basketball     7
-           baseball       6
-           football       6
-           track          6
-           volleyball     6
-           tennis         5
-           golf           3
-           cheer          2
+Cluster_5  Sport_Name   
+0          soccer           14
+           basketball        7
+           volleyball        6
+           football          5
+           tennis            5
+           track             4
+           baseball          3
+           golf              3
+           cross country     2
+           fencing           2
+           swim              2
+           wrestling         2
+           cheer             1
+           crew              1
+           marching band     1
+1          soccer           14
+           basketball        9
+           tennis            6
+           swim              4
+           track             4
 Name: count, dtype: int64
 
 Cluster profiles for k=5:
            Bad_Dreams_Response3  Sleep_Meds_Response0  Staying_Awake_Response0  Staying_Awake_Response2  Interruption_Almost_Never  Task_Switching_Often
 Cluster_5                                                                                                                                               
-0                      0.096774              0.000000                  1.00000                 0.000000                   0.225806              0.000000
-1                      0.058824              0.862745                  0.77451                 0.000000                   0.098039              1.000000
-2                      0.166667              0.000000                  0.00000                 0.395833                   0.229167              0.250000
-3                      0.040404              1.000000                  1.00000                 0.000000                   0.141414              0.000000
-4                      0.058824              1.000000                  0.00000                 0.431373                   0.156863              0.078431
+0                      0.068182                   1.0                 0.738636                 0.000000                   0.090909              1.000000
+1                      0.040404                   1.0                 1.000000                 0.000000                   0.141414              0.000000
+2                      0.058824                   1.0                 0.000000                 0.431373                   0.156863              0.078431
+3                      0.066667                   0.0                 1.000000                 0.000000                   0.200000              0.311111
+4                      0.166667                   0.0                 0.000000                 0.395833                   0.229167              0.250000
 
 Top distinguishing features between clusters:
-Sleep_Meds_Response0: 0.2763
-Staying_Awake_Response0: 0.2651
-Task_Switching_Often: 0.1789
+Sleep_Meds_Response0: 0.3000
+Staying_Awake_Response0: 0.2614
+Task_Switching_Often: 0.1570
 Staying_Awake_Response2: 0.0515
-Interruption_Almost_Never: 0.0032
+Interruption_Almost_Never: 0.0029
 Bad_Dreams_Response3: 0.0025
 
 Cluster means for top distinguishing features:
            Sleep_Meds_Response0  Staying_Awake_Response0  Task_Switching_Often  Staying_Awake_Response2  Interruption_Almost_Never  Bad_Dreams_Response3
 Cluster_5                                                                                                                                               
-0                      0.000000                  1.00000              0.000000                 0.000000                   0.225806              0.096774
-1                      0.862745                  0.77451              1.000000                 0.000000                   0.098039              0.058824
-2                      0.000000                  0.00000              0.250000                 0.395833                   0.229167              0.166667
-3                      1.000000                  1.00000              0.000000                 0.000000                   0.141414              0.040404
-4                      1.000000                  0.00000              0.078431                 0.431373                   0.156863              0.058824
+0                           1.0                 0.738636              1.000000                 0.000000                   0.090909              0.068182
+1                           1.0                 1.000000              0.000000                 0.000000                   0.141414              0.040404
+2                           1.0                 0.000000              0.078431                 0.431373                   0.156863              0.058824
+3                           0.0                 1.000000              0.311111                 0.000000                   0.200000              0.066667
+4                           0.0                 0.000000              0.250000                 0.395833                   0.229167              0.166667
 
 ==================== ANALYSIS WITH 2 CLUSTERS ====================
 
 Cluster evaluation metrics for k=2:
-Silhouette Score: 0.5514 (higher is better)
-Calinski-Harabasz Index: 457.7734 (higher is better)
-Davies-Bouldin Index: 0.7746 (lower is better)
+Silhouette Score: 0.3760 (higher is better)
+Calinski-Harabasz Index: 152.4296 (higher is better)
+Davies-Bouldin Index: 1.3777 (lower is better)
 
 Cluster distribution for k=2:
 Cluster_2
-1    181
-0    150
+0    209
+1    122
 Name: count, dtype: int64
 
 Sport distribution across 2 clusters:
-Cluster_2  Sport_Name      
-0          soccer              21
-           basketball          12
-           tennis               7
-           track                7
-           football             6
-           volleyball           6
-           swim                 5
-           cross country        4
-           field hockey         4
-           baseball             3
-           cheer                3
-           dance                2
-           marching band        2
-           bowling              1
-           golf                 1
-           hockey               1
-           horseback riding     1
-           karate               1
-           lacrosse             1
-           netball              1
+Cluster_2  Sport_Name   
+0          soccer           30
+           basketball       13
+           tennis           11
+           track            11
+           football         10
+           volleyball        9
+           baseball          8
+           swim              8
+           cross country     5
+           golf              5
+           field hockey      3
+           wrestling         3
+           cheer             2
+           dance             2
+           hockey            2
+           lacrosse          2
+           marching band     2
+           bowling           1
+           gymnastics        1
+           netball           1
 Name: count, dtype: int64
 
 Cluster profiles for k=2:
            Bad_Dreams_Response3  Sleep_Meds_Response0  Staying_Awake_Response0  Staying_Awake_Response2  Interruption_Almost_Never  Task_Switching_Often
 Cluster_2                                                                                                                                               
-0                      0.046667              1.000000                 0.660000                 0.146667                   0.146667              0.026667
-1                      0.093923              0.486188                 0.607735                 0.104972                   0.154696              0.629834
+0                      0.062201              0.784689                      1.0                 0.000000                   0.143541              0.377990
+1                      0.090164              0.606557                      0.0                 0.336066                   0.163934              0.319672
 
 Top distinguishing features between clusters:
-Task_Switching_Often: 0.1819
-Sleep_Meds_Response0: 0.1320
-Staying_Awake_Response0: 0.0014
-Bad_Dreams_Response3: 0.0011
-Staying_Awake_Response2: 0.0009
-Interruption_Almost_Never: 0.0000
+Staying_Awake_Response0: 0.5000
+Staying_Awake_Response2: 0.0565
+Sleep_Meds_Response0: 0.0159
+Task_Switching_Often: 0.0017
+Bad_Dreams_Response3: 0.0004
+Interruption_Almost_Never: 0.0002
 
 Cluster means for top distinguishing features:
-           Task_Switching_Often  Sleep_Meds_Response0  Staying_Awake_Response0  Bad_Dreams_Response3  Staying_Awake_Response2  Interruption_Almost_Never
+           Staying_Awake_Response0  Staying_Awake_Response2  Sleep_Meds_Response0  Task_Switching_Often  Bad_Dreams_Response3  Interruption_Almost_Never
 Cluster_2                                                                                                                                               
-0                      0.026667              1.000000                 0.660000              0.046667                 0.146667                   0.146667
-1                      0.629834              0.486188                 0.607735              0.093923                 0.104972                   0.154696
+0                              1.0                 0.000000              0.784689              0.377990              0.062201                   0.143541
+1                              0.0                 0.336066              0.606557              0.319672              0.090164                   0.163934
 
 ==================================================
 BINARY CLUSTER LABELING (SIGNIFICANT FEATURES)
@@ -185,18 +185,18 @@ Overall sport type distribution:
   - Total identified: 214 participants
 
 Cluster 0 sport type breakdown:
-  - Collision sports: 13 participants (14.1%)
-  - Contact sports: 79 participants (85.9%)
-  - Total identified: 92 participants
-  - Contains 35.1% of all collision sport athletes
-  - Contains 44.6% of all contact sport athletes
+  - Collision sports: 19 participants (14.6%)
+  - Contact sports: 111 participants (85.4%)
+  - Total identified: 130 participants
+  - Contains 51.4% of all collision sport athletes
+  - Contains 62.7% of all contact sport athletes
 
 Cluster 1 sport type breakdown:
-  - Collision sports: 24 participants (19.7%)
-  - Contact sports: 98 participants (80.3%)
-  - Total identified: 122 participants
-  - Contains 64.9% of all collision sport athletes
-  - Contains 55.4% of all contact sport athletes
+  - Collision sports: 18 participants (21.4%)
+  - Contact sports: 66 participants (78.6%)
+  - Total identified: 84 participants
+  - Contains 48.6% of all collision sport athletes
+  - Contains 37.3% of all contact sport athletes
 
 Both clusters had the same label - forcing binary classification based on relative sport type ratios.
 
@@ -208,10 +208,10 @@ Cluster 1: Collision
 COMPARISON WITH ORIGINAL CLUSTERING
 ========================================
 
-Agreement between original and significant feature clustering: 50.76%
+Agreement between original and significant feature clustering: 60.73%
 
 Contingency table (Original vs. Significant Features):
-Significant Features   0   1
-Original                    
-0                     79  92
-1                     71  89
+Significant Features    0   1
+Original                     
+0                     125  46
+1                      84  76
