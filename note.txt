@@ -1,0 +1,15 @@
+- Attention Clustering is better cluster than combined
+- Combined CLustering matches Attention Clustering
+- Sleep Clusters act as better indicators for concussions
+- Stricter number of Features seems to improve concussion predictions on Sleep
+- Smaller negative Influence on Beetwen number of features and Attention
+- Concussion rates seem to differ massively from traditional classifications of contact and collison
+- Larger number of features seem to in closer to expected results with sleep data
+- Relationship between sports and concussions seems more complex than expected
+- Deeper analysis on relationships between sleep and concussion history might be required
+
+Determining results using current data seems quite difficult
+
+
+Perhaps Bring up Kyles work
+- Decoorelating outside factors that may also cluster may be important for future research
