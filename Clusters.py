@@ -1,7 +1,8 @@
 """
-    remove based on p value of .01 and .05
-    fix feature displat columns
-    Use Dylans new P Values
+    .05 & .01 on sleep
+    test on if concussion
+    combine the two sleep and attention
+    formulate understanding (Narrative)
 
 """
 
@@ -28,7 +29,7 @@ import typing
 original_df = pd.read_csv("./Data/Labeled_survey_data.csv")
 df = original_df
 
-df = df[df["Sports_Info"] != ' '].reset_index(drop=False)
+#df = df[df["Sports_Info"] != ' '].reset_index(drop=False)
 #print('|' + (df["Sports_Info"][327]) + '|')
 
 def time_to_decimal(time_str):
@@ -176,14 +177,14 @@ columns = [
     "Wake_Up",
     "Min_To_Sleep",
     "Sleep_Per_Night",
-    #    "Cant_Sleep",
-    #    "Wake_In_Night",
-    #   "Wake_To_Bathroom",
+    "Cant_Sleep",
+    "Wake_In_Night",
+    "Wake_To_Bathroom",
     "Bad_Dreams",
     "Sleep_Quality",
     "Sleep_Meds",
     "Staying_Awake_Issues",
-    #    "Loud_Snore",
+    "Loud_Snore",
 ]
 
 sleepData = df[columns]
@@ -191,9 +192,10 @@ sleepData = df[columns]
 
 
 #print(sleepData)
-
-numerical_sleep = sleepData.filter(["Bed_Time", "Wake_Up", "Min_To_Sleep", "Sleep_Per_Night"])
-categorical_sleep = sleepData.filter(["Bad_Dreams", "Sleep_Quality", "Sleep_Meds", "Staying_Awake_Issues"])
+numerical_columns = ["Bed_Time", "Wake_Up", "Min_To_Sleep", "Sleep_Per_Night"]
+cat_columns = ["Loud_Snore", "Wake_To_Bathroom", "Wake_In_Night", "Cant_Sleep", "Bad_Dreams", "Sleep_Quality", "Sleep_Meds", "Staying_Awake_Issues"]
+numerical_sleep = sleepData.filter(numerical_columns)
+categorical_sleep = sleepData.filter(cat_columns)
 
 
 num_imputer = SimpleImputer(strategy="mean")
@@ -208,54 +210,52 @@ categorical_sleep = categorical_sleep.T
 #print(encoder.get_feature_names_out())
 #print(categorical_sleep)
 #print(type(categorical_sleep))
-keep_categories = ["Bad_Dreams_3.0", "Sleep_Meds_0.0", "Staying_Awake_Issues_0.0", "Staying_Awake_Issues_2.0"]
-categorical_sleep = categorical_sleep.filter(keep_categories)
+keep_categories_1 = ["Bad_Dreams_3.0", "Sleep_Meds_0.0", "Staying_Awake_Issues_0.0", "Staying_Awake_Issues_2.0"]
+categorical_sleep_1 = categorical_sleep.filter(keep_categories_1)
 #print(categorical_sleep)
 
 
-imputer = SimpleImputer(strategy="most_frequent")
-categorical_sleep = imputer.fit_transform(categorical_sleep)
+
+
 
 '''
-print("Sleep Data")
-print(sleepData)
-print(encoder.get_feature_names_out())
+categorical_sleep_1 = pd.DataFrame(categorical_sleep_1.transpose(), keep_categories_1)
+categorical_sleep_1 = categorical_sleep_1.T
 '''
-
-
-categorical_sleep = pd.DataFrame(categorical_sleep.transpose(), keep_categories)
-categorical_sleep = categorical_sleep.T
-
-numerical_sleep = pd.DataFrame(numerical_sleep.transpose(), num_imputer.get_feature_names_out())
-numerical_sleep = numerical_sleep.T
+categorical_sleep_1 = pd.DataFrame(categorical_sleep_1.transpose(), keep_categories_1)
+categorical_sleep_1 = categorical_sleep_1.T
 
 '''
 print(type(categorical_sleep))
 print(type(numerical_sleep))
 '''
 
-sleepData = pd.merge(numerical_sleep, categorical_sleep, left_index=True, right_index=True)
-columns = list(sleepData.columns)
-#print(sleepData)
-scaler = StandardScaler()
-sleepData = scaler.fit_transform(sleepData)
+sleepData_01 = pd.merge(pd.DataFrame(numerical_sleep, columns=numerical_columns), categorical_sleep_1, left_index=True, right_index=True)
+columns =  sleepData_01.columns
 
-# print(sleepData)
+scaler = StandardScaler()
+sleepData_01 = scaler.fit_transform(sleepData_01)
+
+
+imputer = SimpleImputer(strategy="most_frequent")
+sleepData_01 = imputer.fit_transform(sleepData_01)
+
+
 
 model = KMeans(
     n_clusters=2,
     init="k-means++",
     random_state=0,
     n_init=10,
-).fit(sleepData)
+).fit(sleepData_01)
 
 forest = RandomForestClassifier()
 
-forest.fit(sleepData, model.predict(sleepData))
+forest.fit(sleepData_01, model.predict(sleepData_01))
 important_features = forest.feature_importances_.argsort()[::-1]
 
 
-print("Important Features Sleep: ")
+print("Important Features Sleep 0.01: ")
 for index in important_features:
     print(
         str(columns[index])
@@ -264,11 +264,68 @@ for index in important_features:
     )
 
 print()
-print("Sleep Sihoulette: " + str(silhouette_score(sleepData, model.predict(sleepData))))
+print("Sleep Sihoulette: " + str(silhouette_score(sleepData_01, model.predict(sleepData_01))))
 
-df["Sleep_Cluster"] = model.predict(sleepData)
+df["Sleep_Cluster_01"] = model.predict(sleepData_01)
 
 # print(df)
+
+"""
+    .05 Thing IDK I forgot
+"""
+keep_categories_5 = ["Bad_Dreams_3.0", "Cant_Sleep_3.0", "Loud_Snore_0.0", "Sleep_Meds_0.0", "Sleep_Quality_1.0", "Staying_Awake_Issues", "Wake_In_Night_2.0", "Wake_To_Bathroom_0.0", "Wake_To_Bathroom_3.0"]
+categorical_sleep_5 = categorical_sleep.filter(keep_categories_5)
+#print(categorical_sleep)
+
+
+imputer = SimpleImputer(strategy="most_frequent")
+categorical_sleep_5 = imputer.fit_transform(categorical_sleep_5)
+
+
+
+categorical_sleep_5 = pd.DataFrame(categorical_sleep_5, columns=imputer.get_feature_names_out())
+#categorical_sleep_5 = categorical_sleep_5.T
+
+'''
+print(type(categorical_sleep))
+print(type(numerical_sleep))
+'''
+
+sleepData_05 = pd.merge(categorical_sleep_5, categorical_sleep, left_index=True, right_index=True)
+columns = list(sleepData_05.columns)
+#print(sleepData)
+scaler = StandardScaler()
+sleepData_05 = scaler.fit_transform(sleepData_05)
+
+# print(sleepData)
+
+model = KMeans(
+    n_clusters=2,
+    init="k-means++",
+    random_state=0,
+    n_init=10,
+).fit(sleepData_05)
+
+forest = RandomForestClassifier()
+
+forest.fit(sleepData, model.predict(sleepData_05))
+important_features = forest.feature_importances_.argsort()[::-1]
+
+
+print("\n\nImportant Features Sleep 0.05: ")
+for index in important_features:
+    print(
+        str(columns[index])
+        + " Importance "
+        + str(forest.feature_importances_[index])
+    )
+
+print()
+print("Sleep Sihoulette: " + str(silhouette_score(sleepData_05, model.predict(sleepData_05))))
+
+df["Sleep_Cluster_05"] = model.predict(sleepData_05)
+
+
 
 """
 This Segment of code is dedicated to clustering Concentration issues
@@ -338,9 +395,9 @@ categorical_attention = categorical_attention.rename(columns=rename_dict)
 #print(categorical_sleep)
 #print(type(categorical_sleep))
 
-#keep_categories = ["Good_Interruption_Recovery_0.0", "Good_Task_Switching_3.0"] #.01
-keep_categories = ["Good_Interruption_Recovery_0.0", "Good_Task_Switching_2.0", "Concentration_Issues_3.0", "Good_Task_Alteration_3.0", "Poor_Listening_Writing_3.0"] #.05
-attentionData = categorical_attention.filter(keep_categories)
+
+keep_categories_05 = ["Good_Interruption_Recovery_0.0", "Good_Task_Switching_2.0", "Concentration_Issues_3.0", "Good_Task_Alteration_3.0", "Poor_Listening_Writing_3.0"] #.05
+attentionData = categorical_attention.filter(keep_categories_05)
 feature_columns = attentionData.columns
 scaler = StandardScaler()
 attentionData = scaler.fit_transform(attentionData)
@@ -361,7 +418,7 @@ important_features = forest.feature_importances_.argsort()[::-1]
 
 
 
-print("Important Features Attention: ")
+print("Important Features Attention 05: ")
 for index in important_features:
     print(
         str(feature_columns[index])
@@ -376,7 +433,52 @@ print(
     + str(silhouette_score(attentionData, model.predict(attentionData)))
 )
 
-df["Attention_Cluster"] = model.predict(attentionData)
+df["Attention_Cluster_05"] = model.predict(attentionData)
+
+
+keep_categories_01 = ["Good_Interruption_Recovery_0.0", "Good_Task_Switching_3.0"] #.01
+attentionData = categorical_attention.filter(keep_categories_01)
+feature_columns = attentionData.columns
+scaler = StandardScaler()
+attentionData = scaler.fit_transform(attentionData)
+
+# attentionData = attentionData[(np.abs(stats.zscore(attentionData["feature"])) < 3)]
+# print(sleepData)
+
+
+model = KMeans(n_clusters=2, init="k-means++", random_state=0).fit(attentionData)
+
+forest = RandomForestClassifier()
+
+
+
+
+forest.fit(attentionData, model.predict(attentionData))
+important_features = forest.feature_importances_.argsort()[::-1]
+
+
+
+print("\n\nImportant Features Attention 01: ")
+for index in important_features:
+    print(
+        str(feature_columns[index])
+        + " Importance "
+        + str(forest.feature_importances_[index])
+    )
+
+
+print()
+print(
+    "Attention Sihoulette: "
+    + str(silhouette_score(attentionData, model.predict(attentionData)))
+)
+
+
+df["Attention_Cluster_01"] = model.predict(attentionData)
+
+
+
+
 
 #print(df["Sports_Concussion_Info"])
 new_column = []
@@ -395,7 +497,7 @@ for concussion_json in df["Sports_Concussion_Info"]:
 
 df["Num_Concussions"] = new_column
 
-print(len(df))
+#print(len(df))
 print()
 print(df.groupby("Sleep_Cluster")["Num_Concussions"].describe())
 print()
@@ -491,7 +593,7 @@ for cluster, sport_name in zip(sport_cluster_df, sport_cluster_df.index):
     if cluster.count(1) >= cluster.count(0):
         print(f"{sport_name}: {round(cluster.count(1) / len(cluster) * 100, 2)}%, {cluster.count(0)}:{cluster.count(1)}")
 
-
-#original_df.to_csv("./Data/Labeled_survey_data.csv", index=False)
+print(df)
+#df.to_csv("./Data/Labeled_survey_data.csv", index=False)
 
 print()
