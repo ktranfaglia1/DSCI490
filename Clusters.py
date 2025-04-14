@@ -1,7 +1,7 @@
 """
     .05 & .01 on sleep [X]
-    test on if concussion or not [ ]
-    combine the two sleep and attention [ ]
+    test on if concussion or not [X]
+    combine the two sleep and attention [X]
     formulate understanding (Narrative) [ ]
 
 """
@@ -571,18 +571,20 @@ df["Num_Concussions"] = new_column
 
 #print(len(df))
 #print(df)
-print()
-print(df.groupby("Sleep_Cluster_05")["Num_Concussions"].describe())
-print()
-print(df.groupby("Attention_Cluster_05")["Num_Concussions"].describe())
+df["Had_Concussion"] = (df["Num_Concussions"] > 0).astype(int)
 
-print(df.groupby("combined_05")["Num_Concussions"].describe())
-
-print(df.groupby("Sleep_Cluster_01")["Num_Concussions"].describe())
 print()
-print(df.groupby("Attention_Cluster_01")["Num_Concussions"].describe())
+print(df.groupby("Sleep_Cluster_05")["Had_Concussion"].describe())
+print()
+print(df.groupby("Attention_Cluster_05")["Had_Concussion"].describe())
 
-print(df.groupby("combined_01")["Num_Concussions"].describe())
+print(df.groupby("combined_05")["Had_Concussion"].describe())
+
+print(df.groupby("Sleep_Cluster_01")["Had_Concussion"].describe())
+print()
+print(df.groupby("Attention_Cluster_01")["Had_Concussion"].describe())
+
+print(df.groupby("combined_01")["Had_Concussion"].describe())
 
 
 
@@ -595,7 +597,7 @@ for index, player in enumerate(df["Sports_Info"]):
         sport_json = json.loads(player)
         for sport in sport_json:
             player_sport.append(sport["Sport"])
-            player_cluster.append(df["Sleep_Cluster"][index])
+            player_cluster.append(df["Sleep_Cluster_01"][index])
     
 
 
@@ -640,7 +642,7 @@ for index, player in enumerate(df["Sports_Info"]):
         sport_json = json.loads(player)
         for sport in sport_json:
             player_sport.append(sport["Sport"])
-            player_cluster.append(df["Attention_Cluster"][index])
+            player_cluster.append(df["Attention_Cluster_05"][index])
 
 
 indexes = [i for i in range(len(player_cluster))]
@@ -676,7 +678,7 @@ for cluster, sport_name in zip(sport_cluster_df, sport_cluster_df.index):
 
 
 
-df = df.drop(columns=["Attention_Cluster", "Sleep_Cluster", "Unnamed: 0.1", "Unnamed: 0", "Index"])
-df.to_csv("./Data/Labeled_survey_data.csv", index=False)
+#df = df.drop(columns=["Attention_Cluster", "Sleep_Cluster", "Unnamed: 0.1", "Unnamed: 0", "Index"])
+#df.to_csv("./Data/Labeled_survey_data.csv", index=False)
 
 print()
