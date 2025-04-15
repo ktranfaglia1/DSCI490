@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import json
 
 '''
     Sleep_Cluster_05: 
@@ -50,3 +51,36 @@ for index, column in enumerate(cluster_columns):
 plt.savefig("./Plots/Dustins/ClusterConcussions.png")
 '''
 
+"""
+    Sports Clusters Pie Chart
+"""
+
+def get_sport(sport_jstring: str) -> str:
+    if sport_jstring != ' ':
+        sport_json = json.loads(sport_jstring)
+        if sport_json[0]["Sport"]:
+            return sport_json[0]["Sport"]
+        else:
+            return None
+    else:
+        return None
+
+
+columns = ["Sleep_Cluster_01", "Attention_Cluster_05"]
+#print(df.columns)
+
+
+
+for cIndex, column in enumerate(columns):
+    
+    df = df.filter(["Sports_Info"] + columns)
+    df["Sport"] = df["Sports_Info"].apply(get_sport)
+
+    for clusterIndex in range(2):
+        df_temp = df[df[column] == clusterIndex]
+        counts = df_temp["Sport"].value_counts()
+        df_temp["Sport"] = df_temp["Sport"].apply(lambda x: x if x in counts and counts[x] >= 3 else "Other")
+        plt.pie(df_temp["Sport"].value_counts(), labels=df_temp["Sport"].value_counts().index, autopct='%1.1f%%')
+        plt.title(f"Dataset: {column} Cluster {clusterIndex}")
+        plt.savefig(f"./Plots/Dustins/Pie{column}_cluster_{clusterIndex}.png")
+        plt.clf()

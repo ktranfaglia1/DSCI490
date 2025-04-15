@@ -7,6 +7,8 @@
 - Larger number of features seem to in closer to expected results with sleep data
 - Relationship between sports and concussions seems more complex than expected
 - Deeper analysis on relationships between sleep and concussion history might be required
+- Distinguishing High Concussion Sports vs Average people seems to be problematic
+- Restrictive Sleep seems better than More inclusive sleep data
 
 Determining results using current data seems quite difficult
 

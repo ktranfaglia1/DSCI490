@@ -679,6 +679,6 @@ for cluster, sport_name in zip(sport_cluster_df, sport_cluster_df.index):
 
 
 #df = df.drop(columns=["Attention_Cluster", "Sleep_Cluster", "Unnamed: 0.1", "Unnamed: 0", "Index"])
-df.to_csv("./Data/Labeled_survey_data.csv", index=False)
+#df.to_csv("./Data/Labeled_survey_data.csv", index=False)
 
 print()
