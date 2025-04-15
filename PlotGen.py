@@ -54,7 +54,7 @@ plt.savefig("./Plots/Dustins/ClusterConcussions.png")
 """
     Sports Clusters Pie Chart
 
-
+"""
 def get_sport(sport_jstring: str) -> str:
     if sport_jstring != ' ':
         sport_json = json.loads(sport_jstring)
@@ -66,7 +66,7 @@ def get_sport(sport_jstring: str) -> str:
         return None
 
 
-columns = ["Sleep_Cluster_01", "Attention_Cluster_05"]
+columns = ["Sleep_Cluster_01", "Sleep_Cluster_05", "Attention_Cluster_05", "Attention_Cluster_01"]
 #print(df.columns)
 
 
@@ -91,4 +91,3 @@ for cIndex, column in enumerate(columns):
         plt.savefig(f"./Plots/Dustins/Pie{column}_cluster_{clusterIndex}.png")
         plt.clf()
 
-"""
