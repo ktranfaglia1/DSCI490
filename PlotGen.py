@@ -53,7 +53,7 @@ plt.savefig("./Plots/Dustins/ClusterConcussions.png")
 
 """
     Sports Clusters Pie Chart
-"""
+
 
 def get_sport(sport_jstring: str) -> str:
     if sport_jstring != ' ':
@@ -70,6 +70,12 @@ columns = ["Sleep_Cluster_01", "Attention_Cluster_05"]
 #print(df.columns)
 
 
+def make_autopct(values):
+    def my_autopct(pct):
+        total = sum(values)
+        count = int(round(pct * total / 100.0))
+        return f'{count}'
+    return my_autopct
 
 for cIndex, column in enumerate(columns):
     
@@ -80,7 +86,9 @@ for cIndex, column in enumerate(columns):
         df_temp = df[df[column] == clusterIndex]
         counts = df_temp["Sport"].value_counts()
         df_temp["Sport"] = df_temp["Sport"].apply(lambda x: x if x in counts and counts[x] >= 3 else "Other")
-        plt.pie(df_temp["Sport"].value_counts(), labels=df_temp["Sport"].value_counts().index, autopct='%1.1f%%')
+        plt.pie(df_temp["Sport"].value_counts(), labels=df_temp["Sport"].value_counts().index, autopct=make_autopct(counts.values))
         plt.title(f"Dataset: {column} Cluster {clusterIndex}")
         plt.savefig(f"./Plots/Dustins/Pie{column}_cluster_{clusterIndex}.png")
         plt.clf()
+
+"""
