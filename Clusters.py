@@ -2,7 +2,7 @@
     .05 & .01 on sleep [X]
     test on if concussion or not [X]
     combine the two sleep and attention [X]
-    formulate understanding (Narrative) [ ]
+    formulate understanding (Narrative) [X]
 
 """
 
