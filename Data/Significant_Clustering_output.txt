@@ -172,10 +172,10 @@ Cluster 1: Contact
 COMPARISON WITH ORIGINAL CLUSTERING
 ========================================
 
-Agreement between original and significant feature clustering: 40.18%
+Agreement between original and significant feature clustering: 21.15%
 
 Contingency table (Original vs. Significant Features):
-Significant Features   0    1
-Original                     
-0                     28  143
-1                     55  105
+Significant Features   0   1
+Original                    
+0.0                   17  43
+1.0                   26  53

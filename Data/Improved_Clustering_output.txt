@@ -2,11 +2,11 @@ IMPROVED CLUSTERING ANALYSIS
 ==============================
 Sport names distribution:
 Sport_Name
-soccer           47
-football         24
-basketball       23
+soccer           45
+football         23
+basketball       22
 tennis           17
-volleyball       17
+volleyball       16
 track            15
 swim             11
 baseball         10
@@ -18,26 +18,26 @@ Total unique sports: 29
 Creating composite features for better clustering...
 
 New derived features summary:
-Sleep_Problem_Index: Mean = 0.65, Median = 0.60
-Concentration_Problem_Index: Mean = 1.39, Median = 1.33
-Task_Switching_Index: Mean = 1.37, Median = 1.25
+Sleep_Problem_Index: Mean = 0.64, Median = 0.50
+Concentration_Problem_Index: Mean = 1.32, Median = 1.17
+Task_Switching_Index: Mean = 1.40, Median = 1.38
 
 Scaling data using RobustScaler to minimize outlier impact...
 
 Optimal number of PCs explaining ≥ 80% variance: 11
 
 Explained variance by each principal component:
-PC1: 0.2173 (0.2173 cumulative)
-PC2: 0.1535 (0.3708 cumulative)
-PC3: 0.0862 (0.4570 cumulative)
-PC4: 0.0779 (0.5349 cumulative)
-PC5: 0.0652 (0.6001 cumulative)
-PC6: 0.0599 (0.6600 cumulative)
-PC7: 0.0378 (0.6977 cumulative)
-PC8: 0.0322 (0.7299 cumulative)
-PC9: 0.0270 (0.7570 cumulative)
-PC10: 0.0243 (0.7812 cumulative)
-PC11: 0.0219 (0.8032 cumulative)
+PC1: 0.2369 (0.2369 cumulative)
+PC2: 0.1189 (0.3558 cumulative)
+PC3: 0.0950 (0.4509 cumulative)
+PC4: 0.0792 (0.5300 cumulative)
+PC5: 0.0605 (0.5906 cumulative)
+PC6: 0.0554 (0.6459 cumulative)
+PC7: 0.0426 (0.6886 cumulative)
+PC8: 0.0417 (0.7303 cumulative)
+PC9: 0.0309 (0.7611 cumulative)
+PC10: 0.0258 (0.7869 cumulative)
+PC11: 0.0224 (0.8093 cumulative)
 
 Determining optimal number of clusters...
 
@@ -51,120 +51,120 @@ Selected number of clusters based on majority vote: 3
 ==================== ANALYSIS WITH 3 CLUSTERS ====================
 
 Cluster evaluation metrics for k=3:
-Silhouette Score: 0.1802 (higher is better)
-Calinski-Harabasz Index: 65.1141 (higher is better)
-Davies-Bouldin Index: 1.5840 (lower is better)
+Silhouette Score: 0.1803 (higher is better)
+Calinski-Harabasz Index: 38.5317 (higher is better)
+Davies-Bouldin Index: 1.5638 (lower is better)
 
 Cluster distribution for k=3:
 Cluster_3
-0    160
-2    157
-1     14
+1.0    74
+0.0    59
+2.0     6
 Name: count, dtype: int64
 
 Sport distribution across 3 clusters:
-Cluster_3  Sport_Name      
-0          soccer              27
-           basketball          18
-           tennis              11
-           football            10
-           track               10
-           volleyball           9
-           baseball             6
-           swim                 4
-           cross country        3
-           field hockey         2
-           golf                 2
-           wrestling            2
-           archery              1
-           cheer                1
-           crew                 1
-           dance                1
-           fencing              1
-           hockey               1
-           horseback riding     1
-           marching band        1
+Cluster_3  Sport_Name   
+0.0        soccer           16
+           football          6
+           tennis            6
+           basketball        5
+           volleyball        5
+           swim              4
+           track             3
+           baseball          2
+           marching band     2
+           cross country     1
+           dance             1
+           field hockey      1
+           gymnastics        1
+           hockey            1
+           karate            1
+           rowing            1
+           twirling          1
+           wrestling         1
+1.0        soccer           14
+           football         10
 Name: count, dtype: int64
 
 Cluster profiles for k=3:
 
 Top 10 most distinguishing features between clusters:
-Min_To_Sleep: 4482.7994
-Bed_Time: 7.4592
-Wake_Up: 0.5979
-Reading_Concentration_Issues: 0.3809
-Excitement_Concentration_Issues: 0.3573
-Concentration_Issues: 0.3451
-Concentration_Problem_Index: 0.3197
-Trouble_Blocking_Thoughts: 0.3082
-Surrounding_Concentration_Issues: 0.2849
-Noise_Concentration_Issues: 0.2789
+Min_To_Sleep: 111.8734
+Bed_Time: 9.4240
+Wake_Up: 0.5033
+Ignore_Hunger_Concentrating: 0.1910
+Too_Cold: 0.1310
+Too_Hot: 0.1270
+Good_Task_Switching: 0.1028
+Noise_Concentration_Issues: 0.0903
+Easy_Read_Write_On_Phone: 0.0673
+Reading_Concentration_Issues: 0.0582
 
 Cluster means for top distinguishing features:
-           Min_To_Sleep   Bed_Time    Wake_Up  Reading_Concentration_Issues  ...  Concentration_Problem_Index  Trouble_Blocking_Thoughts  Surrounding_Concentration_Issues  Noise_Concentration_Issues
-Cluster_3                                                                    ...                                                                                                                      
-0             26.650000  11.071875   9.340104                      0.993750  ...                     0.842292                   0.756250                          0.743750                     1.05625
-1            142.142857   6.928571  10.357143                      1.285714  ...                     1.226190                   1.285714                          1.214286                     1.50000
-2             25.707006  12.082803   8.839703                      2.178344  ...                     1.955414                   1.866242                          1.808917                     2.10828
+           Min_To_Sleep   Bed_Time    Wake_Up  ...  Noise_Concentration_Issues  Easy_Read_Write_On_Phone  Reading_Concentration_Issues
+Cluster_3                                      ...                                                                                    
+0.0           32.915254   9.293785   8.988701  ...                    1.423729                  0.864407                      1.389831
+1.0           28.081081  11.156532   9.489865  ...                    1.581081                  1.297297                      1.648649
+2.0           48.333333  15.291667  10.388889  ...                    1.000000                  0.833333                      1.166667
 
 [3 rows x 10 columns]
 
 ==================== ANALYSIS WITH 2 CLUSTERS ====================
 
 Cluster evaluation metrics for k=2:
-Silhouette Score: 0.2029 (higher is better)
-Calinski-Harabasz Index: 85.2811 (higher is better)
-Davies-Bouldin Index: 1.7993 (lower is better)
+Silhouette Score: 0.1717 (higher is better)
+Calinski-Harabasz Index: 49.8380 (higher is better)
+Davies-Bouldin Index: 1.8360 (lower is better)
 
 Cluster distribution for k=2:
 Cluster_2
-0    171
-1    160
+1.0    79
+0.0    60
 Name: count, dtype: int64
 
 Sport distribution across 2 clusters:
-Cluster_2  Sport_Name      
-0          soccer              30
-           basketball          18
-           tennis              12
-           football            11
-           track               10
-           volleyball          10
-           baseball             6
-           golf                 4
-           swim                 4
-           cross country        3
-           field hockey         2
-           wrestling            2
-           archery              1
-           cheer                1
-           crew                 1
-           dance                1
-           fencing              1
-           hockey               1
-           horseback riding     1
-           marching band        1
+Cluster_2  Sport_Name   
+0.0        soccer           16
+           football          6
+           tennis            6
+           basketball        5
+           volleyball        5
+           swim              4
+           track             3
+           baseball          2
+           field hockey      2
+           marching band     2
+           cross country     1
+           dance             1
+           gymnastics        1
+           hockey            1
+           karate            1
+           rowing            1
+           twirling          1
+           wrestling         1
+1.0        soccer           16
+           football         10
 Name: count, dtype: int64
 
 Cluster profiles for k=2:
 
 Top 10 most distinguishing features between clusters:
-Min_To_Sleep: 24.4499
-Reading_Concentration_Issues: 0.6903
-Concentration_Issues: 0.6381
-Excitement_Concentration_Issues: 0.6378
-Concentration_Problem_Index: 0.6059
-Trouble_Blocking_Thoughts: 0.5951
-Noise_Concentration_Issues: 0.5432
-Surrounding_Concentration_Issues: 0.5410
-Bed_Time: 0.4899
-Long_Time_Focus: 0.4136
+Min_To_Sleep: 4.4357
+Bed_Time: 2.9856
+Wake_Up: 0.1829
+Easy_Read_Write_On_Phone: 0.0797
+Sleep_Per_Night: 0.0767
+Too_Cold: 0.0641
+Poor_Perspective_Thinking: 0.0591
+Pain: 0.0528
+Sleep_Problem_Index: 0.0329
+Long_Time_Focus: 0.0304
 
 Cluster means for top distinguishing features:
-           Min_To_Sleep  Reading_Concentration_Issues  Concentration_Issues  Excitement_Concentration_Issues  ...  Noise_Concentration_Issues  Surrounding_Concentration_Issues   Bed_Time  Long_Time_Focus
-Cluster_2                                                                                                     ...                                                                                          
-0             34.467836                         1.000              0.614035                         0.883041  ...                    1.070175                          0.766082  10.897661         0.865497
-1             27.475000                         2.175              1.743750                         2.012500  ...                    2.112500                          1.806250  11.887500         1.775000
+           Min_To_Sleep   Bed_Time   Wake_Up  Easy_Read_Write_On_Phone  ...  Poor_Perspective_Thinking      Pain  Sleep_Problem_Index  Long_Time_Focus
+Cluster_2                                                               ...                                                                           
+0.0           32.700000   9.155556  8.972222                  0.866667  ...                   0.833333  0.333333             0.473333         1.133333
+1.0           29.721519  11.599156  9.577004                  1.265823  ...                   1.177215  0.658228             0.729747         1.379747
 
 [2 rows x 10 columns]
 
@@ -173,11 +173,11 @@ Cluster_2                                                                       
 Comparing with Hierarchical Clustering for validation...
 
 Contingency table (K-means vs Hierarchical):
-Hierarchical_Cluster    0   1   2
-Cluster_3                        
-0                      94   0  66
-1                       0  14   0
-2                     157   0   0
+Hierarchical_Cluster    0   1  2
+Cluster_3                       
+0                      36  48  0
+1                     118   0  0
+2                       0   1  8
 
 ========================================
 CLUSTERING ANALYSIS SUMMARY
@@ -188,154 +188,137 @@ Requested number of clusters: 2
 Key findings:
 
 For 3 clusters:
-Cluster 0 (160 members, 48.3%):
-  - Min_To_Sleep: lower than other clusters (26.65 vs 83.92)
-  - Bed_Time: higher than other clusters (11.07 vs 9.51)
-  - Trouble_Blocking_Thoughts: lower than other clusters (0.76 vs 1.58)
-  - Concentration_Issues: lower than other clusters (0.59 vs 1.38)
-  - Surrounding_Concentration_Issues: lower than other clusters (0.74 vs 1.51)
+Cluster 0 (84 members, 29.7%):
+  - Min_To_Sleep: lower than other clusters (32.92 vs 38.21)
+  - Bed_Time: lower than other clusters (9.29 vs 13.22)
+  - Wake_Up: lower than other clusters (8.99 vs 9.94)
+  - Too_Cold: lower than other clusters (0.61 vs 1.14)
+  - Poor_Perspective_Thinking: lower than other clusters (0.81 vs 1.18)
   Sports distribution:
-    - soccer: 27 participants (57.4% of all soccer participants)
-    - basketball: 18 participants (78.3% of all basketball participants)
-    - tennis: 11 participants (64.7% of all tennis participants)
-    - track: 10 participants (66.7% of all track participants)
-    - football: 10 participants (41.7% of all football participants)
-    - volleyball: 9 participants (52.9% of all volleyball participants)
-    - baseball: 6 participants (60.0% of all baseball participants)
+    - soccer: 16 participants (35.6% of all soccer participants)
+    - tennis: 6 participants (35.3% of all tennis participants)
+    - football: 6 participants (26.1% of all football participants)
+    - basketball: 5 participants (22.7% of all basketball participants)
+    - volleyball: 5 participants (31.2% of all volleyball participants)
     - swim: 4 participants (36.4% of all swim participants)
-    - cross country: 3 participants (37.5% of all cross country participants)
-    - wrestling: 2 participants (66.7% of all wrestling participants)
-    - golf: 2 participants (40.0% of all golf participants)
-    - field hockey: 2 participants (50.0% of all field hockey participants)
+    - track: 3 participants (20.0% of all track participants)
+    - baseball: 2 participants (20.0% of all baseball participants)
+    - marching band: 2 participants (66.7% of all marching band participants)
     - rowing: 1 participants (100.0% of all rowing participants)
-    - cheer: 1 participants (20.0% of all cheer participants)
+    - hockey: 1 participants (50.0% of all hockey participants)
+    - wrestling: 1 participants (33.3% of all wrestling participants)
+    - karate: 1 participants (100.0% of all karate participants)
     - dance: 1 participants (50.0% of all dance participants)
+    - cross country: 1 participants (12.5% of all cross country participants)
+    - twirling: 1 participants (100.0% of all twirling participants)
+    - gymnastics: 1 participants (33.3% of all gymnastics participants)
+    - field hockey: 1 participants (25.0% of all field hockey participants)
+Cluster 1 (118 members, 41.7%):
+  - Min_To_Sleep: lower than other clusters (28.08 vs 40.62)
+  - Bed_Time: lower than other clusters (11.16 vs 12.29)
+  - Easy_Read_Write_On_Phone: higher than other clusters (1.30 vs 0.85)
+  - Pain: higher than other clusters (0.66 vs 0.42)
+  - Long_Time_Focus: higher than other clusters (1.39 vs 1.15)
+  Sports distribution:
+    - soccer: 14 participants (31.1% of all soccer participants)
+    - football: 10 participants (43.5% of all football participants)
+    - basketball: 9 participants (40.9% of all basketball participants)
+    - track: 7 participants (46.7% of all track participants)
+    - tennis: 6 participants (35.3% of all tennis participants)
+    - swim: 5 participants (45.5% of all swim participants)
+    - baseball: 3 participants (30.0% of all baseball participants)
+    - cross country: 3 participants (37.5% of all cross country participants)
+    - cheer: 3 participants (60.0% of all cheer participants)
+    - bowling: 2 participants (100.0% of all bowling participants)
+    - golf: 2 participants (40.0% of all golf participants)
+    - wrestling: 2 participants (66.7% of all wrestling participants)
+    - fencing: 1 participants (50.0% of all fencing participants)
+    - gymnastics: 1 participants (33.3% of all gymnastics participants)
+    - dance: 1 participants (50.0% of all dance participants)
+    - street hockey: 1 participants (100.0% of all street hockey participants)
     - hockey: 1 participants (50.0% of all hockey participants)
     - marching band: 1 participants (33.3% of all marching band participants)
     - horseback riding: 1 participants (100.0% of all horseback riding participants)
-    - archery: 1 participants (100.0% of all archery participants)
-    - fencing: 1 participants (50.0% of all fencing participants)
-    - crew: 1 participants (100.0% of all crew participants)
-    - netball: 1 participants (100.0% of all netball participants)
-    - taekwondo: 1 participants (100.0% of all taekwondo participants)
-Cluster 1 (14 members, 4.2%):
-  - Min_To_Sleep: higher than other clusters (142.14 vs 26.18)
-  - Bed_Time: lower than other clusters (6.93 vs 11.58)
-  - Excitement_Concentration_Issues: lower than other clusters (1.07 vs 1.45)
-  - Reading_Concentration_Issues: lower than other clusters (1.29 vs 1.59)
-  - Concentration_Issues: lower than other clusters (1.00 vs 1.17)
+Cluster 2 (9 members, 3.2%):
+  - Min_To_Sleep: higher than other clusters (48.33 vs 30.50)
+  - Bed_Time: higher than other clusters (15.29 vs 10.23)
+  - Wake_Up: higher than other clusters (10.39 vs 9.24)
+  - Too_Cold: higher than other clusters (1.33 vs 0.78)
+  - Easy_Read_Write_On_Phone: lower than other clusters (0.83 vs 1.08)
   Sports distribution:
-    - soccer: 3 participants (6.4% of all soccer participants)
-    - football: 2 participants (8.3% of all football participants)
-    - golf: 2 participants (40.0% of all golf participants)
-    - tennis: 1 participants (5.9% of all tennis participants)
-    - volleyball: 1 participants (5.9% of all volleyball participants)
-Cluster 2 (157 members, 47.4%):
-  - Min_To_Sleep: lower than other clusters (25.71 vs 84.40)
-  - Bed_Time: higher than other clusters (12.08 vs 9.00)
-  - Reading_Concentration_Issues: higher than other clusters (2.18 vs 1.14)
-  - Excitement_Concentration_Issues: higher than other clusters (2.01 vs 0.98)
-  - Concentration_Issues: higher than other clusters (1.75 vs 0.80)
-  Sports distribution:
-    - soccer: 17 participants (36.2% of all soccer participants)
-    - football: 12 participants (50.0% of all football participants)
-    - swim: 7 participants (63.6% of all swim participants)
-    - volleyball: 7 participants (41.2% of all volleyball participants)
-    - track: 5 participants (33.3% of all track participants)
-    - tennis: 5 participants (29.4% of all tennis participants)
-    - basketball: 5 participants (21.7% of all basketball participants)
-    - cross country: 5 participants (62.5% of all cross country participants)
-    - baseball: 4 participants (40.0% of all baseball participants)
-    - cheer: 4 participants (80.0% of all cheer participants)
-    - gymnastics: 3 participants (100.0% of all gymnastics participants)
-    - bowling: 2 participants (100.0% of all bowling participants)
-    - field hockey: 2 participants (50.0% of all field hockey participants)
-    - marching band: 2 participants (66.7% of all marching band participants)
-    - lacrosse: 2 participants (100.0% of all lacrosse participants)
-    - wrestling: 1 participants (33.3% of all wrestling participants)
-    - hockey: 1 participants (50.0% of all hockey participants)
-    - dance: 1 participants (50.0% of all dance participants)
-    - fencing: 1 participants (50.0% of all fencing participants)
-    - street hockey: 1 participants (100.0% of all street hockey participants)
-    - karate: 1 participants (100.0% of all karate participants)
-    - twirling: 1 participants (100.0% of all twirling participants)
-    - golf: 1 participants (20.0% of all golf participants)
+    - soccer: 2 participants (4.4% of all soccer participants)
+    - field hockey: 1 participants (25.0% of all field hockey participants)
+    - volleyball: 1 participants (6.2% of all volleyball participants)
+    - track: 1 participants (6.7% of all track participants)
+    - cross country: 1 participants (12.5% of all cross country participants)
 
 For 2 clusters:
-Cluster 0 (171 members, 51.7%):
-  - Min_To_Sleep: higher than other clusters (34.47 vs 27.48)
-  - Reading_Concentration_Issues: lower than other clusters (1.00 vs 2.17)
-  - Concentration_Issues: lower than other clusters (0.61 vs 1.74)
-  - Excitement_Concentration_Issues: lower than other clusters (0.88 vs 2.01)
-  - Concentration_Problem_Index: lower than other clusters (0.85 vs 1.96)
+Cluster 0 (60 members, 21.2%):
+  - Min_To_Sleep: higher than other clusters (32.70 vs 29.72)
+  - Bed_Time: lower than other clusters (9.16 vs 11.60)
+  - Wake_Up: lower than other clusters (8.97 vs 9.58)
+  - Easy_Read_Write_On_Phone: lower than other clusters (0.87 vs 1.27)
+  - Sleep_Per_Night: lower than other clusters (7.11 vs 7.50)
   Sports distribution:
-    - soccer: 30 participants (63.8% of all soccer participants)
-    - basketball: 18 participants (78.3% of all basketball participants)
-    - tennis: 12 participants (70.6% of all tennis participants)
-    - football: 11 participants (45.8% of all football participants)
-    - track: 10 participants (66.7% of all track participants)
-    - volleyball: 10 participants (58.8% of all volleyball participants)
-    - baseball: 6 participants (60.0% of all baseball participants)
-    - golf: 4 participants (80.0% of all golf participants)
+    - soccer: 16 participants (35.6% of all soccer participants)
+    - tennis: 6 participants (35.3% of all tennis participants)
+    - football: 6 participants (26.1% of all football participants)
+    - basketball: 5 participants (22.7% of all basketball participants)
+    - volleyball: 5 participants (31.2% of all volleyball participants)
     - swim: 4 participants (36.4% of all swim participants)
-    - cross country: 3 participants (37.5% of all cross country participants)
-    - wrestling: 2 participants (66.7% of all wrestling participants)
+    - track: 3 participants (20.0% of all track participants)
     - field hockey: 2 participants (50.0% of all field hockey participants)
+    - baseball: 2 participants (20.0% of all baseball participants)
+    - marching band: 2 participants (66.7% of all marching band participants)
     - rowing: 1 participants (100.0% of all rowing participants)
-    - cheer: 1 participants (20.0% of all cheer participants)
+    - hockey: 1 participants (50.0% of all hockey participants)
+    - karate: 1 participants (100.0% of all karate participants)
+    - wrestling: 1 participants (33.3% of all wrestling participants)
     - dance: 1 participants (50.0% of all dance participants)
+    - cross country: 1 participants (12.5% of all cross country participants)
+    - twirling: 1 participants (100.0% of all twirling participants)
+    - gymnastics: 1 participants (33.3% of all gymnastics participants)
+Cluster 1 (79 members, 27.9%):
+  - Min_To_Sleep: lower than other clusters (29.72 vs 32.70)
+  - Bed_Time: higher than other clusters (11.60 vs 9.16)
+  - Wake_Up: higher than other clusters (9.58 vs 8.97)
+  - Easy_Read_Write_On_Phone: higher than other clusters (1.27 vs 0.87)
+  - Sleep_Per_Night: higher than other clusters (7.50 vs 7.11)
+  Sports distribution:
+    - soccer: 16 participants (35.6% of all soccer participants)
+    - football: 10 participants (43.5% of all football participants)
+    - basketball: 9 participants (40.9% of all basketball participants)
+    - track: 8 participants (53.3% of all track participants)
+    - tennis: 6 participants (35.3% of all tennis participants)
+    - swim: 5 participants (45.5% of all swim participants)
+    - cross country: 4 participants (50.0% of all cross country participants)
+    - baseball: 3 participants (30.0% of all baseball participants)
+    - cheer: 3 participants (60.0% of all cheer participants)
+    - wrestling: 2 participants (66.7% of all wrestling participants)
+    - golf: 2 participants (40.0% of all golf participants)
+    - bowling: 2 participants (100.0% of all bowling participants)
+    - volleyball: 1 participants (6.2% of all volleyball participants)
+    - gymnastics: 1 participants (33.3% of all gymnastics participants)
+    - fencing: 1 participants (50.0% of all fencing participants)
+    - dance: 1 participants (50.0% of all dance participants)
+    - street hockey: 1 participants (100.0% of all street hockey participants)
     - hockey: 1 participants (50.0% of all hockey participants)
     - marching band: 1 participants (33.3% of all marching band participants)
     - horseback riding: 1 participants (100.0% of all horseback riding participants)
-    - archery: 1 participants (100.0% of all archery participants)
-    - fencing: 1 participants (50.0% of all fencing participants)
-    - crew: 1 participants (100.0% of all crew participants)
-    - netball: 1 participants (100.0% of all netball participants)
-    - taekwondo: 1 participants (100.0% of all taekwondo participants)
-Cluster 1 (160 members, 48.3%):
-  - Min_To_Sleep: lower than other clusters (27.48 vs 34.47)
-  - Reading_Concentration_Issues: higher than other clusters (2.17 vs 1.00)
-  - Concentration_Issues: higher than other clusters (1.74 vs 0.61)
-  - Excitement_Concentration_Issues: higher than other clusters (2.01 vs 0.88)
-  - Concentration_Problem_Index: higher than other clusters (1.96 vs 0.85)
-  Sports distribution:
-    - soccer: 17 participants (36.2% of all soccer participants)
-    - football: 13 participants (54.2% of all football participants)
-    - swim: 7 participants (63.6% of all swim participants)
-    - volleyball: 7 participants (41.2% of all volleyball participants)
-    - track: 5 participants (33.3% of all track participants)
-    - tennis: 5 participants (29.4% of all tennis participants)
-    - basketball: 5 participants (21.7% of all basketball participants)
-    - cross country: 5 participants (62.5% of all cross country participants)
-    - baseball: 4 participants (40.0% of all baseball participants)
-    - cheer: 4 participants (80.0% of all cheer participants)
-    - gymnastics: 3 participants (100.0% of all gymnastics participants)
-    - bowling: 2 participants (100.0% of all bowling participants)
-    - field hockey: 2 participants (50.0% of all field hockey participants)
-    - marching band: 2 participants (66.7% of all marching band participants)
-    - lacrosse: 2 participants (100.0% of all lacrosse participants)
-    - wrestling: 1 participants (33.3% of all wrestling participants)
-    - hockey: 1 participants (50.0% of all hockey participants)
-    - dance: 1 participants (50.0% of all dance participants)
-    - fencing: 1 participants (50.0% of all fencing participants)
-    - street hockey: 1 participants (100.0% of all street hockey participants)
-    - karate: 1 participants (100.0% of all karate participants)
-    - twirling: 1 participants (100.0% of all twirling participants)
-    - golf: 1 participants (20.0% of all golf participants)
 
 ========================================
 Binary Cluster Labeling
 ========================================
 
 Cluster 0 sport type breakdown:
-  - Collision sports: 15 participants (12.2%)
-  - Contact sports: 108 participants (87.8%)
-  - Total identified: 123 participants
+  - Collision sports: 8 participants (13.6%)
+  - Contact sports: 51 participants (86.4%)
+  - Total identified: 59 participants
 
 Cluster 1 sport type breakdown:
-  - Collision sports: 22 participants (24.2%)
-  - Contact sports: 69 participants (75.8%)
-  - Total identified: 91 participants
+  - Collision sports: 17 participants (21.8%)
+  - Contact sports: 61 participants (78.2%)
+  - Total identified: 78 participants
 
 Both clusters had the same label - forcing binary classification based on relative sport type ratios.
 

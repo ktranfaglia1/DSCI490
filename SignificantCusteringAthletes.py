@@ -31,6 +31,8 @@ print_and_log("CLUSTERING WITH STATISTICALLY SIGNIFICANT FEATURES\n" + "="*50)
 file_path = "./Data/Labeled_survey_data.csv"
 df = pd.read_csv(file_path)
 
+df = df[df['Sports_Status'] == 'Yes']
+
 # Function to extract sport names from JSON-like structure
 def extract_sport_names(entry):
     try:
@@ -54,19 +56,17 @@ significant_columns = [
     # Sleep Features
     "Bad_Dreams",  # Response 3
     "Cant_Sleep",  # Response 3
-    "Loud_Snore",  # Response 0
-    "Sleep_Meds",  # Response 0
-    "Sleep_Quality",  # Response 1
+    "Sleep_Meds",  # Response 0, 2
+    "Sleep_Quality",  # Response 0, 1, 2
     "Staying_Awake_Issues",  # Response 0, 2
-    "Wake_In_Night",  # Response 2
-    "Wake_To_Bathroom",  # Response 0, 3
     
     # Attention Features
+    "Motivation_Issues",  # very big problem, no problem at all
     "Concentration_Issues",  # Always
-    "Good_Interruption_Recovery",  # Almost Never
-    "Good_Task_Alteration",  # Almost Never
     "Good_Task_Switching",  # Often
+    "Easy_Read_Write_On_Phone",  # Almost never
     "Poor_Listening_Writing",  # Always
+    "Trouble_Blocking_Thoughts"  # Always
     
     # # Include important demographic/status variables
     # "Head_Injury_Status", 
@@ -86,34 +86,40 @@ df_selected = df[significant_columns].copy()
 # Mapping ordinal categorical responses
 ordinal_mappings = {
     "Poor": 1, "Fair": 2, "Good": 3, "Very Good": 4, "Excellent": 5,
-    "Almost never": 0, "Sometimes": 1, "Often": 2, "Always": 3
+    "Almost never": 0, "Sometimes": 1, "Often": 2, "Always": 3,
+    "A very big problem": 0, "No problem at all": 1 
 }
 
-for col in ["Concentration_Issues", "Good_Interruption_Recovery", 
-            "Good_Task_Alteration", "Good_Task_Switching", "Poor_Listening_Writing"]:
+for col in ["Motivation_Issues",
+    "Concentration_Issues",
+    "Good_Task_Switching",
+    "Poor_Listening_Writing",
+    "Easy_Read_Write_On_Phone",
+    "Trouble_Blocking_Thoughts"]:
     df_selected[col] = df_selected[col].map(ordinal_mappings)
 
 # Create binary features for the specific response categories that were significant
 print_and_log("\nCreating binary features for significant response categories...")
 
 # For sleep features with significant specific responses
-df_selected['Bad_Dreams_Response3'] = (df_selected['Bad_Dreams'] == 3).astype(int)
-df_selected['Cant_Sleep_Response3'] = (df_selected['Cant_Sleep'] == 3).astype(int)
-df_selected['Loud_Snore_Response0'] = (df_selected['Loud_Snore'] == 0).astype(int)
-df_selected['Sleep_Meds_Response0'] = (df_selected['Sleep_Meds'] == 0).astype(int)
-df_selected['Sleep_Quality_Response1'] = (df_selected['Sleep_Quality'] == 1).astype(int)
-df_selected['Staying_Awake_Response0'] = (df_selected['Staying_Awake_Issues'] == 0).astype(int)
-df_selected['Staying_Awake_Response2'] = (df_selected['Staying_Awake_Issues'] == 2).astype(int)
-df_selected['Wake_In_Night_Response2'] = (df_selected['Wake_In_Night'] == 2).astype(int)
-df_selected['Wake_To_Bathroom_Response0'] = (df_selected['Wake_To_Bathroom'] == 0).astype(int)
-df_selected['Wake_To_Bathroom_Response3'] = (df_selected['Wake_To_Bathroom'] == 3).astype(int)
+df_selected['Bad_Dreams_Response3'] = (df['Bad_Dreams'] == 3).astype(int)
+df_selected['Cant_Sleep_Response3'] = (df['Cant_Sleep'] == 3).astype(int)
+df_selected['Sleep_Meds_Response0'] = (df['Sleep_Meds'] == 0).astype(int)
+df_selected['Sleep_Meds_Response2'] = (df['Sleep_Meds'] == 2).astype(int)
+df_selected['Sleep_Quality_Response0'] = (df['Sleep_Quality'] == 0).astype(int)
+df_selected['Sleep_Quality_Response1'] = (df['Sleep_Quality'] == 1).astype(int)
+df_selected['Sleep_Quality_Response2'] = (df['Sleep_Quality'] == 2).astype(int)
+df_selected['Staying_Awake_Response0'] = (df['Staying_Awake_Issues'] == 0).astype(int)
+df_selected['Staying_Awake_Response2'] = (df['Staying_Awake_Issues'] == 2).astype(int)
 
 # For attention features with significant specific responses
-df_selected['Concentration_Always'] = (df_selected['Concentration_Issues'] == 3).astype(int)
-df_selected['Interruption_Almost_Never'] = (df_selected['Good_Interruption_Recovery'] == 0).astype(int)
-df_selected['Task_Alteration_Almost_Never'] = (df_selected['Good_Task_Alteration'] == 0).astype(int)
-df_selected['Task_Switching_Often'] = (df_selected['Good_Task_Switching'] == 2).astype(int)
-df_selected['Listening_Writing_Always'] = (df_selected['Poor_Listening_Writing'] == 3).astype(int)
+df_selected['Motivation_Very_Big_Problem'] = (df['Motivation_Issues'] == 0).astype(int)
+df_selected['Motivation_No_Problem'] = (df['Motivation_Issues'] == 1).astype(int)
+df_selected['Concentration_Always'] = (df['Concentration_Issues'] == 3).astype(int)
+df_selected['Task_Switching_Often'] = (df['Good_Task_Switching'] == 2).astype(int) 
+df_selected['Listening_Writing_Always'] = (df['Poor_Listening_Writing'] == 3).astype(int)
+df_selected['Easy_Read_Write_Almost_Never'] = (df['Easy_Read_Write_On_Phone'] == 0).astype(int)
+df_selected['Trouble_Blocking_Thoughts_Always'] = (df['Trouble_Blocking_Thoughts'] == 3).astype(int)
 
 # Display summary of the new binary features
 print_and_log("\nBinary features for significant response categories created:")
@@ -186,9 +192,9 @@ loadings_heatmap = sns.heatmap(
     fmt=".2f",
     cbar_kws={"label": "Feature Contribution"}
 )
-plt.title('Feature Contributions to Principal Components (Significant Features)', fontsize=16)
+plt.title('Feature Contributions to Principal Components (Significant Features) Athletes Only', fontsize=16)
 plt.tight_layout()
-plt.savefig("Plots/pca_significant_feature_loadings.png")
+plt.savefig("Plots/pca_significant_feature_loadings_athletes_only.png")
 print("\nSaved PCA feature loadings heatmap")
 
 # Determine optimal number of clusters using multiple metrics
@@ -211,23 +217,23 @@ fig, ax = plt.subplots(1, 3, figsize=(20, 6))
 ax[0].plot(k_range, silhouette_scores, 'o-')
 ax[0].set_xlabel('Number of clusters')
 ax[0].set_ylabel('Silhouette Score')
-ax[0].set_title('Silhouette Score (higher is better) Significant Features')
+ax[0].set_title('Silhouette Score (higher is better) Athletes Only')
 ax[0].grid(True)
 
 ax[1].plot(k_range, ch_scores, 'o-')
 ax[1].set_xlabel('Number of clusters')
 ax[1].set_ylabel('Calinski-Harabasz Score')
-ax[1].set_title('Calinski-Harabasz Score (higher is better) Significant Features')
+ax[1].set_title('Calinski-Harabasz Score (higher is better) Athletes Only')
 ax[1].grid(True)
 
 ax[2].plot(k_range, db_scores, 'o-')
 ax[2].set_xlabel('Number of clusters')
 ax[2].set_ylabel('Davies-Bouldin Score')
-ax[2].set_title('Davies-Bouldin Score (lower is better) Significant Features')
+ax[2].set_title('Davies-Bouldin Score (lower is better) Athletes Only')
 ax[2].grid(True)
 
 plt.tight_layout()
-plt.savefig("Plots/significant_cluster_metrics.png")
+plt.savefig("Plots/significant_cluster_metrics_athletes_only.png")
 print("\nSaved cluster evaluation metrics")
 
 # Find optimal k based on metrics
@@ -243,6 +249,8 @@ print_and_log(f"Based on Davies-Bouldin Index: {best_k_db}")
 # Determine final k based on the majority vote or your suggestion
 k = Counter([best_k_silhouette, best_k_ch, best_k_db]).most_common(1)[0][0]
 print_and_log(f"\nSelected number of clusters based on majority vote: {k}")
+
+k = 2
 
 # Perform clustering with optimal k and 2 clusters
 print_and_log(f"\n{'='*20} ANALYSIS WITH {k} CLUSTERS {'='*20}")
@@ -321,13 +329,13 @@ sns.scatterplot(
     data=df_tsne,
     alpha=0.7
 )
-plt.title(f't-SNE Visualization of {k} Clusters (Significant Features)', fontsize=15)
+plt.title(f't-SNE Visualization of {k} Clusters (Significant Features) Athletes Only', fontsize=15)
 plt.xlabel('t-SNE Dimension 1', fontsize=12)
 plt.ylabel('t-SNE Dimension 2', fontsize=12)
 plt.legend(title='Cluster', fontsize=10)
 plt.grid(True, linestyle='--', alpha=0.7)
 plt.tight_layout()
-plt.savefig(f"Plots/tsne_significant_cluster_{k}_scatter.png")
+plt.savefig(f"Plots/tsne_significant_cluster_{k}_scatter_athletes_only.png")
 print(f"\nSaved t-SNE scatter plot for {k} clusters")
 
 # Visualization 2: PCA scatter plot (PC1 vs PC2)
@@ -341,13 +349,13 @@ sns.scatterplot(
     data=df_clustered,
     alpha=0.7
 )
-plt.title(f'PCA Visualization of {k} Clusters (Significant Features)', fontsize=15)
+plt.title(f'PCA Visualization of {k} Clusters (Significant Features) Athletes Only', fontsize=15)
 plt.xlabel('Principal Component 1', fontsize=12)
 plt.ylabel('Principal Component 2', fontsize=12)
 plt.legend(title='Cluster', fontsize=10)
 plt.grid(True, linestyle='--', alpha=0.7)
 plt.tight_layout()
-plt.savefig(f"Plots/pca_significant_cluster_{k}_scatter.png")
+plt.savefig(f"Plots/pca_significant_cluster_{k}_scatter_athletes_only.png")
 print(f"\nSaved PCA scatter plot for {k} clusters")
 
 # Visualization 3: Spider plot of cluster profiles for the top features
@@ -380,9 +388,9 @@ for i in range(k):
 
 # Add legend
 plt.legend(loc='upper right', bbox_to_anchor=(0.1, 0.1))
-plt.title(f'Cluster Profiles Comparison for {k} Clusters (Significant Features)', size=15)
+plt.title(f'Cluster Profiles Comparison for {k} Clusters (Significant Features) Athletes Only', size=15)
 plt.tight_layout()
-plt.savefig(f"Plots/cluster_{k}_significant_profiles_spider.png")
+plt.savefig(f"Plots/cluster_{k}_significant_profiles_spider_athletes_only.png")
 print(f"\nSaved cluster profiles spider plot for {k} clusters")
 
 # Save the clustered data to CSV
@@ -528,7 +536,7 @@ plt.bar(x + width/2, contact_percentages, width, label='Contact Sports')
 
 plt.xlabel('Cluster')
 plt.ylabel('Percentage of Athletes')
-plt.title('Sport Type Distribution by Cluster (Significant Features)')
+plt.title('Sport Type Distribution by Cluster (Significant Features) Athletes Only')
 plt.xticks(x, [f"Cluster {i}\n({cluster_labels[i]})" for i in clusters])
 plt.ylim(0, 100)
 plt.legend()
@@ -541,7 +549,7 @@ for i, v in enumerate(contact_percentages):
     plt.text(i + width/2, v + 2, f"{v:.1f}%", ha='center')
 
 plt.tight_layout()
-plt.savefig("Plots/significant_sport_type_distribution.png")
+plt.savefig("Plots/significant_sport_type_distribution_athletes_only.png")
 print("\nSaved sport type distribution plot")
 
 # MODIFICATION: Compare results with original clustering
@@ -578,9 +586,9 @@ try:
     # Visualize the agreement
     plt.figure(figsize=(10, 8))
     sns.heatmap(contingency, annot=True, cmap="YlGnBu", fmt="d")
-    plt.title('Agreement Between Original and Significant Features Clustering')
+    plt.title('Agreement Between Original and Significant Features Clustering Athletes Only')
     plt.tight_layout()
-    plt.savefig("Plots/original_vs_significant_comparison.png")
+    plt.savefig("Plots/original_vs_significant_comparison_athletes_only.png")
     print("\nSaved original vs. significant features comparison plot")
     
 except FileNotFoundError:
