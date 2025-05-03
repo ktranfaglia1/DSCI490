@@ -1,0 +1,418 @@
+---
+title: "Athletes"
+output: html_document
+date: "2025-04-17"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+data <- read.csv("Labeled_survey_data.csv", header = TRUE)
+```
+
+```{r}
+# Create a new column 'Concussion_Status_Overall'
+data$Concussion_Status_Overall <- ifelse(grepl("^Yes", data$Sports_Concussion_Status) |  grepl("^Yes", data$Non_Sports_Concussion_Status),            "Concussion", 
+                                        "Non-Concussion")
+
+# Check results
+table(data$Concussion_Status_Overall)
+```
+
+```{r}
+# Separate dataframes
+athletes_df <- subset(data, Athlete_Status == "Athlete")
+non_athletes_df <- subset(data, Athlete_Status == "Non-Athlete")
+
+```
+
+```{r}
+# Apply the ifelse condition to classify Athlete_Status
+data$Athlete_Status <- ifelse(data$Sports_Info == " " | is.na(data$Sports_Info), "Non-Athlete", "Athlete")
+
+# Check the classification
+table(data$Athlete_Status)
+
+
+# Now separate the data into athletes and non-athletes
+athletes_df <- data[data$Athlete_Status == "Athlete", ]
+non_athletes_df <- data[data$Athlete_Status == "Non-Athlete", ]
+
+
+
+```
+
+## Assumption Check
+
+```{r}
+# Define your feature groups
+motivation_features <- c("Motivation_Issues")
+concentration_features <- c(
+  "Noise_Concentration_Issues", "Concentration_Issues", "Good_Music_Concentration",
+  "Concentration_Aware", "Reading_Concentration_Issues", "Trouble_Blocking_Thoughts",
+  "Excitement_Concentration_Issues", "Ignore_Hunger_Concentrating", "Good_Task_Switching",
+  "Long_Time_Focus", "Poor_Listening_Writing", "Quick_Interest", "Easy_Read_Write_On_Phone",
+  "Trouble_Multiple_Conversations", "Trouble_Quick_Creativity", "Good_Interruption_Recovery",
+  "Good_Thought_Recovery", "Good_Task_Alteration", "Poor_Perspective_Thinking"
+)
+
+# Define the levels for each group
+motivation_levels <- c("No problem at all", "Only a very slight problem",
+                       "Somewhat of a problem", "A very big problem")
+
+concentration_levels <- c("Almost never", "Sometimes", "Often", "Always")
+```
+
+```{r}
+# Function to check expected frequencies for each feature
+check_expected_frequencies <- function(feature) {
+  table_data <- table(athletes_df[[feature]], athletes_df$Concussion_Status_Overall)
+  expected <- chisq.test(table_data)$expected
+  print(feature)
+  print(expected)
+  return(any(expected < 5))  # Returns TRUE if any expected frequency is less than 5
+}
+
+# Check expected frequencies for motivation and concentration features
+motivation_check <- check_expected_frequencies("Motivation_Issues")
+concentration_check <- sapply(concentration_features, check_expected_frequencies)
+
+
+```
+
+## Athletes
+
+```{r}
+# Define the features and their levels
+motivation_features <- c("Motivation_Issues")
+concentration_features <- c(
+  "Noise_Concentration_Issues", "Concentration_Issues", "Good_Music_Concentration",
+  "Concentration_Aware", "Reading_Concentration_Issues", "Trouble_Blocking_Thoughts",
+  "Excitement_Concentration_Issues", "Ignore_Hunger_Concentrating", "Good_Task_Switching",
+  "Long_Time_Focus", "Poor_Listening_Writing", "Quick_Interest", "Easy_Read_Write_On_Phone",
+  "Trouble_Multiple_Conversations", "Trouble_Quick_Creativity", "Good_Interruption_Recovery",
+  "Good_Thought_Recovery", "Good_Task_Alteration", "Poor_Perspective_Thinking"
+)
+
+# Define the levels for each group
+motivation_levels <- c("No problem at all", "Only a very slight problem",
+                       "Somewhat of a problem", "A very big problem")
+concentration_levels <- c("Almost never", "Sometimes", "Often", "Always")
+
+# Initialize an empty data frame to store results
+results <- data.frame(Feature = character(),
+                      Level = character(),
+                      Test = character(),
+                      P_Value = numeric(),
+                      stringsAsFactors = FALSE)
+
+# Loop through each feature and its levels
+for (feature in c(motivation_features, concentration_features)) {
+  feature_levels <- if (feature %in% motivation_features) motivation_levels else concentration_levels
+  
+  # Loop through each level in the feature
+  for (level in feature_levels) {
+    # Create the contingency table for Concussion vs Non-concussion for this level
+    tab <- table(athletes_df[[feature]] == level, athletes_df$Concussion_Status_Overall)
+    
+    # Perform the test (prop.test or fisher.test)
+    if (min(tab) >= 5) {
+      # Use prop.test if all counts are large enough
+      test_result <- prop.test(tab)
+      p_value <- test_result$p.value
+    } else {
+      # Use Fisher's Exact Test if counts are small
+      test_result <- fisher.test(tab)
+      p_value <- test_result$p.value
+    }
+
+    # Store the result in the data frame
+    results <- rbind(results, data.frame(Feature = feature, Level = level, P_Value = p_value))
+  }
+}
+
+# Sort results by P-Value
+results <- results[order(results$P_Value), ]
+
+# Print the results
+print(results)
+
+```
+
+## 
+
+```{r}
+significant_results <- results[results$P_Value < 0.05, ]
+print(significant_results)
+
+```
+
+```{r}
+# Sleep features and levels
+sleep_features <- c("Cant_Sleep", "Wake_In_Night", "Wake_To_Bathroom", 
+                    "Bad_Dreams", "Sleep_Meds", "Staying_Awake_Issues", 
+                    "Loud_Snore", "Sleep_Quality")
+
+sleep_levels <- c("0", "1", "2", "3")
+
+# Create fresh results data frame
+p_values_sleep_athletes <- data.frame()
+
+# Loop through features and levels
+for (feature in sleep_features) {
+  for (level in sleep_levels) {
+    # Create binary level column directly from athletes_df
+    temp_df <- athletes_df
+    temp_df$Feature_Level <- ifelse(temp_df[[feature]] == level, level, "Other")
+    
+    # Create contingency table
+    contingency <- table(temp_df$Feature_Level, temp_df$Concussion_Status_Overall)
+    
+    # Run appropriate test
+    if (any(contingency < 5)) {
+      test_result <- fisher.test(contingency)
+    } else {
+      test_result <- prop.test(contingency)
+    }
+    
+    # Save to results
+    p_values_sleep_athletes <- rbind(p_values_sleep_athletes, data.frame(
+      Feature = feature,
+      Level = level,
+      P_Value = test_result$p.value
+    ))
+  }
+}
+
+
+
+```
+
+```{r}
+# Filter for significant ones
+sleep_significant_results_athletes <- p_values_sleep_athletes[p_values_sleep_athletes$P_Value < 0.05, ]
+
+# Print
+print(sleep_significant_results_athletes)
+```
+
+```{r}
+library(gt)
+library(scales)
+
+# Assuming your data is in p_values_df_attention_features
+p_table <- sleep_significant_results_athletes %>%
+  gt() %>%
+  data_color(
+    columns = vars(P_Value),
+    colors = scales::col_bin(
+      bins = c(0, 0.01, 0.05, 1),
+      palette = c("#ff9999", "#ffff99", "white")  # Red for p < 0.01, Yellow for 0.01 < p < 0.05, White otherwise
+    )
+  ) %>%
+  tab_header(
+    title = "P-Values for Athletes Sleep Features",
+    subtitle = "Highlighted by Significance Levels"
+  ) %>%
+  tab_source_note(
+    source_note = "Red = p < 0.01 | Yellow = 0.01 < p < 0.05"
+  )
+
+# Save the table as a PNG file
+gtsave(p_table, filename = "Athletes_sleep_Significant_p_values.png")
+
+```
+
+## Non-Athletes
+
+```{r}
+# Define the features and their levels
+motivation_features <- c("Motivation_Issues")
+concentration_features <- c(
+  "Noise_Concentration_Issues", "Concentration_Issues", "Good_Music_Concentration",
+  "Concentration_Aware", "Reading_Concentration_Issues", "Trouble_Blocking_Thoughts",
+  "Excitement_Concentration_Issues", "Ignore_Hunger_Concentrating", "Good_Task_Switching",
+  "Long_Time_Focus", "Poor_Listening_Writing", "Quick_Interest", "Easy_Read_Write_On_Phone",
+  "Trouble_Multiple_Conversations", "Trouble_Quick_Creativity", "Good_Interruption_Recovery",
+  "Good_Thought_Recovery", "Good_Task_Alteration", "Poor_Perspective_Thinking"
+)
+
+# Define the levels for each group
+motivation_levels <- c("No problem at all", "Only a very slight problem",
+                       "Somewhat of a problem", "A very big problem")
+concentration_levels <- c("Almost never", "Sometimes", "Often", "Always")
+
+# Initialize an empty data frame to store results
+results <- data.frame(Feature = character(),
+                      Level = character(),
+                      Test = character(),
+                      P_Value = numeric(),
+                      stringsAsFactors = FALSE)
+
+# Loop through each feature and its levels
+for (feature in c(motivation_features, concentration_features)) {
+  feature_levels <- if (feature %in% motivation_features) motivation_levels else concentration_levels
+  
+  # Loop through each level in the feature
+  for (level in feature_levels) {
+    # Create the contingency table for Concussion vs Non-concussion for this level
+    tab <- table(non_athletes_df[[feature]] == level, non_athletes_df$Concussion_Status_Overall)
+    
+    # Perform the test (prop.test or fisher.test)
+    if (min(tab) >= 5) {
+      # Use prop.test if all counts are large enough
+      test_result <- prop.test(tab)
+      p_value <- test_result$p.value
+    } else {
+      # Use Fisher's Exact Test if counts are small
+      test_result <- fisher.test(tab)
+      p_value <- test_result$p.value
+    }
+
+    # Store the result in the data frame
+    results <- rbind(results, data.frame(Feature = feature, Level = level, P_Value = p_value))
+  }
+}
+
+# Sort results by P-Value
+results <- results[order(results$P_Value), ]
+
+# Print the results
+print(results)
+```
+
+```{r}
+non_athlete_significant_results <- results[results$P_Value < 0.05, ]
+print(significant_results)
+```
+
+```{r}
+# Sleep features and levels
+sleep_features <- c("Cant_Sleep", "Wake_In_Night", "Wake_To_Bathroom", 
+                    "Bad_Dreams", "Sleep_Meds", "Staying_Awake_Issues", 
+                    "Loud_Snore", "Sleep_Quality")
+
+sleep_levels <- c("0", "1", "2", "3")
+
+# Create fresh results data frame
+p_values_sleep_nonathletes <- data.frame()
+
+# Loop through features and levels
+for (feature in sleep_features) {
+  for (level in sleep_levels) {
+    # Create binary level column directly from non_athletes_df
+    temp_df <- non_athletes_df
+    temp_df$Feature_Level <- ifelse(temp_df[[feature]] == level, level, "Other")
+    
+    # Create contingency table
+    contingency <- table(temp_df$Feature_Level, temp_df$Concussion_Status_Overall)
+    
+    # Run appropriate test
+    if (any(contingency < 5)) {
+      test_result <- fisher.test(contingency)
+    } else {
+      test_result <- prop.test(contingency)
+    }
+    
+    # Save to results
+    p_values_sleep_nonathletes <- rbind(p_values_sleep_nonathletes, data.frame(
+      Feature = feature,
+      Level = level,
+      P_Value = test_result$p.value
+    ))
+  }
+}
+
+# Filter significant ones
+sleep_significant_results_nonathletes <- p_values_sleep_nonathletes[p_values_sleep_nonathletes$P_Value < 0.05, ]
+
+# Print
+print(sleep_significant_results_nonathletes)
+
+
+
+
+
+
+
+
+
+```
+
+```{r}
+# Filter significant results
+sleep_significant_results_nonathletes <- p_values_sleep_nonathletes[p_values_sleep_nonathletes$P_Value < 0.05, ]
+
+# Print significant ones
+print(sleep_significant_results_nonathletes)
+
+```
+
+```{r}
+library(gt)
+library(scales)
+
+# Assuming your data is in p_values_df_attention_features
+p_table <- sleep_significant_results %>%
+  gt() %>%
+  data_color(
+    columns = vars(P_Value),
+    colors = scales::col_bin(
+      bins = c(0, 0.01, 0.05, 1),
+      palette = c("#ff9999", "#ffff99", "white")  # Red for p < 0.01, Yellow for 0.01 < p < 0.05, White otherwise
+    )
+  ) %>%
+  tab_header(
+    title = "P-Values for Non-Athletes Sleep Features",
+    subtitle = "Highlighted by Significance Levels"
+  ) %>%
+  tab_source_note(
+    source_note = "Red = p < 0.01 | Yellow = 0.01 < p < 0.05"
+  )
+
+# Save the table as a PNG file
+gtsave(p_table, filename = "Non_Athletes_Sleep_Significant_p_values.png")
+```
+
+## Sleep Numerical
+
+```{r}
+shapiro.test(subset(athletes_df, Concussion_Status_Overall == "Concussion")[[feature]])
+shapiro.test(subset(athletes_df, Concussion_Status_Overall == "Non-Concussion")[[feature]])
+
+shapiro.test(subset(non_athletes_df, Concussion_Status_Overall == "Concussion")[[feature]])
+shapiro.test(subset(non_athletes_df, Concussion_Status_Overall == "Non-Concussion")[[feature]])
+
+
+```
+
+```{r}
+# List of numerical features to test
+features <- c("Bed_Time", "Min_To_Sleep", "Wake_Up", "Sleep_Per_Night")
+
+# Initialize an empty results dataframe to store the p-values
+results <- data.frame(Feature = character(),
+                      P_Value = numeric(),
+                      stringsAsFactors = FALSE)
+
+# Loop through each feature to run the Wilcoxon test for athletes_df
+for (feature in features) {
+  test_result <- wilcox.test(subset(non_athletes_df, Concussion_Status_Overall == "Concussion")[[feature]],
+                             subset(non_athletes_df, Concussion_Status_Overall == "Non-Concussion")[[feature]])
+  
+  # Store the p-value in the results dataframe
+  results <- rbind(results, data.frame(Feature = feature, P_Value = test_result$p.value))
+}
+
+# Print the results
+print(results)
+
+```
