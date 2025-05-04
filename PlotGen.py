@@ -27,7 +27,6 @@ df = pd.read_csv("./Data/Labeled_athletes_survey_data.csv")
 '''
 Cluster Concussion Bar Charts
 '''
-
 cluster_columns = ["Sleep_Cluster_05", "Sleep_Cluster_01", "Attention_Cluster_05", "Attention_Cluster_01", "combined_05", "combined_01"]
 
 
@@ -52,9 +51,10 @@ for index, column in enumerate(cluster_columns):
     plt.tight_layout()
 plt.savefig("./Plots/Narrative/No_AthletesClusterConcussions.png")
 
+
 """
     Sports Clusters Pie Chart
-
+"""
 
 def get_sport(sport_jstring: str) -> str:
     if sport_jstring != ' ':
@@ -89,7 +89,6 @@ for cIndex, column in enumerate(columns):
         df_temp["Sport"] = df_temp["Sport"].apply(lambda x: x if x in counts and counts[x] >= 3 else "Other")
         plt.pie(df_temp["Sport"].value_counts(), labels=df_temp["Sport"].value_counts().index, autopct=make_autopct(counts.values))
         plt.title(f"Dataset: {column} Cluster {clusterIndex}")
-        plt.savefig(f"./Plots/Dustins/Pie{column}_cluster_{clusterIndex}.png")
+        plt.savefig(f"./Plots/Pie{column}_cluster_{clusterIndex}_No_Athelete.png")
         plt.clf()
 
-"""
