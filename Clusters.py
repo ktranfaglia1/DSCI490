@@ -27,7 +27,8 @@ import typing
 
 
 original_df = pd.read_csv("./Data/Labeled_survey_data.csv")
-df = original_df
+df = original_df[original_df["Sports_Info"].str.strip() != '']
+df = df.reset_index(drop=True)
 
 #df = df[df["Sports_Info"] != ' '].reset_index(drop=False)
 #print('|' + (df["Sports_Info"][327]) + '|')
@@ -214,7 +215,7 @@ categorical_sleep = categorical_sleep.T
 #print(encoder.get_feature_names_out())
 #print(categorical_sleep)
 #print(type(categorical_sleep))
-keep_categories_1 = ["Bad_Dreams_3.0", "Sleep_Meds_0.0", "Staying_Awake_Issues_0.0", "Staying_Awake_Issues_2.0"]
+keep_categories_1 = ["Cant_Sleep_3.0", "Bad_Dreams_3.0", "Sleep_Meds_0.0", "Staying_Awake_Issues_0.0", "Staying_Awake_Issues_1.0", "Sleep_Quality_1.0", "Sleep_Quality_2.0"]
 categorical_sleep_1 = categorical_sleep.filter(keep_categories_1)
 #print(categorical_sleep)
 
@@ -279,7 +280,9 @@ df["Sleep_Cluster_01"] = model.predict(sleepData_01)
 """
     .05 Thing IDK I forgot
 """
-keep_categories_5 = ["Bad_Dreams_3.0", "Cant_Sleep_3.0", "Loud_Snore_0.0", "Sleep_Meds_0.0", "Sleep_Quality_1.0", "Staying_Awake_Issues", "Wake_In_Night_2.0", "Wake_To_Bathroom_0.0", "Wake_To_Bathroom_3.0"]
+#keep_categories_5 = ["Bad_Dreams_3.0", "Cant_Sleep_3.0", "Loud_Snore_0.0", "Sleep_Meds_0.0", "Sleep_Quality_1.0", "Staying_Awake_Issues", "Wake_In_Night_2.0", "Wake_To_Bathroom_0.0", "Wake_To_Bathroom_3.0"]
+
+keep_categories_5 = ["Cant_Sleep_3.0", "Bad_Dreams_3.0", "Sleep_Meds_0.0", "Sleep_Meds_2.0", "Staying_Awake_Issues_0.0", "Staying_Awake_Issues_1.0", "Sleep_Quality_0.0", "Sleep_Quality_1.0", "Sleep_Quality_2.0"]
 categorical_sleep_5 = categorical_sleep.filter(keep_categories_5)
 combined_data_5 = pd.concat([combined_data_5, categorical_sleep_5], axis=1)
 #print(categorical_sleep)
@@ -342,25 +345,25 @@ This Segment of code is dedicated to clustering Concentration issues
 
 columns = [
     "Motivation_Issues",
-    #"Noise_Concentration_Issues",
+    "Noise_Concentration_Issues",
     "Concentration_Issues",
-    #"Good_Music_Concentration",
-    #"Concentration_Aware", #.05/.01
-    #"Reading_Concentration_Issues",
-    #"Trouble_Blocking_Thoughts",
-    #"Excitement_Concentration_Issues",
-    #"Ignore_Hunger_Concentrating",
+    "Good_Music_Concentration",
+    "Concentration_Aware", #.05/.01
+    "Reading_Concentration_Issues",
+    "Trouble_Blocking_Thoughts",
+    "Excitement_Concentration_Issues",
+    "Ignore_Hunger_Concentrating",
     "Good_Task_Switching",
-    #"Long_Time_Focus",
+    "Long_Time_Focus",
     "Poor_Listening_Writing",
-    #"Quick_Interest",
-    #"Easy_Read_Write_On_Phone",#.05/.01
-    #"Trouble_Multiple_Conversations",
-    #"Trouble_Quick_Creativity",
+    "Quick_Interest",
+    "Easy_Read_Write_On_Phone",#.05/.01
+    "Trouble_Multiple_Conversations",
+    "Trouble_Quick_Creativity",
     "Good_Interruption_Recovery",
-    #"Good_Thought_Recovery",
+    "Good_Thought_Recovery",
     "Good_Task_Alteration",
-    #"Poor_Perspective_Thinking",
+    "Poor_Perspective_Thinking",
 ]
 
 
@@ -404,8 +407,8 @@ categorical_attention = categorical_attention.rename(columns=rename_dict)
 #print(categorical_sleep)
 #print(type(categorical_sleep))
 
-
-keep_categories_05 = ["Good_Interruption_Recovery_0.0", "Good_Task_Switching_2.0", "Concentration_Issues_3.0", "Good_Task_Alteration_3.0", "Poor_Listening_Writing_3.0"] #.05
+#print(categorical_attention.columns)
+keep_categories_05 = ["Motivation_Issues_3.0", "Good_Task_Switching_2.0", "Concentration_Issues_3.0", "Motivation_Issues_0.0", "Easy_Read_Write_On_Phone_0.0", "Poor_Listening_Writing_3.0", "Trouble_Blocking_Thoughts_3.0"]
 attentionData = categorical_attention.filter(keep_categories_05)
 
 feature_columns = attentionData.columns
@@ -446,7 +449,7 @@ print(
 df["Attention_Cluster_05"] = model.predict(attentionData)
 
 
-keep_categories_01 = ["Good_Interruption_Recovery_0.0", "Good_Task_Switching_3.0"] #.01
+keep_categories_01 = ["Motivation_Issues_3.0", "Good_Task_Switching_2.0", "Concentration_Issues_3.0", "Motivation_Issues_0.0"]
 attentionData = categorical_attention.filter(keep_categories_01)
 feature_columns = attentionData.columns
 scaler = StandardScaler()
@@ -679,6 +682,6 @@ for cluster, sport_name in zip(sport_cluster_df, sport_cluster_df.index):
 
 
 #df = df.drop(columns=["Attention_Cluster", "Sleep_Cluster", "Unnamed: 0.1", "Unnamed: 0", "Index"])
-#df.to_csv("./Data/Labeled_survey_data.csv", index=False)
+df.to_csv("./Data/Labeled_athletes_survey_data.csv", index=False)
 
 print()

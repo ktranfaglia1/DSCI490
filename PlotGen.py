@@ -20,13 +20,13 @@ import json
         Collison -> 1
 '''
 
-df = pd.read_csv("./Data/Labeled_survey_data.csv")
+df = pd.read_csv("./Data/Labeled_athletes_survey_data.csv")
 
 
 
 '''
 Cluster Concussion Bar Charts
-
+'''
 
 cluster_columns = ["Sleep_Cluster_05", "Sleep_Cluster_01", "Attention_Cluster_05", "Attention_Cluster_01", "combined_05", "combined_01"]
 
@@ -50,9 +50,8 @@ for index, column in enumerate(cluster_columns):
     
     axs[index % 2][index // 2].set_ylim(0, 0.5)  # Standardize y-axis
     plt.tight_layout()
-plt.savefig("./Plots/Narrative/ClusterConcussions.png")
+plt.savefig("./Plots/Narrative/No_AthletesClusterConcussions.png")
 
-'''
 """
     Sports Clusters Pie Chart
 
